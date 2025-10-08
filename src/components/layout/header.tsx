@@ -115,8 +115,8 @@ export default function Header() {
       {/* Background layers to match hero section exactly */}
       {!isScrolled && (
         <>
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-indigo-800"></div>
-          <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-white to-gray-100"></div>
+          <div className="absolute inset-0 bg-white/80"></div>
         </>
       )}
       
@@ -132,15 +132,15 @@ export default function Header() {
             <Link href="/" className="flex items-center space-x-2">
               <div className={`w-10 h-10 rounded-full flex items-center justify-center shadow-lg ${
                 isScrolled 
-                  ? 'bg-gradient-to-r from-blue-600 to-indigo-700' 
-                  : 'bg-white/20 backdrop-blur-sm'
+                  ? 'bg-gradient-to-r from-blue-500 to-blue-600' 
+                  : 'bg-blue-500/20 backdrop-blur-sm'
               }`}>
                 <span className={`font-bold text-xl ${
-                  isScrolled ? 'text-white' : 'text-white'
+                  isScrolled ? 'text-white' : 'text-blue-600'
                 }`}>DL</span>
               </div>
               <span className={`text-xl font-bold ${
-                isScrolled ? 'text-blue-600' : 'text-white'
+                isScrolled ? 'text-blue-600' : 'text-gray-800'
               }`}>
                 Digital Link
               </span>
@@ -159,17 +159,17 @@ export default function Header() {
               >
                 <Link
                   href={link.href}
-                  className={`relative group font-medium transition-colors duration-300 py-2 ${
+                  className={`relative group font-semibold text-lg transition-colors duration-300 py-3 px-1 ${
                     pathname === link.href
-                      ? (isScrolled ? 'text-blue-600' : 'text-blue-300')
-                      : (isScrolled ? 'text-gray-600 hover:text-blue-600' : 'text-gray-200 hover:text-white')
+                      ? (isScrolled ? 'text-blue-600' : 'text-blue-500')
+                      : (isScrolled ? 'text-gray-600 hover:text-blue-600' : 'text-gray-700 hover:text-blue-500')
                   }`}
                 >
                   {link.label}
                   <span className={`absolute -bottom-1 left-0 w-full h-0.5 transition-transform duration-300 ${
                     pathname === link.href 
-                      ? (isScrolled ? 'bg-blue-600 scale-x-100' : 'bg-blue-300 scale-x-100')
-                      : (isScrolled ? 'bg-blue-600 scale-x-0 group-hover:scale-x-100' : 'bg-white scale-x-0 group-hover:scale-x-100')
+                      ? (isScrolled ? 'bg-blue-600 scale-x-100' : 'bg-blue-500 scale-x-100')
+                      : (isScrolled ? 'bg-blue-600 scale-x-0 group-hover:scale-x-100' : 'bg-blue-500 scale-x-0 group-hover:scale-x-100')
                   }`}></span>
                 </Link>
               </motion.div>
@@ -185,14 +185,14 @@ export default function Header() {
           >
             <Link
               href="/admin/login"
-              className={`p-2 rounded-full transition-colors duration-300 ${
+              className={`p-3 rounded-full transition-colors duration-300 ${
                 isScrolled 
                   ? 'text-gray-600 hover:bg-gray-100' 
-                  : 'text-white hover:bg-white/20'
+                  : 'text-gray-700 hover:bg-gray-200'
               }`}
               aria-label="Admin Login"
             >
-              <FaUserShield className="text-xl" />
+              <FaUserShield className="text-2xl" />
             </Link>
           </motion.div>
 
@@ -201,8 +201,8 @@ export default function Header() {
             <motion.button
               className={`md:hidden p-3 rounded-full shadow-lg relative z-50 ${
                 isScrolled 
-                  ? 'bg-gradient-to-r from-blue-600 to-indigo-700 text-white' 
-                  : 'bg-white/20 backdrop-blur-sm text-white'
+                  ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white' 
+                  : 'bg-blue-500/20 backdrop-blur-sm text-blue-600'
               }`}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label="Toggle mobile menu"
@@ -225,7 +225,7 @@ export default function Header() {
             <>
               {/* Backdrop with blur effect */}
               <motion.div
-                className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 md:hidden"
+                className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -235,7 +235,7 @@ export default function Header() {
 
               {/* Menu Panel - Slides from top */}
               <motion.div
-                className="fixed left-0 right-0 bg-gradient-to-br from-white via-blue-50 to-indigo-50 z-40 md:hidden shadow-2xl overflow-hidden"
+                className="fixed left-0 right-0 bg-gradient-to-br from-white to-gray-50 z-40 md:hidden shadow-2xl overflow-hidden"
                 initial={{ top: '-100%', opacity: 0 }}
                 animate={{ top: 0, opacity: 1 }}
                 exit={{ top: '-100%', opacity: 0 }}
@@ -248,8 +248,8 @@ export default function Header() {
                 style={{ maxHeight: '80vh' }}
               >
                 {/* Decorative Elements */}
-                <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-400/20 to-indigo-500/20 rounded-full blur-3xl -translate-y-32 translate-x-32" />
-                <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-purple-400/20 to-pink-500/20 rounded-full blur-3xl translate-y-24 -translate-x-24" />
+                <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-100/30 to-blue-200/30 rounded-full blur-3xl -translate-y-32 translate-x-32" />
+                <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-blue-50/30 to-blue-100/30 rounded-full blur-3xl translate-y-24 -translate-x-24" />
 
                 {/* Menu Content */}
                 <div className="relative flex flex-col items-center justify-start pt-24 pb-12 px-6 space-y-2">
@@ -260,7 +260,7 @@ export default function Header() {
                     transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
                     className="mb-8"
                   >
-                    <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl flex items-center justify-center shadow-xl">
+                    <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-xl">
                       <span className="text-white font-bold text-2xl">DL</span>
                     </div>
                   </motion.div>
@@ -284,7 +284,7 @@ export default function Header() {
                         href={link.href}
                         className={`block w-full text-center px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 ${
                           pathname === link.href
-                            ? 'bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-lg'
+                            ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg'
                             : 'bg-white/60 backdrop-blur-sm text-gray-700 hover:bg-white hover:shadow-md'
                         }`}
                         onClick={() => setIsMenuOpen(false)}
@@ -304,7 +304,7 @@ export default function Header() {
                   >
                     <Link
                       href="/admin/login"
-                      className="flex items-center justify-center space-x-3 w-full px-8 py-4 rounded-2xl bg-gradient-to-r from-gray-700 to-gray-900 text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                      className="flex items-center justify-center space-x-3 w-full px-8 py-4 rounded-2xl bg-gradient-to-r from-gray-600 to-gray-800 text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       <FaUserShield className="text-xl" />
@@ -317,7 +317,7 @@ export default function Header() {
                     initial={{ scaleX: 0, opacity: 0 }}
                     animate={{ scaleX: 1, opacity: 1 }}
                     transition={{ delay: 0.5, duration: 0.6 }}
-                    className="w-24 h-1 bg-gradient-to-r from-blue-600 to-indigo-700 rounded-full mt-6"
+                    className="w-24 h-1 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mt-6"
                   />
                 </div>
               </motion.div>
