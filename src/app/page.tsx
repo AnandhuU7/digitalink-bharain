@@ -1,17 +1,20 @@
+// app/page.tsx
 'use client';
 
 import HeroSection from '@/components/HeroSection';
-import ServicesSection from '@/components/ServicesSection';
+
 import FeaturesSection from '@/components/FeaturesSection';
-import CTASection from '@/components/CTASection';
+import TestimonialSection from '@/components/TestimonialSection';
+import PricingSection from '@/components/PricingSection';
+
 
 export default function HomePage() {
   return (
     <div>
       <HeroSection />
-      {/* <ServicesSection /> */}
       {/* <FeaturesSection /> */}
-      <CTASection />
+      <TestimonialSection/>
+      <PricingSection/>
     </div>
   );
 }

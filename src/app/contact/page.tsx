@@ -3,9 +3,16 @@
 import ContactForm from '@/components/forms/contact-form';
 import { motion } from 'framer-motion';
 import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock, FaPaperPlane } from 'react-icons/fa';
+import { ReactElement } from 'react';
+
+interface ContactInfo {
+  icon: ReactElement;
+  title: string;
+  details: string;
+}
 
 export default function ContactPage() {
-  const contactInfo = [
+  const contactInfo: ContactInfo[] = [
     {
       icon: <FaMapMarkerAlt className="text-blue-600 text-xl" />,
       title: 'Our Location',

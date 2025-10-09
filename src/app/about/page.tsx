@@ -2,9 +2,28 @@
 
 import { motion } from 'framer-motion';
 import { FaUsers, FaLightbulb, FaTrophy, FaHandshake, FaQuoteLeft } from 'react-icons/fa';
+import { ReactElement } from 'react';
+
+interface TeamMember {
+  name: string;
+  position: string;
+  bio: string;
+}
+
+interface Value {
+  icon: ReactElement;
+  title: string;
+  description: string;
+}
+
+interface Testimonial {
+  quote: string;
+  author: string;
+  position: string;
+}
 
 export default function AboutPage() {
-  const teamMembers = [
+  const teamMembers: TeamMember[] = [
     {
       name: 'Ahmed Hassan',
       position: 'CEO & Founder',
@@ -27,7 +46,7 @@ export default function AboutPage() {
     }
   ];
 
-  const values = [
+  const values: Value[] = [
     {
       icon: <FaLightbulb className="text-3xl text-blue-600" />,
       title: 'Innovation',
@@ -50,7 +69,7 @@ export default function AboutPage() {
     }
   ];
 
-  const testimonials = [
+  const testimonials: Testimonial[] = [
     {
       quote: "Digital Link Bahrain transformed our online presence completely. Their team is professional, creative, and delivers exceptional results.",
       author: "Nasser Al Khalifa",

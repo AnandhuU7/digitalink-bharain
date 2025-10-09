@@ -3,9 +3,17 @@
 import { motion } from 'framer-motion';
 import { FaLaptopCode, FaMobileAlt, FaChartLine, FaPaintBrush, FaShoppingCart, FaSearch, FaArrowRight } from 'react-icons/fa';
 import Link from 'next/link';
+import { ReactElement } from 'react';
+
+interface Service {
+  icon: ReactElement;
+  title: string;
+  description: string;
+  features: string[];
+}
 
 export default function ServicesPage() {
-  const services = [
+  const services: Service[] = [
     {
       icon: <FaLaptopCode className="text-4xl text-blue-600" />,
       title: 'Web Development',

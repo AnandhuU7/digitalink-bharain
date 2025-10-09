@@ -1,425 +1,367 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { FaArrowRight, FaPlay, FaLightbulb, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaCode, FaCloud, FaMobile, FaChartLine, FaShieldAlt, FaUsers, FaArrowRight, FaCheck } from 'react-icons/fa';
+import { IconType } from 'react-icons';
+
+interface Slide {
+  title: string;
+  subtitle: string;
+}
+
+interface Feature {
+  icon: IconType;
+  title: string;
+  desc: string;
+}
 
 export default function HeroSection() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const heroRef = useRef<HTMLDivElement>(null);
+  const [currentFeature, setCurrentFeature] = useState<number>(0);
+  const [emailFocused, setEmailFocused] = useState<boolean>(false);
+  const [activeSlide] = useState<number>(0);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
 
-  // Hero images for the carousel
-  const heroImages = [
+  const slides: Slide[] = [
     {
-      id: 1,
-      title: "Digital Transformation",
-      description: "Innovative solutions for modern businesses",
-      image: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
-    },
-    {
-      id: 2,
       title: "Web Development",
-      description: "Custom web solutions tailored to your needs",
-      image: "https://images.unsplash.com/photo-1547658719-ce2b5eb9eb17?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+      subtitle: "Custom solutions that drive results"
     },
     {
-      id: 3,
-      title: "Mobile Applications",
-      description: "Native and cross-platform mobile apps",
-      image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+      title: "Mobile Apps",
+      subtitle: "Native & cross-platform excellence"
     },
     {
-      id: 4,
-      title: "Digital Marketing",
-      description: "Boost your online presence with our strategies",
-      image: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+      title: "Cloud Solutions",
+      subtitle: "Scalable infrastructure for growth"
     }
   ];
 
-  // Handle mouse movement for magnetic effect
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!heroRef.current) return;
-    
-    const rect = heroRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    setMousePosition({ x, y });
-  };
+  const benefits: string[] = [
+    "Lightning-fast delivery",
+    "24/7 dedicated support",
+    "Scalable architecture",
+    "Enterprise security"
+  ];
 
-  // Auto-scroll carousel
+  const features: Feature[] = [
+    { icon: FaCode, title: "Custom Development", desc: "Tailored solutions" },
+    { icon: FaCloud, title: "Cloud Integration", desc: "Scalable infrastructure" },
+    { icon: FaMobile, title: "Mobile First", desc: "Responsive design" },
+    { icon: FaChartLine, title: "Analytics", desc: "Data-driven insights" },
+    { icon: FaShieldAlt, title: "Security", desc: "Enterprise-grade" },
+    { icon: FaUsers, title: "Support", desc: "24/7 assistance" }
+  ];
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => 
-        prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 5000); // Change image every 5 seconds
-
+      setCurrentFeature((prev) => (prev + 1) % features.length);
+    }, 3000);
     return () => clearInterval(interval);
-  }, [heroImages.length]);
+  }, [features.length]);
 
-  // Manual navigation for carousel
-  const goToPrevImage = () => {
-    setCurrentImageIndex((prevIndex) => 
-      prevIndex === 0 ? heroImages.length - 1 : prevIndex - 1
+  // Prevent hydration mismatch by using useEffect for browser-only code
+  if (!isMounted) {
+    return (
+      <section className="relative bg-gradient-to-br from-blue-950 via-blue-900 to-blue-800 overflow-hidden">
+        <div className="relative container mx-auto px-6 py-16 z-10">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Simplified server-side render */}
+            <div>
+              <div className="inline-block px-4 py-2 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-full border border-blue-400/30 mb-6">
+                <span className="text-blue-300 text-sm font-semibold">{slides[activeSlide].title}</span>
+              </div>
+              <h1 className="text-5xl lg:text-6xl font-black text-white mb-4 leading-tight">
+                Transform Your
+                <span className="block mt-2">
+                  <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                    Digital Future
+                  </span>
+                </span>
+              </h1>
+              <p className="text-lg text-blue-100 mb-8">
+                {slides[activeSlide].subtitle}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
     );
-  };
-
-  const goToNextImage = () => {
-    setCurrentImageIndex((prevIndex) => 
-      prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
-    );
-  };
+  }
 
   return (
-    <section 
-      className="relative min-h-screen flex items-center overflow-hidden py-8 lg:py-0"
-      ref={heroRef}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
-    >
-      {/* Enhanced Background Gradient Layers */}
+    <section className="relative bg-gradient-to-br from-blue-950 via-blue-900 to-blue-800 overflow-hidden">
+      {/* Animated background shapes */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Base Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white via-blue-50 to-indigo-50"></div>
-        
-        {/* Animated Gradient Orbs */}
-        <motion.div 
-          className="absolute top-1/4 -left-10 w-80 h-80 rounded-full bg-gradient-to-r from-blue-200/40 to-purple-200/30 blur-3xl"
+        {/* Large animated circles */}
+        <motion.div
+          className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-blue-400/20 blur-3xl"
           animate={{
-            x: [0, 30, 0],
-            y: [0, -20, 0],
-            scale: [1, 1.1, 1],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "easeInOut" as const
-          }}
-        />
-        
-        <motion.div 
-          className="absolute bottom-1/4 -right-10 w-96 h-96 rounded-full bg-gradient-to-r from-indigo-200/30 to-pink-200/20 blur-3xl"
-          animate={{
-            x: [0, -20, 0],
-            y: [0, 30, 0],
             scale: [1, 1.2, 1],
+            x: [0, 50, 0],
+            y: [0, 30, 0],
           }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "easeInOut" as const
-          }}
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
         />
-        
-        {/* Subtle Gradient Overlays */}
-        <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-blue-100/50 to-transparent"></div>
-        <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-indigo-100/40 to-transparent"></div>
-        
-        {/* Diagonal Gradient Stripe */}
-        <div className="absolute top-1/2 left-0 w-full h-32 bg-gradient-to-r from-transparent via-blue-100/20 to-transparent transform -rotate-3"></div>
-        
-        {/* Grid Pattern Overlay */}
-        <div 
-          className="absolute inset-0 opacity-10"
-          style={{
-            backgroundImage: `linear-gradient(rgba(99, 102, 241, 0.3) 1px, transparent 1px),
-                             linear-gradient(90deg, rgba(99, 102, 241, 0.3) 1px, transparent 1px)`,
-            backgroundSize: '50px 50px',
+        <motion.div
+          className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full bg-blue-600/20 blur-3xl"
+          animate={{
+            scale: [1, 1.3, 1],
+            x: [0, -30, 0],
+            y: [0, -50, 0],
           }}
+          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
         />
-      </div>
-      
-      {/* Geometric shapes for visual interest - Hidden on mobile */}
-      <motion.div 
-        className="hidden lg:block absolute top-20 right-10 w-64 h-64 border-2 border-blue-200/30 rounded-full"
-        animate={{
-          rotate: 360,
-          scale: [1, 1.1, 1],
-        }}
-        transition={{
-          rotate: {
-            duration: 40,
-            repeat: Infinity,
-            ease: "linear" as const
-          },
-          scale: {
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut" as const
-          }
-        }}
-      />
-      
-      <motion.div 
-        className="hidden lg:block absolute bottom-20 left-10 w-48 h-48 border-2 border-indigo-200/30 rotate-45"
-        animate={{
-          rotate: 45,
-          scale: [1, 0.9, 1],
-        }}
-        transition={{
-          rotate: {
-            duration: 30,
-            repeat: Infinity,
-            ease: "linear" as const
-          },
-          scale: {
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut" as const
-          }
-        }}
-      />
+        <motion.div
+          className="absolute top-1/2 left-1/2 w-80 h-80 rounded-full bg-blue-500/10 blur-2xl"
+          animate={{
+            scale: [1, 1.4, 1],
+            rotate: [0, 180, 360],
+          }}
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+        />
 
-      {/* Additional Floating Gradient Elements */}
-      <motion.div 
-        className="hidden lg:block absolute top-40 left-20 w-32 h-32 rounded-full bg-gradient-to-r from-cyan-200/40 to-blue-200/30 blur-2xl"
-        animate={{
-          y: [0, -40, 0],
-          x: [0, 20, 0],
-        }}
-        transition={{
-          duration: 12,
-          repeat: Infinity,
-          ease: "easeInOut" as const
-        }}
-      />
-      
-      <motion.div 
-        className="hidden lg:block absolute bottom-40 right-32 w-40 h-40 rounded-full bg-gradient-to-r from-purple-200/30 to-pink-200/20 blur-2xl"
-        animate={{
-          y: [0, 30, 0],
-          x: [0, -25, 0],
-        }}
-        transition={{
-          duration: 14,
-          repeat: Infinity,
-          ease: "easeInOut" as const
-        }}
-      />
-      
-      {/* Enhanced magnetic effect - Only on desktop */}
-      <motion.div
-        className="absolute pointer-events-none rounded-full hidden lg:block"
-        style={{
-          width: '300px',
-          height: '300px',
-          background: 'radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(99, 102, 241, 0.05) 40%, transparent 70%)',
-          left: mousePosition.x - 150,
-          top: mousePosition.y - 150,
-          filter: 'blur(10px)',
-        }}
-        animate={{
-          scale: isHovering ? 1 : 0,
-          opacity: isHovering ? 1 : 0,
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 150,
-          damping: 15,
-          mass: 1
-        }}
-      />
-      
-      <div className="relative container mx-auto px-4 sm:px-6 z-10">
-        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          {/* Content Section - Comes first in mobile, second in desktop */}
-          <div className="order-2 lg:order-1 max-w-xl mx-auto lg:mx-0 text-center lg:text-left">
-            <motion.div 
-              className="mb-6 inline-block px-4 py-2 bg-blue-100 rounded-full backdrop-blur-sm border border-blue-200/50"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <span className="text-blue-600 font-medium flex items-center justify-center lg:justify-start">
-                <FaLightbulb className="mr-2" />
-                Digital Excellence
-              </span>
-            </motion.div>
-            
-            <motion.h1 
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 mb-6 leading-tight"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              Transforming Ideas into <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-600">Digital Reality</span>
-            </motion.h1>
-            
-            <motion.p 
-              className="text-base sm:text-lg md:text-xl text-gray-600 mb-8 lg:mb-10"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              Your trusted partner for digital transformation in Bahrain. We create innovative solutions that drive growth and success for modern businesses.
-            </motion.p>
-            
-            <motion.div 
-              className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 justify-center lg:justify-start"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
-              <Link
-                href="/about"
-                className="group relative px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold rounded-lg transition-all duration-300 flex items-center justify-center overflow-hidden shadow-lg hover:shadow-xl"
-              >
-                <span className="relative z-10 flex items-center text-sm sm:text-base">
-                  Learn More 
-                  <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform duration-300" />
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </Link>
-              
-              <Link
-                href="/contact"
-                className="group relative px-6 sm:px-8 py-3 sm:py-4 bg-transparent border-2 border-blue-500 text-blue-500 font-bold rounded-lg transition-all duration-300 flex items-center justify-center overflow-hidden hover:bg-blue-50 backdrop-blur-sm"
-              >
-                <span className="relative z-10 flex items-center text-sm sm:text-base">
-                  <FaPlay className="mr-2 text-sm" />
-                  Watch Demo
-                </span>
-              </Link>
-            </motion.div>
-            
-            {/* Stats or key features */}
-            <motion.div 
-              className="grid grid-cols-3 gap-3 sm:gap-4 mt-8 lg:mt-12 max-w-md mx-auto lg:mx-0"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-            >
-              <div className="text-center p-3 sm:p-4 bg-white/70 backdrop-blur-sm rounded-xl shadow-sm border border-white/50">
-                <div className="text-xl sm:text-2xl font-bold text-blue-600">150+</div>
-                <div className="text-xs sm:text-sm text-gray-600">Projects</div>
-              </div>
-              <div className="text-center p-3 sm:p-4 bg-white/70 backdrop-blur-sm rounded-xl shadow-sm border border-white/50">
-                <div className="text-xl sm:text-2xl font-bold text-blue-600">98%</div>
-                <div className="text-xs sm:text-sm text-gray-600">Satisfaction</div>
-              </div>
-              <div className="text-center p-3 sm:p-4 bg-white/70 backdrop-blur-sm rounded-xl shadow-sm border border-white/50">
-                <div className="text-xl sm:text-2xl font-bold text-blue-600">24/7</div>
-                <div className="text-xs sm:text-sm text-gray-600">Support</div>
-              </div>
-            </motion.div>
-          </div>
-          
-          {/* Image Carousel Section - Comes first in mobile, second in desktop */}
-          <div className="order-1 lg:order-2 relative w-full max-w-2xl mx-auto lg:mx-0 mb-8 lg:mb-0">
-            {/* Main image carousel */}
-            <motion.div 
-              className="relative bg-white rounded-2xl shadow-xl overflow-hidden z-10 border border-white/50 backdrop-blur-sm"
+        {/* Geometric pattern */}
+        <div className="absolute inset-0 opacity-5">
+          {[...Array(50)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-2 h-2 bg-blue-300"
+              style={{
+                left: `${(i % 10) * 10}%`,
+                top: `${Math.floor(i / 10) * 20}%`,
+              }}
               animate={{
-                y: [0, -15, 0],
+                opacity: [0.2, 0.6, 0.2],
+                scale: [1, 1.5, 1],
               }}
               transition={{
-                duration: 6,
+                duration: 3,
                 repeat: Infinity,
-                ease: "easeInOut" as const
+                delay: i * 0.1,
               }}
-            >
-              <div className="aspect-video relative overflow-hidden">
-                {/* Carousel Images */}
-                <div className="relative h-full">
-                  {heroImages.map((image, index) => (
-                    <motion.div
-                      key={image.id}
-                      className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                        index === currentImageIndex ? 'opacity-100' : 'opacity-0'
-                      }`}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: index === currentImageIndex ? 1 : 0 }}
-                    >
-                      <img
-                        src={image.image}
-                        alt={image.title}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                      <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 text-white">
-                        <h3 className="text-lg sm:text-xl font-bold mb-1">{image.title}</h3>
-                        <p className="text-xs sm:text-sm opacity-90">{image.description}</p>
-                      </div>
-                    </motion.div>
-                  ))}
+            />
+          ))}
+        </div>
+
+        {/* Flowing lines */}
+        <svg className="absolute inset-0 w-full h-full opacity-20">
+          <defs>
+            <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#3b82f6" />
+              <stop offset="100%" stopColor="#1d4ed8" />
+            </linearGradient>
+          </defs>
+          {[...Array(5)].map((_, i) => (
+            <motion.path
+              key={i}
+              d={`M 0,${100 + i * 150} Q 400,${50 + i * 150} 800,${100 + i * 150} T 1600,${100 + i * 150}`}
+              stroke="url(#lineGradient)"
+              strokeWidth="2"
+              fill="none"
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={{ pathLength: 1, opacity: 0.3 }}
+              transition={{ duration: 3, delay: i * 0.2, repeat: Infinity }}
+            />
+          ))}
+        </svg>
+      </div>
+
+      {/* Main content */}
+      <div className="relative container mx-auto px-6 py-16 z-10">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left content */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            {/* Dynamic headline with slide content */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeSlide}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
+              >
+                <div className="inline-block px-4 py-2 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-full border border-blue-400/30 mb-6">
+                  <span className="text-blue-300 text-sm font-semibold">{slides[activeSlide].title}</span>
                 </div>
-                
-                {/* Navigation Arrows */}
-                <button
-                  onClick={goToPrevImage}
-                  className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white/50 text-white rounded-full p-2 transition-all duration-300 backdrop-blur-sm"
-                  aria-label="Previous image"
+              </motion.div>
+            </AnimatePresence>
+
+            <h1 className="text-5xl lg:text-6xl font-black text-white mb-4 leading-tight">
+              Transform Your
+              <span className="block mt-2">
+                <motion.span
+                  className="bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent"
+                  animate={{
+                    backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+                  }}
+                  transition={{ duration: 5, repeat: Infinity }}
+                  style={{ backgroundSize: '200% 200%' }}
                 >
-                  <FaChevronLeft className="text-sm sm:text-lg" />
-                </button>
-                <button
-                  onClick={goToNextImage}
-                  className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white/50 text-white rounded-full p-2 transition-all duration-300 backdrop-blur-sm"
-                  aria-label="Next image"
+                  Digital Future
+                </motion.span>
+              </span>
+            </h1>
+
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={activeSlide}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="text-lg text-blue-100 mb-8"
+              >
+                {slides[activeSlide].subtitle}
+              </motion.p>
+            </AnimatePresence>
+
+            {/* Benefits list */}
+            <div className="grid grid-cols-2 gap-3 mb-8">
+              {benefits.map((benefit, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 * index }}
+                  className="flex items-center gap-2 text-blue-200"
                 >
-                  <FaChevronRight className="text-sm sm:text-lg" />
-                </button>
-                
-                {/* Indicators */}
-                <div className="absolute bottom-3 sm:bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-1 sm:space-x-2">
-                  {heroImages.map((_, index) => (
-                    <button
+                  <div className="flex-shrink-0 w-5 h-5 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
+                    <FaCheck className="text-white text-xs" />
+                  </div>
+                  <span className="text-sm">{benefit}</span>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Email signup form */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <div className="relative flex-1">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  onFocus={() => setEmailFocused(true)}
+                  onBlur={() => setEmailFocused(false)}
+                  className="w-full px-6 py-3 bg-blue-900/30 backdrop-blur-sm border-2 border-blue-700/50 rounded-full text-white placeholder-blue-300/50 focus:outline-none focus:border-blue-500 transition-all"
+                  suppressHydrationWarning
+                />
+                {emailFocused && (
+                  <motion.div
+                    className="absolute inset-0 rounded-full bg-blue-500/20 blur-xl"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                  />
+                )}
+              </div>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-8 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full text-white font-bold flex items-center justify-center gap-2 shadow-lg shadow-blue-500/50 hover:shadow-xl hover:shadow-blue-500/60 transition-all"
+                suppressHydrationWarning
+              >
+                Get Started
+                <FaArrowRight />
+              </motion.button>
+            </div>
+
+          </motion.div>
+
+          {/* Right content - Interactive feature showcase */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="relative"
+          >
+            {/* Main feature card */}
+            <div className="relative bg-gradient-to-br from-blue-500/20 to-blue-600/10 backdrop-blur-xl rounded-3xl p-8 border border-blue-400/30 shadow-2xl">
+              {/* Rotating border effect */}
+              <motion.div
+                className="absolute inset-0 rounded-3xl"
+                style={{
+                  background: "linear-gradient(45deg, transparent 30%, rgba(59, 130, 246, 0.3), transparent 70%)",
+                }}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+              />
+
+              <div className="relative z-10">
+                <h3 className="text-2xl font-bold text-white mb-6">Our Core Services</h3>
+
+                {/* Features grid */}
+                <div className="grid grid-cols-2 gap-4 mb-6">
+                  {features.map((feature, index) => {
+                    const Icon = feature.icon;
+                    return (
+                      <motion.div
+                        key={index}
+                        className={`p-4 rounded-xl cursor-pointer transition-all duration-300 ${
+                          currentFeature === index
+                            ? 'bg-blue-500/40 border-2 border-blue-300'
+                            : 'bg-blue-900/20 border border-blue-500/20 hover:bg-blue-800/30'
+                        }`}
+                        whileHover={{ scale: 1.05 }}
+                        onClick={() => setCurrentFeature(index)}
+                      >
+                        <Icon className={`text-3xl mb-2 ${
+                          currentFeature === index ? 'text-blue-200' : 'text-blue-400'
+                        }`} />
+                        <h4 className="text-sm font-bold text-white mb-1">{feature.title}</h4>
+                        <p className="text-xs text-blue-200/70">{feature.desc}</p>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+
+                {/* Progress indicators */}
+                <div className="flex gap-2">
+                  {features.map((_, index) => (
+                    <motion.div
                       key={index}
-                      onClick={() => setCurrentImageIndex(index)}
-                      className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
-                        index === currentImageIndex ? 'bg-white' : 'bg-white/50'
+                      className={`h-1 flex-1 rounded-full ${
+                        currentFeature === index ? 'bg-blue-400' : 'bg-blue-800/50'
                       }`}
-                      aria-label={`Go to image ${index + 1}`}
+                      animate={{
+                        scaleX: currentFeature === index ? [0, 1] : 1,
+                      }}
+                      transition={{
+                        duration: 3,
+                        ease: "linear",
+                      }}
                     />
                   ))}
                 </div>
               </div>
-            </motion.div>
-            
-            {/* Enhanced Decorative elements - Hidden on mobile */}
-            <motion.div 
-              className="hidden lg:block absolute -top-4 -left-4 w-16 h-16 rounded-full bg-gradient-to-r from-blue-200/40 to-cyan-200/30 blur-xl"
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.5, 0.8, 0.5],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut" as const
-              }}
-            />
-            <motion.div 
-              className="hidden lg:block absolute -bottom-4 -right-4 w-20 h-20 rounded-full bg-gradient-to-r from-indigo-200/30 to-purple-200/20 blur-xl"
+            </div>
+
+            {/* Floating decorative elements */}
+            <motion.div
+              className="absolute -top-4 -right-4 w-20 h-20 bg-blue-400/30 rounded-full blur-xl"
               animate={{
                 scale: [1, 1.3, 1],
-                opacity: [0.4, 0.7, 0.4],
+                opacity: [0.5, 0.8, 0.5],
               }}
-              transition={{
-                duration: 5,
-                repeat: Infinity,
-                ease: "easeInOut" as const
-              }}
+              transition={{ duration: 4, repeat: Infinity }}
             />
-          </div>
+            <motion.div
+              className="absolute -bottom-4 -left-4 w-24 h-24 bg-blue-600/20 rounded-full blur-xl"
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.3, 0.6, 0.3],
+              }}
+              transition={{ duration: 5, repeat: Infinity }}
+            />
+          </motion.div>
         </div>
       </div>
-      
-      {/* Scroll indicator - Hidden on mobile */}
-      <motion.div 
-        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-gray-700 hidden lg:block"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" as const }}
-      >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-        </svg>
-      </motion.div>
     </section>
   );
-} 
+}
