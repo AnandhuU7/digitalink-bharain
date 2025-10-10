@@ -12,7 +12,6 @@ import unvLogo from "../../public/images/brands/unv.png";
 interface PricingPlan {
   id: number;
   name: string;
-  price: { monthly: number; annual: number };
   description: string;
   features: string[];
   popular?: boolean;
@@ -23,7 +22,6 @@ const pricingPlans: PricingPlan[] = [
   {
     id: 1,
     name: "Uniview",
-    price: { monthly: 99, annual: 990 },
     description: "Essential surveillance solutions for small businesses. Perfect for retail stores, small offices, and residential properties needing reliable security monitoring.",
     features: [
       "4 Channel NVR",
@@ -36,7 +34,6 @@ const pricingPlans: PricingPlan[] = [
   {
     id: 2,
     name: "Dahua",
-    price: { monthly: 199, annual: 1990 },
     description: "Advanced security systems for growing businesses. Ideal for medium-sized businesses, warehouses, and educational campuses requiring comprehensive surveillance.",
     features: [
       "8 Channel NVR",
@@ -93,7 +90,7 @@ export default function PricingSection() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Monthly
+              Dahua
             </motion.button>
             <motion.button
               className={`px-6 py-3 rounded-full font-medium transition-colors duration-300 ${
@@ -103,8 +100,7 @@ export default function PricingSection() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Annual
-              <span className="ml-2 text-xs bg-green-500 text-white px-2 py-1 rounded-full">Save 20%</span>
+              Uniview
             </motion.button>
           </div>
         </div>

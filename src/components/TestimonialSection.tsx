@@ -1,7 +1,7 @@
 // components/SolutionsSection.tsx
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { 
   FaHome, 
@@ -52,7 +52,6 @@ const securitySolutions: SecuritySolution[] = [
 export default function SolutionsSection() {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [hoveredSolution, setHoveredSolution] = useState<number | null>(null);
-  const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
   const categories = ['All', 'Residential', 'Commercial', 'Industrial', 'Municipal'];
 
@@ -61,13 +60,7 @@ export default function SolutionsSection() {
     : securitySolutions.filter(solution => solution.category === selectedCategory);
 
   const handleCategoryChange = (category: string) => {
-    setIsAnimating(true);
     setSelectedCategory(category);
-    
-    // Reset animation state after transition completes
-    setTimeout(() => {
-      setIsAnimating(false);
-    }, 500);
   };
 
   return (
@@ -85,19 +78,17 @@ export default function SolutionsSection() {
         <div className="text-center mb-16">
           <motion.h2 
             className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
           >
             Security Solutions
           </motion.h2>
           <motion.p 
             className="text-gray-600 max-w-2xl mx-auto text-lg"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
           >
             Explore our comprehensive range of security solutions designed for every environment and requirement.
           </motion.p>
@@ -114,9 +105,11 @@ export default function SolutionsSection() {
                   ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg'
                   : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
               }`}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: index * 0.05, ease: "easeOut" }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              disabled={isAnimating}
             >
               {category}
             </motion.button>
@@ -124,55 +117,56 @@ export default function SolutionsSection() {
         </div>
 
         {/* Solutions Grid */}
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ staggerChildren: 0.1 }}
-        >
-          {filteredSolutions.map((solution, index) => (
-            <motion.div
-              key={solution.id}
-              className="bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer"
-              initial={{ opacity: 0, y: 50, scale: 0.9 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              whileHover={{ y: -15, scale: 1.03 }}
-              onMouseEnter={() => setHoveredSolution(solution.id)}
-              onMouseLeave={() => setHoveredSolution(null)}
-            >
-              {/* Solution Image */}
-              <div className="h-48 relative overflow-hidden">
-                <motion.img 
-                  src={solution.image}
-                  alt={solution.title}
-                  className="w-full h-full object-cover"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.5 }}
-                />
-                
-                {/* Category Badge */}
-                <div className="absolute top-4 left-4 bg-white bg-opacity-90 px-3 py-1 rounded-full text-sm font-medium text-gray-700 shadow-sm">
-                  {solution.category}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <AnimatePresence mode="wait">
+            {filteredSolutions.map((solution, index) => (
+              <motion.div
+                key={solution.id}
+                className="bg-white rounded-2xl shadow-lg overflow-hidden group cursor-pointer"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ 
+                  duration: 0.3, 
+                  delay: index * 0.08,
+                  ease: "easeOut"
+                }}
+                whileHover={{ y: -15, scale: 1.03, transition: { duration: 0.3 } }}
+                onMouseEnter={() => setHoveredSolution(solution.id)}
+                onMouseLeave={() => setHoveredSolution(null)}
+              >
+                {/* Solution Image */}
+                <div className="h-48 relative overflow-hidden">
+                  <motion.img 
+                    src={solution.image}
+                    alt={solution.title}
+                    className="w-full h-full object-cover"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.5 }}
+                  />
+                  
+                  {/* Category Badge */}
+                  <div className="absolute top-4 left-4 bg-white bg-opacity-90 px-3 py-1 rounded-full text-sm font-medium text-gray-700 shadow-sm">
+                    {solution.category}
+                  </div>
                 </div>
-              </div>
-              
-              {/* Solution Details */}
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800 mb-3">{solution.title}</h3>
-                <p className="text-gray-600 text-sm">{solution.description}</p>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+                
+                {/* Solution Details */}
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-gray-800 mb-3">{solution.title}</h3>
+                  <p className="text-gray-600 text-sm">{solution.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
         
         {/* CTA Button */}
         <motion.div 
           className="text-center mt-16"
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.3, ease: "easeOut" }}
         >
           <motion.button
             className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 rounded-lg font-bold text-lg transition-all duration-300 inline-flex items-center shadow-lg group border border-blue-200"
