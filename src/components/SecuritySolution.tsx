@@ -64,25 +64,25 @@ export default function SolutionsSection() {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-br from-white to-gray-50 relative overflow-hidden">
+    <section className="py-6 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0 bg-grid bg-repeat" style={{ backgroundSize: '40px 40px' }}></div>
       </div>
       
       {/* Security-themed decorative elements */}
-      <div className="absolute top-20 left-10 w-32 h-32 bg-blue-200 rounded-full blur-3xl opacity-30"></div>
-      <div className="absolute bottom-20 right-10 w-40 h-40 bg-indigo-200 rounded-full blur-3xl opacity-30"></div>
+      <div className="absolute top-20 left-10 w-32 h-32 bg-blue-100 rounded-full blur-3xl opacity-20"></div>
+      <div className="absolute bottom-20 right-10 w-40 h-40 bg-purple-100 rounded-full blur-3xl opacity-20"></div>
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
           <motion.h2 
-            className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
+            className="text-4xl md:text-5xl font-bold mb-4 text-gray-800"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
           >
-            Security Solutions
+            <span className="text-blue-700">Security Solutions</span>
           </motion.h2>
           <motion.p 
             className="text-gray-600 max-w-2xl mx-auto text-lg"
@@ -102,7 +102,7 @@ export default function SolutionsSection() {
               onClick={() => handleCategoryChange(category)}
               className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
                 selectedCategory === category
-                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg'
+                  ? 'bg-blue-600 text-white shadow-lg'
                   : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
               }`}
               initial={{ opacity: 0, y: 10 }}
@@ -169,7 +169,7 @@ export default function SolutionsSection() {
           transition={{ delay: 0.4, duration: 0.3, ease: "easeOut" }}
         >
           <motion.button
-            className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 rounded-lg font-bold text-lg transition-all duration-300 inline-flex items-center shadow-lg group border border-blue-200"
+            className="bg-white text-blue-700 hover:bg-gray-50 px-8 py-4 rounded-lg font-bold text-lg transition-all duration-300 inline-flex items-center shadow-lg group border border-blue-200"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
           >

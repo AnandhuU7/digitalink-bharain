@@ -4,10 +4,10 @@
 import HeroSection from '@/components/HeroSection';
 
 import FeaturesSection from '@/components/FeaturesSection';
-import TestimonialSection from '@/components/TestimonialSection';
-import PricingSection from '@/components/PricingSection';
-import TechnologyShowcase from '@/components/TechnologyShowcase';
-import FeatureCarousel from '@/components/FeatureCarousel';
+import TestimonialSection from '@/components/SecuritySolution';
+import PricingSection from '@/components/OurBrand';
+import OurJourney from '@/components/OurJourney';
+import FeatureCarousel from '@/components/PartnersSection';
 
 
 export default function HomePage() {
@@ -18,7 +18,8 @@ export default function HomePage() {
       <FeatureCarousel/>
       <TestimonialSection/>
       <PricingSection/>
-      <TechnologyShowcase/>
+      <FeaturesSection/>
+      <OurJourney/>
     </div>
   );
 }

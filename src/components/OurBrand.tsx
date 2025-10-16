@@ -1,4 +1,3 @@
-// components/PricingSection.tsx
 'use client';
 
 import { motion } from 'framer-motion';
@@ -9,7 +8,7 @@ import Image from 'next/image';
 import dahuaLogo from "../../public/images/brands/dahuva.jpg";
 import unvLogo from "../../public/images/brands/unv.png";
 
-interface PricingPlan {
+interface OurBrand {
   id: number;
   name: string;
   description: string;
@@ -18,7 +17,7 @@ interface PricingPlan {
   badge?: string;
 }
 
-const pricingPlans: PricingPlan[] = [
+const ourBrands: OurBrand[] = [
   {
     id: 1,
     name: "Uniview",
@@ -56,7 +55,7 @@ export default function PricingSection() {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-br from-white to-blue-50">
+    <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <motion.h2 
@@ -66,7 +65,7 @@ export default function PricingSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            Security Solutions by <span className="text-blue-600">Leading Brands</span>
+            Security Solutions by <span className="bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 bg-clip-text text-transparent">Leading Brands</span>
           </motion.h2>
           <motion.p 
             className="text-gray-600 max-w-2xl mx-auto text-lg"
@@ -81,10 +80,10 @@ export default function PricingSection() {
 
         {/* Billing Toggle */}
         <div className="flex justify-center mb-12">
-          <div className="bg-white rounded-full p-1 shadow-md inline-flex">
+          <div className="bg-white rounded-full p-1 shadow-md inline-flex border border-gray-200">
             <motion.button
               className={`px-6 py-3 rounded-full font-medium transition-colors duration-300 ${
-                billingCycle === 'monthly' ? 'bg-blue-600 text-white' : 'text-gray-600'
+                billingCycle === 'monthly' ? 'bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 text-white' : 'text-gray-700'
               }`}
               onClick={() => setBillingCycle('monthly')}
               whileHover={{ scale: 1.05 }}
@@ -94,7 +93,7 @@ export default function PricingSection() {
             </motion.button>
             <motion.button
               className={`px-6 py-3 rounded-full font-medium transition-colors duration-300 ${
-                billingCycle === 'annual' ? 'bg-blue-600 text-white' : 'text-gray-600'
+                billingCycle === 'annual' ? 'bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 text-white' : 'text-gray-700'
               }`}
               onClick={() => setBillingCycle('annual')}
               whileHover={{ scale: 1.05 }}
@@ -107,13 +106,13 @@ export default function PricingSection() {
 
         {/* Pricing Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
-          {pricingPlans.map((plan, index) => (
+          {ourBrands.map((plan, index) => (
             <motion.div
               key={plan.id}
               className={`relative rounded-3xl overflow-hidden shadow-xl ${
                 billingCycle === 'monthly' 
-                  ? (index === 0 ? 'bg-white text-gray-800' : 'bg-blue-600 text-white')
-                  : (index === 0 ? 'bg-blue-600 text-white' : 'bg-white text-gray-800')
+                  ? (index === 0 ? 'bg-white text-gray-800' : 'bg-gradient-to-br from-blue-950 via-blue-900 to-blue-800 text-white')
+                  : (index === 0 ? 'bg-gradient-to-br from-blue-950 via-blue-900 to-blue-800 text-white' : 'bg-white text-gray-800')
               }`}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -156,8 +155,8 @@ export default function PricingSection() {
                   <motion.button
                     className={`w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 ${
                       billingCycle === 'monthly' 
-                        ? (index === 0 ? 'bg-blue-600 text-white hover:bg-blue-700' : 'bg-white text-blue-600 hover:bg-gray-100')
-                        : (index === 0 ? 'bg-white text-blue-600 hover:bg-gray-100' : 'bg-blue-600 text-white hover:bg-blue-700')
+                        ? (index === 0 ? 'bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 text-white hover:opacity-90' : 'bg-white text-blue-950 hover:bg-gray-100')
+                        : (index === 0 ? 'bg-white text-blue-950 hover:bg-gray-100' : 'bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 text-white hover:opacity-90')
                     }`}
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.98 }}
