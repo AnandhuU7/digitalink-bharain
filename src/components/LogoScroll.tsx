@@ -46,28 +46,41 @@ const LogoScroll: React.FC = () => {
   const duplicatedLogos = [...logos, ...logos];
 
   return (
-    <div className="flex justify-center ">
+    <div className="flex justify-center mt-12 mb-12">
       {/* Desktop */}
       <div 
         className="hidden lg:block overflow-hidden bg-gradient-to-br from-blue-950 via-blue-900 to-blue-800 rounded-l-2xl rounded-r-2xl" 
         style={{ width: '1300px', height: '90px' }}
       >
-        <div className="flex animate-scroll-desktop items-center h-full">
-          {duplicatedLogos.map((logo, index) => (
-            <div
-              key={index}
-              className="flex-shrink-0 flex items-center justify-center"
-              style={{ width: '100px', marginRight: '20px' }}
-            >
-              <Image
-                src={logo.src}
-                alt={logo.alt}
-                width={80}
-                height={40}
-                className="object-contain"
-              />
+        <div className="flex h-full">
+          {/* Left side text */}
+          <div className="flex-shrink-0 flex items-center justify-center px-8">
+            <div className="text-white text-xl font-semibold">
+            TRUSTED<br />
+            PARTNERS
             </div>
-          ))}
+          </div>
+          
+          {/* Right side scrolling logos */}
+          <div className="flex-1 overflow-hidden">
+            <div className="flex animate-scroll-desktop items-center h-full">
+              {duplicatedLogos.map((logo, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 flex items-center justify-center"
+                  style={{ width: '100px', marginRight: '20px' }}
+                >
+                  <Image
+                    src={logo.src}
+                    alt={logo.alt}
+                    width={80}
+                    height={40}
+                    className="object-contain"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -76,22 +89,35 @@ const LogoScroll: React.FC = () => {
         className="hidden md:block lg:hidden overflow-hidden bg-gradient-to-br from-blue-950 via-blue-900 to-blue-800 rounded-l-2xl rounded-r-2xl" 
         style={{ width: '600px', height: '80px' }}
       >
-        <div className="flex animate-scroll-tablet items-center h-full">
-          {duplicatedLogos.map((logo, index) => (
-            <div
-              key={index}
-              className="flex-shrink-0 flex items-center justify-center"
-              style={{ width: '100px', marginRight: '20px' }}
-            >
-              <Image
-                src={logo.src}
-                alt={logo.alt}
-                width={70}
-                height={35}
-                className="object-contain"
-              />
+        <div className="flex h-full">
+          {/* Left side text */}
+          <div className="flex-shrink-0 flex items-center justify-center px-4">
+            <div className="text-white text-sm font-semibold">
+            TRUSTED<br />
+            PARTNERS
             </div>
-          ))}
+          </div>
+          
+          {/* Right side scrolling logos */}
+          <div className="flex-1 overflow-hidden">
+            <div className="flex animate-scroll-tablet items-center h-full">
+              {duplicatedLogos.map((logo, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 flex items-center justify-center"
+                  style={{ width: '100px', marginRight: '20px' }}
+                >
+                  <Image
+                    src={logo.src}
+                    alt={logo.alt}
+                    width={70}
+                    height={35}
+                    className="object-contain"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -100,22 +126,35 @@ const LogoScroll: React.FC = () => {
         className="block md:hidden overflow-hidden bg-gradient-to-br from-blue-950 via-blue-900 to-blue-800 rounded-l-2xl rounded-r-2xl" 
         style={{ width: '320px', height: '60px' }}
       >
-        <div className="flex animate-scroll-mobile items-center h-full">
-          {duplicatedLogos.map((logo, index) => (
-            <div
-              key={index}
-              className="flex-shrink-0 flex items-center justify-center"
-              style={{ width: '80px', marginRight: '15px' }}
-            >
-              <Image
-                src={logo.src}
-                alt={logo.alt}
-                width={60}
-                height={30}
-                className="object-contain"
-              />
+        <div className="flex h-full">
+          {/* Left side text */}
+          <div className="flex-shrink-0 flex items-center justify-center px-2">
+            <div className="text-white text-xs font-semibold">
+            TRUSTED<br />
+            PARTNERS
             </div>
-          ))}
+          </div>
+          
+          {/* Right side scrolling logos */}
+          <div className="flex-1 overflow-hidden">
+            <div className="flex animate-scroll-mobile items-center h-full">
+              {duplicatedLogos.map((logo, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 flex items-center justify-center"
+                  style={{ width: '80px', marginRight: '15px' }}
+                >
+                  <Image
+                    src={logo.src}
+                    alt={logo.alt}
+                    width={60}
+                    height={30}
+                    className="object-contain"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
            
@@ -152,11 +191,11 @@ const LogoScroll: React.FC = () => {
         }
         
         .animate-scroll-tablet {
-          animation: scroll-tablet 18s linear infinite;
+          animation: scroll-tablet 40s linear infinite;
         }
         
         .animate-scroll-mobile {
-          animation: scroll-mobile 15s linear infinite;
+          animation: scroll-mobile 40s linear infinite;
         }
       `}</style>
     </div>

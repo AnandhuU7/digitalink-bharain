@@ -1,225 +1,327 @@
+// app/about/page.tsx
 'use client';
 
-import { motion } from 'framer-motion';
-import { FaUsers, FaLightbulb, FaTrophy, FaHandshake, FaQuoteLeft } from 'react-icons/fa';
-import { ReactElement } from 'react';
+import Image from 'next/image';
+import React, { useState } from 'react';
+import OurJourney from "@/components/OurJourney"
 
-interface TeamMember {
+type TeamMember = {
   name: string;
-  position: string;
-  bio: string;
-}
+  imageUrl: string;
+  alt: string;
+};
 
-interface Value {
-  icon: ReactElement;
+type Position = 'left2' | 'left1' | 'middle' | 'right1' | 'right2';
+
+type VisibleTeamMember = TeamMember & {
+  index: number;
+  position: Position;
+};
+
+type Feature = {
   title: string;
   description: string;
-}
-
-interface Testimonial {
-  quote: string;
-  author: string;
-  position: string;
-}
+  icon: string;
+};
 
 export default function AboutPage() {
-  const teamMembers: TeamMember[] = [
+  // Team data with the Pexels image - now with 5 team members
+  const initialTeamMembers: TeamMember[] = [
     {
-      name: 'Ahmed Hassan',
-      position: 'CEO & Founder',
-      bio: 'With over 15 years of experience in digital transformation, Ahmed leads our team with vision and expertise.'
+      name: 'Team Member One',
+      imageUrl: 'https://images.pexels.com/photos/3771074/pexels-photo-3771074.jpeg?cs=srgb&dl=pexels-olly-3771074.jpg&fm=jpg',
+      alt: 'Team Member One',
     },
     {
-      name: 'Fatima Al Khalifa',
-      position: 'CTO',
-      bio: 'Fatima brings technical excellence and innovation to every project, ensuring cutting-edge solutions.'
+      name: 'John Carvan',
+      imageUrl: 'https://images.pexels.com/photos/3771074/pexels-photo-3771074.jpeg?cs=srgb&dl=pexels-olly-3771074.jpg&fm=jpg',
+      alt: 'John Carvan',
     },
     {
-      name: 'Mohammed Ali',
-      position: 'Head of Design',
-      bio: 'Mohammed\'s creative approach to design ensures that our solutions are both beautiful and functional.'
+      name: 'Miss Smith Ellen',
+      imageUrl: 'https://images.pexels.com/photos/3771074/pexels-photo-3771074.jpeg?cs=srgb&dl=pexels-olly-3771074.jpg&fm=jpg',
+      alt: 'Miss Smith Ellen',
     },
     {
-      name: 'Aisha Mahmood',
-      position: 'Marketing Director',
-      bio: 'Aisha develops strategies that help our clients achieve their business goals through digital marketing.'
-    }
+      name: 'Team Member Name',
+      imageUrl: 'https://images.pexels.com/photos/3771074/pexels-photo-3771074.jpeg?cs=srgb&dl=pexels-olly-3771074.jpg&fm=jpg',
+      alt: 'Team Member',
+    },
+    {
+      name: 'Team Member Five',
+      imageUrl: 'https://images.pexels.com/photos/3771074/pexels-photo-3771074.jpeg?cs=srgb&dl=pexels-olly-3771074.jpg&fm=jpg',
+      alt: 'Team Member Five',
+    },
   ];
 
-  const values: Value[] = [
+  // Features data
+  const features: Feature[] = [
     {
-      icon: <FaLightbulb className="text-3xl text-blue-600" />,
-      title: 'Innovation',
-      description: 'We constantly explore new technologies and approaches to deliver cutting-edge solutions.'
+      title: 'Personalized learning',
+      description: 'Students learn at their own pace with tailored content that adapts to their needs.',
+      icon: '/personalized-icon.svg', // Replace with actual icon paths
     },
     {
-      icon: <FaUsers className="text-3xl text-blue-600" />,
-      title: 'Collaboration',
-      description: 'We work closely with our clients to understand their needs and deliver solutions that exceed expectations.'
+      title: 'Trusted content',
+      description: 'High-quality, standards-aligned content created by education experts.',
+      icon: '/content-icon.svg', // Replace with actual icon paths
     },
     {
-      icon: <FaTrophy className="text-3xl text-blue-600" />,
-      title: 'Excellence',
-      description: 'We are committed to delivering the highest quality in everything we do.'
+      title: 'Tools to empower our team',
+      description: 'Resources and analytics to help our team save time and support students.',
+      icon: '/tools-icon.svg', // Replace with actual icon paths
     },
-    {
-      icon: <FaHandshake className="text-3xl text-blue-600" />,
-      title: 'Integrity',
-      description: 'We conduct our business with honesty, transparency, and respect for our clients and partners.'
-    }
   ];
 
-  const testimonials: Testimonial[] = [
-    {
-      quote: "Digital Link Bahrain transformed our online presence completely. Their team is professional, creative, and delivers exceptional results.",
-      author: "Nasser Al Khalifa",
-      position: "CEO, Bahrain Retail Group"
-    },
-    {
-      quote: "Working with Digital Link Bahrain was a game-changer for our business. Their mobile app solution increased our customer engagement by 200%.",
-      author: "Fatima Ahmed",
-      position: "Marketing Director, Gulf Foods"
+  // State for image errors
+  const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
+  
+  // State for current middle team member index
+  const [currentIndex, setCurrentIndex] = useState(2); // Start with Miss Smith Ellen in the middle
+
+  const handleImageError = (key: string) => {
+    setImageErrors(prev => ({
+      ...prev,
+      [key]: true
+    }));
+  };
+
+  // Handle navigation to previous team member
+  const handlePrevClick = () => {
+    setCurrentIndex(prevIndex => (prevIndex === 0 ? initialTeamMembers.length - 1 : prevIndex - 1));
+  };
+
+  // Handle navigation to next team member
+  const handleNextClick = () => {
+    setCurrentIndex(prevIndex => (prevIndex === initialTeamMembers.length - 1 ? 0 : prevIndex + 1));
+  };
+
+  // Handle team member click to make it the middle one
+  const handleTeamMemberClick = (index: number) => {
+    setCurrentIndex(index);
+  };
+
+  // Calculate the indices for the visible team members (now 5 team members)
+  const getVisibleTeamMembers = (): VisibleTeamMember[] => {
+    const total = initialTeamMembers.length;
+    const visibleTeamMembers: VisibleTeamMember[] = [];
+    
+    // Get 5 team members: two on the left, middle, and two on the right
+    for (let i = -2; i <= 2; i++) {
+      const index = (currentIndex + i + total) % total;
+      const position: Position = 
+        i === 0 ? 'middle' : 
+        i === -2 ? 'left2' : 
+        i === -1 ? 'left1' : 
+        i === 1 ? 'right1' : 'right2';
+      
+      visibleTeamMembers.push({
+        ...initialTeamMembers[index],
+        index,
+        position
+      });
     }
-  ];
+    
+    return visibleTeamMembers;
+  };
+
+  const visibleTeamMembers = getVisibleTeamMembers();
+
+  // Fallback component for images
+  const ImageFallback = ({ width = 150, height = 150, text = 'Image' }: { width?: number; height?: number; text?: string }) => (
+    <div 
+      className="flex items-center justify-center bg-gray-200 border-2 border-dashed border-gray-300 rounded-full"
+      style={{ width: `${width}px`, height: `${height}px` }}
+    >
+      <span className="text-gray-500 text-sm">{text}</span>
+    </div>
+  );
+
+  // Fallback component for icons
+  const IconFallback = () => (
+    <div className="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-full">
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+        <path fillRule="evenodd" d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-1.586a1 1 0 01-.707-.293l-1.121-1.121A2 2 0 0011.172 3H8.828a2 2 0 00-1.414.586L6.293 4.707A1 1 0 015.586 5H4zm6 9a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
+      </svg>
+    </div>
+  );
+
+  // Small navigation button component (for bottom)
+  const SmallNavButton = ({ direction, onClick }: { direction: 'left' | 'right'; onClick: () => void }) => (
+    <button 
+      onClick={onClick}
+      className="flex items-center justify-center w-8 h-8 bg-white rounded-full shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300"
+      aria-label={`Scroll ${direction}`}
+    >
+      {direction === 'left' ? (
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        </svg>
+      ) : (
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
+      )}
+    </button>
+  );
+
+  // Team member card component
+  const TeamMemberCard = ({ teamMember, position, index, onClick }: { 
+    teamMember: TeamMember; 
+    position: Position;
+    index: number;
+    onClick: () => void;
+  }) => {
+    // Determine size and styling based on position
+    const getCardStyle = () => {
+      switch(position) {
+        case 'middle':
+          return {
+            size: 'w-56 h-56 md:w-64 md:h-64',
+            border: 'border-4 border-white',
+            scale: 'transform scale-110',
+            opacity: 'opacity-100',
+            zIndex: 'z-20',
+            order: 2,
+            textSize: 'text-xl md:text-2xl text-gray-900'
+          };
+        case 'left1':
+        case 'right1':
+          return {
+            size: 'w-48 h-48 md:w-56 md:h-56',
+            border: 'border-2 border-white',
+            scale: 'transform scale-100',
+            opacity: 'opacity-95',
+            zIndex: 'z-10',
+            order: position === 'left1' ? 1 : 3,
+            textSize: 'text-lg text-gray-800'
+          };
+        case 'left2':
+        case 'right2':
+          return {
+            size: 'w-40 h-40 md:w-48 md:h-48',
+            border: 'border-2 border-white',
+            scale: 'transform scale-90',
+            opacity: 'opacity-80',
+            zIndex: 'z-0',
+            order: position === 'left2' ? 0 : 4,
+            textSize: 'text-base text-gray-700'
+          };
+        default:
+          const exhaustiveCheck: never = position;
+          return exhaustiveCheck;
+      }
+    };
+    
+    const style = getCardStyle();
+    
+    return (
+      <div 
+        className={`flex flex-col items-center transition-all duration-700 ease-in-out cursor-pointer ${style.scale} ${style.opacity} ${style.zIndex}`}
+        style={{ order: style.order }}
+        onClick={onClick}
+      >
+        <div 
+          className={`relative rounded-full overflow-hidden shadow-lg mb-4 transition-all duration-700 ease-in-out ${style.size} ${style.border}`}
+        >
+          {imageErrors[`teamMember-${index}`] ? (
+            <ImageFallback 
+              width={position === 'middle' ? 256 : 208} 
+              height={position === 'middle' ? 256 : 208} 
+              text={teamMember.name} 
+            />
+          ) : (
+            <img
+              src={teamMember.imageUrl}
+              alt={teamMember.alt}
+              className="w-full h-full object-cover"
+              onError={() => handleImageError(`teamMember-${index}`)}
+            />
+          )}
+        </div>
+        <h3 className={`font-semibold transition-all duration-700 ease-in-out ${style.textSize}`}>
+          {teamMember.name}
+        </h3>
+      </div>
+    );
+  };
 
   return (
-    <div className="py-20 bg-gray-50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Hero Section */}
-        <div className="flex flex-col md:flex-row items-center mb-20">
-          <motion.div 
-            className="md:w-1/2 mb-10 md:mb-0 pr-0 md:pr-8 lg:pr-12"
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7 }}
-          >
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">About <span className="text-blue-600">Digital Link Bahrain</span></h1>
-            <p className="text-gray-600 mb-6 text-lg">
-              Digital Link Bahrain is a leading digital solutions provider in Bahrain, offering a wide range of services to help businesses thrive in the digital age.
-            </p>
-            <p className="text-gray-600 mb-6 text-lg">
-              Our team of experts is dedicated to delivering innovative and effective solutions that meet the unique needs of our clients. We combine creativity, technology, and business acumen to drive growth and success.
-            </p>
-            <p className="text-gray-600 text-lg">
-              With years of experience in the industry, we have built a reputation for excellence and reliability. Our clients trust us to deliver high-quality solutions that exceed their expectations.
-            </p>
-          </motion.div>
-          <motion.div 
-            className="md:w-1/2 pl-0 md:pl-8 lg:pl-12"
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7 }}
-          >
-            <div className="relative">
-              <div className="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl p-1 shadow-xl">
-                <div className="bg-white rounded-2xl p-1">
-                  <div className="w-full h-80 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
-                    <div className="text-center p-6">
-                      <div className="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span className="text-white text-3xl font-bold">DL</span>
-                      </div>
-                      <h3 className="text-2xl font-bold text-white mb-2">About Us</h3>
-                      <p className="text-blue-100">Transforming businesses with technology</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-yellow-400 rounded-full opacity-20 blur-xl"></div>
-              <div className="absolute -top-4 -left-4 w-16 h-16 bg-blue-400 rounded-full opacity-20 blur-xl"></div>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Values Section */}
-        <div className="mb-20">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Our <span className="text-blue-600">Values</span></h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              The principles that guide our work and define our culture.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, index) => (
-              <motion.div
-                key={index}
-                className="bg-white p-8 rounded-xl shadow-lg text-center hover:shadow-xl transition-all duration-300"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
-                <div className="flex justify-center mb-4">
-                  <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
-                    {value.icon}
-                  </div>
-                </div>
-                <h3 className="text-xl font-bold mb-3">{value.title}</h3>
-                <p className="text-gray-600">{value.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* Testimonials Section */}
-        <div className="mb-20">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our <span className="text-blue-600">Clients Say</span></h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Don't just take our word for it - hear from our satisfied clients.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={index}
-                className="bg-white p-8 rounded-xl shadow-lg relative"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
-                <FaQuoteLeft className="text-blue-200 text-3xl mb-4" />
-                <p className="text-gray-600 mb-6 italic">"{testimonial.quote}"</p>
-                <div>
-                  <h4 className="font-bold">{testimonial.author}</h4>
-                  <p className="text-blue-600 text-sm">{testimonial.position}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+    <div className="min-h-screen bg-gray-50 py-12 px-4">
+      <div className="max-w-6xl mx-auto">
+        {/* Page Header */}
+        <div className="text-center mb-16">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">About Our Team</h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Meet our dedicated team of educators who are committed to providing the best learning experience for every student.
+          </p>
         </div>
 
         {/* Team Section */}
-        <div>
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Meet Our <span className="text-blue-600">Team</span></h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              The talented individuals behind our success.
-            </p>
+        <div className="mb-20">
+          <h2 className="text-3xl font-bold text-center mb-10">Our Team</h2>
+          <div className="flex justify-center items-center relative h-80">
+            {/* Background decoration */}
+            <div className="absolute inset-0 flex justify-center items-center">
+              <div className="w-64 h-64 bg-blue-100 rounded-full opacity-20 blur-xl"></div>
+            </div>
+            
+            {/* Removed the side navigation buttons */}
+            
+            <div className="flex items-end justify-center gap-2 md:gap-4 relative z-10 w-full max-w-5xl">
+              {visibleTeamMembers.map((teamMember) => (
+                <TeamMemberCard 
+                  key={teamMember.index}
+                  teamMember={teamMember} 
+                  position={teamMember.position} 
+                  index={teamMember.index} 
+                  onClick={() => handleTeamMemberClick(teamMember.index)} 
+                />
+              ))}
+            </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {teamMembers.map((member, index) => (
-              <motion.div
-                key={index}
-                className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
-                <div className="h-48 bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center">
-                  <div className="w-24 h-24 rounded-full bg-white bg-opacity-20 flex items-center justify-center text-white text-3xl font-bold">
-                    {member.name.split(' ').map(n => n[0]).join('')}
+          {/* Small Navigation Buttons at Bottom - only navigation buttons */}
+          <div className="flex justify-center items-center mt-12 space-x-6">
+            <SmallNavButton direction="left" onClick={handlePrevClick} />
+            <SmallNavButton direction="right" onClick={handleNextClick} />
+          </div>
+        </div>
+        <OurJourney/>
+        {/* Why It Works Section */}
+        <div className="bg-white rounded-xl shadow-lg p-8">
+          <h2 className="text-3xl font-bold text-center mb-10">Why it works</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {features.map((feature, index) => (
+              <div key={index} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-100">
+                <div className="flex justify-center mb-4">
+                  <div className="w-16 h-16 flex items-center justify-center bg-blue-100 rounded-full">
+                    {imageErrors[`icon-${index}`] ? (
+                      <IconFallback />
+                    ) : (
+                      <Image
+                        src={feature.icon}
+                        alt={`${feature.title} icon`}
+                        width={32}
+                        height={32}
+                        onError={() => handleImageError(`icon-${index}`)}
+                      />
+                    )}
                   </div>
                 </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-1">{member.name}</h3>
-                  <p className="text-blue-600 mb-3">{member.position}</p>
-                  <p className="text-gray-600">{member.bio}</p>
-                </div>
-              </motion.div>
+                <h3 className="text-xl font-semibold text-center mb-2 text-gray-800">{feature.title}</h3>
+                <p className="text-gray-600 text-center">{feature.description}</p>
+              </div>
             ))}
           </div>
+        </div>
+
+        {/* Additional Content */}
+        <div className="mt-16 bg-blue-50 rounded-xl p-8">
+          <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Our Commitment to Education</h2>
+          <p className="text-gray-600 text-center max-w-3xl mx-auto">
+            We believe that every student deserves access to high-quality education. Our team of experienced educators works tirelessly to create engaging, effective learning materials that help students achieve their full potential.
+          </p>
         </div>
       </div>
     </div>

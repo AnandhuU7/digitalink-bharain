@@ -7,7 +7,8 @@ import FeaturesSection from '@/components/FeaturesSection';
 import TestimonialSection from '@/components/SecuritySolution';
 import PricingSection from '@/components/OurBrand';
 import OurJourney from '@/components/OurJourney';
-import FeatureCarousel from '@/components/PartnersSection';
+import LogoScroll from '@/components/LogoScroll';
+import Faq from '@/components/Faq'
 
 
 export default function HomePage() {
@@ -15,11 +16,12 @@ export default function HomePage() {
     <div>
       <HeroSection />
       {/* <FeaturesSection /> */}
-      <FeatureCarousel/>
+      <LogoScroll/>
       <TestimonialSection/>
       <PricingSection/>
       <FeaturesSection/>
-      <OurJourney/>
+      <Faq/>
+
     </div>
   );
 }
