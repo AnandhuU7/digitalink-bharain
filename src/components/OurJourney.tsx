@@ -133,7 +133,7 @@ const TimelinePath: React.FC<{
     return (
       <svg width={width} height="87" viewBox="0 0 327 87" fill="none" preserveAspectRatio="none" style={{ display: 'block' }}>
         <path
-          d="M321 0.5V8.5C321 25.0685 307.569 38.5 291 38.5H36C19.4315 38.5 6 51.9315 6, 68.5V86.5"
+          d="M321 0.5V8.5C321 25.0685 307.569 38.5 291 38.5H36C19.4315 38.5 6  51.9315 6, 68.5V86.5"
           stroke={stroke}
           strokeWidth="12"
         />
@@ -154,22 +154,23 @@ const TimelinePath: React.FC<{
 
 const JourneyTimeline: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<JourneyItem | null>(JOURNEY_DATA[0]);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
 
-  // Check if mobile view on initial render and window resize
+  // Check if desktop view on initial render and window resize
   React.useEffect(() => {
-    const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+    const checkIsDesktop = () => {
+      // Only desktop view for screens >= 1366px (larger than iPad Pro)
+      setIsDesktop(window.innerWidth >= 1366);
     };
     
     // Initial check
-    checkIsMobile();
+    checkIsDesktop();
     
     // Add event listener
-    window.addEventListener('resize', checkIsMobile);
+    window.addEventListener('resize', checkIsDesktop);
     
     // Cleanup
-    return () => window.removeEventListener('resize', checkIsMobile);
+    return () => window.removeEventListener('resize', checkIsDesktop);
   }, []);
 
   const getPathColor = (status: string) => {
@@ -233,16 +234,15 @@ const JourneyTimeline: React.FC = () => {
     }
   };
 
-  // Mobile view - simplified vertical timeline
-  if (isMobile) {
+  // Mobile view - simplified vertical timeline (used for all non-desktop devices)
+  if (!isDesktop) {
     return (
       <div style={{ 
         width: '100%', 
         maxWidth: '1200px', 
         margin: '0 auto', 
         backgroundColor: '#FFFFFF',
-        minHeight: '100vh',
-        padding: '20px 15px',
+        padding: '20px 15px 30px', 
         display: 'flex',
         flexDirection: 'column'
       }}>
@@ -251,13 +251,13 @@ const JourneyTimeline: React.FC = () => {
           color: '#1e3a8a', 
           fontSize: '24px', 
           fontWeight: '700',
-          marginBottom: '25px',
+          marginBottom: '20px', 
           fontFamily: 'system-ui, -apple-system, sans-serif'
         }}>
           Our Journey Timeline
         </h1>
         
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {JOURNEY_DATA.map((item, index) => (
             <div 
               key={`mobile-item-${index}`}
@@ -268,6 +268,8 @@ const JourneyTimeline: React.FC = () => {
                 border: selectedItem?.day === item.day ? '2px solid #1e3a8a' : '1px solid #e2e8f0',
                 transition: 'transform 0.2s, box-shadow 0.2s',
                 transform: selectedItem?.day === item.day ? 'scale(1.02)' : 'scale(1)',
+                // Removed extra margin at the bottom of last item
+                marginBottom: index === JOURNEY_DATA.length - 1 ? '0' : '0'
               }}
             >
               <button 
@@ -354,12 +356,12 @@ const JourneyTimeline: React.FC = () => {
                   backgroundColor: '#f8fafc',
                   padding: '15px'
                 }}>
-                  <div style={{ marginBottom: '15px' }}>
+                  <div style={{ marginBottom: '12px' }}>
                     <h3 style={{ 
                       color: '#1e3a8a', 
                       fontSize: '14px', 
                       fontWeight: '700',
-                      margin: '0 0 8px 0',
+                      margin: '0 0 6px 0', 
                       fontFamily: 'system-ui, -apple-system, sans-serif'
                     }}>
                       Overview
@@ -375,12 +377,12 @@ const JourneyTimeline: React.FC = () => {
                     </p>
                   </div>
                   
-                  <div style={{ marginBottom: '15px' }}>
+                  <div style={{ marginBottom: '12px' }}> 
                     <h3 style={{ 
                       color: '#1e3a8a', 
                       fontSize: '14px', 
                       fontWeight: '700',
-                      margin: '0 0 8px 0',
+                      margin: '0 0 6px 0', 
                       fontFamily: 'system-ui, -apple-system, sans-serif'
                     }}>
                       Key Achievements
@@ -394,19 +396,19 @@ const JourneyTimeline: React.FC = () => {
                       fontFamily: 'system-ui, -apple-system, sans-serif'
                     }}>
                       {item.metadata.achievements.map((achievement, idx) => (
-                        <li key={idx} style={{ marginBottom: '5px' }}>
+                        <li key={idx} style={{ marginBottom: '4px' }}> 
                           {achievement}
                         </li>
                       ))}
                     </ul>
                   </div>
                   
-                  <div style={{ marginBottom: '15px' }}>
+                  <div style={{ marginBottom: '12px' }}> 
                     <h3 style={{ 
                       color: '#1e3a8a', 
                       fontSize: '14px', 
                       fontWeight: '700',
-                      margin: '0 0 8px 0',
+                      margin: '0 0 6px 0', 
                       fontFamily: 'system-ui, -apple-system, sans-serif'
                     }}>
                       Impact
@@ -425,7 +427,8 @@ const JourneyTimeline: React.FC = () => {
                   <div style={{
                     display: 'flex',
                     justifyContent: 'space-between',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    marginTop: '5px' 
                   }}>
                     <span style={{
                       padding: '4px 10px',

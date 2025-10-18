@@ -121,10 +121,10 @@ const LogoScroll: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile */}
+      {/* Mobile - Width increased from 320px to 360px */}
       <div 
         className="block md:hidden overflow-hidden bg-gradient-to-br from-blue-950 via-blue-900 to-blue-800 rounded-l-2xl rounded-r-2xl" 
-        style={{ width: '320px', height: '60px' }}
+        style={{ width: '360px', height: '60px' }}
       >
         <div className="flex h-full">
           {/* Left side text */}
