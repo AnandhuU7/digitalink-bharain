@@ -15,6 +15,7 @@ export default function Navbar() {
   const [isMobileSolutionsOpen, setIsMobileSolutionsOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
   const solutionsRef = useRef<HTMLDivElement>(null);
+  const solutionsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Ensure component is mounted before rendering interactive elements
   useEffect(() => {
@@ -120,6 +121,20 @@ export default function Navbar() {
     }
   };
 
+  // Handle solutions dropdown hover
+  const handleSolutionsMouseEnter = () => {
+    if (solutionsTimeoutRef.current) {
+      clearTimeout(solutionsTimeoutRef.current);
+    }
+    setIsSolutionsOpen(true);
+  };
+
+  const handleSolutionsMouseLeave = () => {
+    solutionsTimeoutRef.current = setTimeout(() => {
+      setIsSolutionsOpen(false);
+    }, 200);
+  };
+
   return (
     <header
       className={`sticky top-0 z-50 transition-all duration-300 relative ${isScrolled
@@ -177,9 +192,12 @@ export default function Navbar() {
                 ref={link.hasDropdown ? solutionsRef : null}
               >
                 {link.hasDropdown ? (
-                  <div>
-                    <button
-                      onClick={() => setIsSolutionsOpen(!isSolutionsOpen)}
+                  <div
+                    onMouseEnter={handleSolutionsMouseEnter}
+                    onMouseLeave={handleSolutionsMouseLeave}
+                  >
+                    <Link
+                      href={link.href}
                       className={`relative group font-semibold text-lg transition-colors duration-300 py-2 px-1 flex items-center gap-1 ${pathname.startsWith(link.href)
                           ? (isScrolled ? 'text-blue-600' : 'text-blue-500')
                           : (isScrolled ? 'text-gray-600 hover:text-blue-600' : 'text-gray-700 hover:text-blue-500')
@@ -191,7 +209,7 @@ export default function Navbar() {
                           ? (isScrolled ? 'bg-blue-600 scale-x-100' : 'bg-blue-500 scale-x-100')
                           : (isScrolled ? 'bg-blue-600 scale-x-0 group-hover:scale-x-100' : 'bg-blue-500 scale-x-0 group-hover:scale-x-100')
                         }`}></span>
-                    </button>
+                    </Link>
                     
                     {/* Dropdown Menu */}
                     <AnimatePresence>
@@ -202,6 +220,8 @@ export default function Navbar() {
                           exit={{ opacity: 0, y: -10 }}
                           transition={{ duration: 0.2 }}
                           className="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden"
+                          onMouseEnter={handleSolutionsMouseEnter}
+                          onMouseLeave={handleSolutionsMouseLeave}
                         >
                           {solutionsLinks.map((subLink, subIndex) => (
                             <Link
@@ -365,8 +385,9 @@ export default function Navbar() {
                     >
                       {link.hasDropdown ? (
                         <div>
-                          <button
-                            onClick={() => setIsMobileSolutionsOpen(!isMobileSolutionsOpen)}
+                          <Link
+                            href={link.href}
+                            onClick={() => setIsMenuOpen(false)}
                             className={`flex items-center justify-between w-full space-x-3 px-5 py-4 rounded-xl mb-2 text-base font-medium ${pathname.startsWith(link.href)
                                 ? 'bg-blue-600 text-white shadow-md'
                                 : 'text-gray-700 hover:bg-blue-50'
@@ -383,8 +404,16 @@ export default function Navbar() {
                               </div>
                               <span>{link.label}</span>
                             </div>
-                            <FaChevronDown className={`text-xs transition-transform duration-300 ${isMobileSolutionsOpen ? 'rotate-180' : ''}`} />
-                          </button>
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setIsMobileSolutionsOpen(!isMobileSolutionsOpen);
+                              }}
+                              className="p-1"
+                            >
+                              <FaChevronDown className={`text-xs transition-transform duration-300 ${isMobileSolutionsOpen ? 'rotate-180' : ''}`} />
+                            </button>
+                          </Link>
                           
                           {/* Mobile Dropdown */}
                           <AnimatePresence>
