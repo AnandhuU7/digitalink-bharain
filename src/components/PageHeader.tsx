@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaCode, FaCloud, FaMobile, FaChartLine, FaShieldAlt, FaUsers, FaArrowRight, FaCheck } from 'react-icons/fa';
 import { IconType } from 'react-icons';
+import { FaCheck } from 'react-icons/fa';
 
 interface Slide {
   title: string;
@@ -16,42 +16,24 @@ interface Feature {
   desc: string;
 }
 
-export default function HeroSection() {
+interface PageHeaderProps {
+  slides: Slide[];
+  benefits: string[];
+  features: Feature[];
+  ctaText?: string;
+  ctaIcon?: IconType;
+}
+
+export default function PageHeader({
+  slides,
+  benefits,
+  features,
+  ctaText = "Get Started",
+  ctaIcon: CtaIcon
+}: PageHeaderProps) {
   const [currentFeature, setCurrentFeature] = useState<number>(0);
-  const [emailFocused, setEmailFocused] = useState<boolean>(false);
   const [activeSlide] = useState<number>(0);
   const [isMounted, setIsMounted] = useState<boolean>(false);
-
-  const slides: Slide[] = [
-    {
-      title: "Web Development",
-      subtitle: "Custom solutions that drive results"
-    },
-    {
-      title: "Mobile Apps",
-      subtitle: "Native & cross-platform excellence"
-    },
-    {
-      title: "Cloud Solutions",
-      subtitle: "Scalable infrastructure for growth"
-    }
-  ];
-
-  const benefits: string[] = [
-    "Lightning-fast delivery",
-    "24/7 dedicated support",
-    "Scalable architecture",
-    "Enterprise security"
-  ];
-
-  const features: Feature[] = [
-    { icon: FaCode, title: "Custom Development", desc: "Tailored solutions" },
-    { icon: FaCloud, title: "Cloud Integration", desc: "Scalable infrastructure" },
-    { icon: FaMobile, title: "Mobile First", desc: "Responsive design" },
-    { icon: FaChartLine, title: "Analytics", desc: "Data-driven insights" },
-    { icon: FaShieldAlt, title: "Security", desc: "Enterprise-grade" },
-    { icon: FaUsers, title: "Support", desc: "24/7 assistance" }
-  ];
 
   useEffect(() => {
     setIsMounted(true);
@@ -70,12 +52,11 @@ export default function HeroSection() {
       <section className="relative bg-gradient-to-br from-blue-950 via-blue-900 to-blue-800 overflow-hidden">
         <div className="relative container mx-auto px-6 py-16 z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Simplified server-side render */}
             <div>
               <div className="inline-block px-4 py-2 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-full border border-blue-400/30 mb-6">
                 <span className="text-blue-300 text-sm font-semibold">{slides[activeSlide].title}</span>
               </div>
-              <h1 className="text-5xl lg:text-6xl font-black text-white mb-4 leading-tight">
+              <h1 className="text-4xl lg:text-5xl font-black text-white mb-4 leading-tight">
                 Transform Your
                 <span className="block mt-2">
                   <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
@@ -195,7 +176,7 @@ export default function HeroSection() {
               </motion.div>
             </AnimatePresence>
 
-            <h1 className="text-5xl lg:text-6xl font-black text-white mb-4 leading-tight">
+            <h1 className="text-4xl lg:text-5xl font-black text-white mb-4 leading-tight">
               Transform Your
               <span className="block mt-2">
                 <motion.span
@@ -241,36 +222,16 @@ export default function HeroSection() {
               ))}
             </div>
 
-            {/* Email signup form */}
-            <div className="flex flex-col sm:flex-row gap-3">
-              <div className="relative flex-1">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  onFocus={() => setEmailFocused(true)}
-                  onBlur={() => setEmailFocused(false)}
-                  className="w-full px-6 py-3 bg-blue-900/30 backdrop-blur-sm border-2 border-blue-700/50 rounded-full text-white placeholder-blue-300/50 focus:outline-none focus:border-blue-500 transition-all"
-                  suppressHydrationWarning
-                />
-                {emailFocused && (
-                  <motion.div
-                    className="absolute inset-0 rounded-full bg-blue-500/20 blur-xl"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                  />
-                )}
-              </div>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full text-white font-bold flex items-center justify-center gap-2 shadow-lg shadow-blue-500/50 hover:shadow-xl hover:shadow-blue-500/60 transition-all"
-                suppressHydrationWarning
-              >
-                Get Started
-                <FaArrowRight />
-              </motion.button>
-            </div>
+            {/* CTA button */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full text-white font-bold flex items-center justify-center gap-2 shadow-lg shadow-blue-500/50 hover:shadow-xl hover:shadow-blue-500/60 transition-all"
+              suppressHydrationWarning
+            >
+              {ctaText}
+              {CtaIcon && <CtaIcon />}
+            </motion.button>
 
           </motion.div>
 
@@ -283,7 +244,7 @@ export default function HeroSection() {
           >
             {/* Main feature card */}
             <div className="relative bg-gradient-to-br from-blue-500/20 to-blue-600/10 backdrop-blur-xl rounded-3xl p-8 border border-blue-400/30 shadow-2xl">
-              {/* Static border effect (removed rotation animation) */}
+              {/* Static border effect */}
               <div
                 className="absolute inset-0 rounded-3xl"
                 style={{

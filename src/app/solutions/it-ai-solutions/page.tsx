@@ -9,6 +9,9 @@ import { ReactElement, useState } from 'react';
 import web from '@/assets/Solution.jpg';
 import mobile from '@/assets/Building.jpg';
 
+// Import the dynamic PageHeader component
+import PageHeader from '@/components/PageHeader';
+
 interface Service {
   icon: ReactElement;
   title: string;
@@ -46,7 +49,6 @@ export default function ITAISolutionsPage() {
   const [hoveredService, setHoveredService] = useState<number | null>(null);
 
   // Refs for scroll animations
-  const heroRef = useRef(null);
   const aboutRef = useRef(null);
   const servicesRef = useRef(null);
   const processRef = useRef(null);
@@ -55,7 +57,6 @@ export default function ITAISolutionsPage() {
   const ctaRef = useRef(null);
 
   // InView hooks
-  const isHeroInView = useInView(heroRef, { once: true, amount: 0.3 });
   const isAboutInView = useInView(aboutRef, { once: true, amount: 0.3 });
   const isServicesInView = useInView(servicesRef, { once: true, amount: 0.1 });
   const isProcessInView = useInView(processRef, { once: true, amount: 0.1 });
@@ -238,97 +239,48 @@ export default function ITAISolutionsPage() {
     }
   ];
 
+  // Data for the dynamic PageHeader
+  const headerSlides = [
+    {
+      title: "IT & AI Solutions",
+      subtitle: "Expert technology solutions to transform your business"
+    },
+    {
+      title: "Web Development",
+      subtitle: "Custom websites that drive results"
+    },
+    {
+      title: "Digital Marketing",
+      subtitle: "Strategies to boost your online presence"
+    }
+  ];
+
+  const headerBenefits = [
+    "Cutting-Edge App Development",
+    "Responsive Web Development",
+    "Comprehensive SEO Strategy",
+    "Reliable Networking Solutions",
+    "AI-Driven Innovation",
+    "UAE Strategic Partnership"
+  ];
+
+  const headerFeatures = [
+    { icon: FaLaptopCode, title: "App Development", desc: "Custom solutions" },
+    { icon: FaMobileAlt, title: "Web Design", desc: "Responsive experiences" },
+    { icon: FaChartLine, title: "SEO & Marketing", desc: "Data-driven strategies" },
+    { icon: FaBrain, title: "AI Solutions", desc: "Intelligent automation" }
+  ];
+
   return (
     <>
-      {/* Hero Section */}
-      <div ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Background Image */}
-        <Image
-          src={web}
-          alt="IT & AI Solutions"
-          fill
-          className="object-cover"
-          sizes="100vw"
-        />
-        
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 via-blue-800/80 to-indigo-900/90"></div>
-        
-        {/* Geometric Pattern Overlay */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{ 
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")` 
-          }}></div>
-        </div>
-        
-        {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="text-center">
-            <motion.div
-              variants={fadeInUp}
-              initial="hidden"
-              animate={isHeroInView ? "visible" : "hidden"}
-            >
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-                Expert <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">IT & AI</span> Solutions in UAE
-              </h1>
-              <p className="text-xl text-blue-100 mb-10 max-w-3xl mx-auto">
-                Digital Link Technology provides cutting-edge technology solutions to transform your business and drive growth.
-              </p>
-            </motion.div>
-            
-            <motion.div 
-              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-4xl mx-auto mb-12"
-              variants={staggerContainer}
-              initial="hidden"
-              animate={isHeroInView ? "visible" : "hidden"}
-            >
-              {[
-                "Cutting-Edge App Development",
-                "Responsive Web Development",
-                "Comprehensive SEO Strategy",
-                "Reliable Networking Solutions",
-                "AI-Driven Innovation",
-                "UAE Strategic Partnership"
-              ].map((service, index) => (
-                <motion.div
-                  key={index}
-                  className="bg-blue-800/50 backdrop-blur-sm rounded-xl p-4 border border-blue-700"
-                  variants={fadeInUp}
-                  whileHover={{ y: -5, backgroundColor: "rgba(30, 64, 175, 0.7)" }}
-                >
-                  <span className="text-blue-100 text-sm font-medium block">{service}</span>
-                </motion.div>
-              ))}
-            </motion.div>
-            
-            <motion.div
-              variants={fadeInUp}
-              initial="hidden"
-              animate={isHeroInView ? "visible" : "hidden"}
-              transition={{ delay: 0.4 }}
-            >
-              <Link
-                href="/contact"
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-4 px-10 rounded-full transition-all duration-300 inline-flex items-center shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-              >
-                Get Started Today
-                <FaArrowRight className="ml-2" />
-              </Link>
-            </motion.div>
-            
-            <motion.div
-              className="mt-16 text-center"
-              variants={fadeInUp}
-              initial="hidden"
-              animate={isHeroInView ? "visible" : "hidden"}
-              transition={{ delay: 0.6 }}
-            >
-              <p className="text-blue-200 italic">"DIGITALLINK SEO & Web Developments Services"</p>
-            </motion.div>
-          </div>
-        </div>
-      </div>
+      {/* Dynamic PageHeader Section */}
+      <PageHeader 
+        slides={headerSlides}
+        benefits={headerBenefits}
+        features={headerFeatures}
+        ctaText="Get Started Today"
+        ctaIcon={FaArrowRight}
+      />
 
       {/* About Section */}
       <div ref={aboutRef} className="py-20 bg-gradient-to-br from-blue-50 to-indigo-50">

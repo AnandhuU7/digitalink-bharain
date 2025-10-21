@@ -4,14 +4,17 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
-import { FaBars, FaTimes, FaPhone, FaEnvelope } from 'react-icons/fa';
+import { FaBars, FaTimes, FaPhone, FaEnvelope, FaChevronDown } from 'react-icons/fa';
 
 export default function Navbar() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isSolutionsOpen, setIsSolutionsOpen] = useState(false);
+  const [isMobileSolutionsOpen, setIsMobileSolutionsOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
+  const solutionsRef = useRef<HTMLDivElement>(null);
 
   // Ensure component is mounted before rendering interactive elements
   useEffect(() => {
@@ -39,6 +42,9 @@ export default function Navbar() {
       if (navRef.current && !navRef.current.contains(event.target as Node)) {
         setIsMenuOpen(false);
       }
+      if (solutionsRef.current && !solutionsRef.current.contains(event.target as Node)) {
+        setIsSolutionsOpen(false);
+      }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
@@ -50,6 +56,7 @@ export default function Navbar() {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setIsMenuOpen(false);
+        setIsSolutionsOpen(false);
       }
     };
 
@@ -60,9 +67,16 @@ export default function Navbar() {
   const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/product', label: 'Products' },
-    { href: '/solutions', label: 'Solutions' },
+    { href: '/solutions', label: 'Solutions', hasDropdown: true },
     { href: '/aboutus', label: 'About' },
     { href: '/contact', label: 'Contact' },
+  ];
+
+  const solutionsLinks = [
+    { href: '/solutions/audio-visual-solutions', label: 'Audio Visual Solutions' },
+    { href: '/solutions/elv-company', label: 'ELV Company' },
+    { href: '/solutions/it-ai-solutions', label: 'IT AI Solutions' },
+    { href: '/solutions/surveillance-solutions', label: 'Surveillance Solutions' },
   ];
 
   // Animation variants for menu items
@@ -159,22 +173,69 @@ export default function Navbar() {
                 variants={menuItemVariants}
                 initial="hidden"
                 animate="visible"
-                whileHover={{ y: -2 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="relative"
+                ref={link.hasDropdown ? solutionsRef : null}
               >
-                <Link
-                  href={link.href}
-                  className={`relative group font-semibold text-lg transition-colors duration-300 py-2 px-1 ${pathname === link.href
-                      ? (isScrolled ? 'text-blue-600' : 'text-blue-500')
-                      : (isScrolled ? 'text-gray-600 hover:text-blue-600' : 'text-gray-700 hover:text-blue-500')
-                    }`}
-                >
-                  {link.label}
-                  <span className={`absolute -bottom-1 left-0 w-full h-0.5 transition-transform duration-300 ${pathname === link.href
-                      ? (isScrolled ? 'bg-blue-600 scale-x-100' : 'bg-blue-500 scale-x-100')
-                      : (isScrolled ? 'bg-blue-600 scale-x-0 group-hover:scale-x-100' : 'bg-blue-500 scale-x-0 group-hover:scale-x-100')
-                    }`}></span>
-                </Link>
+                {link.hasDropdown ? (
+                  <div>
+                    <button
+                      onClick={() => setIsSolutionsOpen(!isSolutionsOpen)}
+                      className={`relative group font-semibold text-lg transition-colors duration-300 py-2 px-1 flex items-center gap-1 ${pathname.startsWith(link.href)
+                          ? (isScrolled ? 'text-blue-600' : 'text-blue-500')
+                          : (isScrolled ? 'text-gray-600 hover:text-blue-600' : 'text-gray-700 hover:text-blue-500')
+                        }`}
+                    >
+                      {link.label}
+                      <FaChevronDown className={`text-xs transition-transform duration-300 ${isSolutionsOpen ? 'rotate-180' : ''}`} />
+                      <span className={`absolute -bottom-1 left-0 right-0 h-0.5 transition-transform duration-300 ${pathname.startsWith(link.href)
+                          ? (isScrolled ? 'bg-blue-600 scale-x-100' : 'bg-blue-500 scale-x-100')
+                          : (isScrolled ? 'bg-blue-600 scale-x-0 group-hover:scale-x-100' : 'bg-blue-500 scale-x-0 group-hover:scale-x-100')
+                        }`}></span>
+                    </button>
+                    
+                    {/* Dropdown Menu */}
+                    <AnimatePresence>
+                      {isSolutionsOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          transition={{ duration: 0.2 }}
+                          className="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden"
+                        >
+                          {solutionsLinks.map((subLink, subIndex) => (
+                            <Link
+                              key={subLink.href}
+                              href={subLink.href}
+                              onClick={() => setIsSolutionsOpen(false)}
+                              className={`block px-4 py-3 text-sm font-medium transition-colors duration-200 ${
+                                pathname === subLink.href
+                                  ? 'bg-blue-50 text-blue-600'
+                                  : 'text-gray-700 hover:bg-gray-50'
+                              }`}
+                            >
+                              {subLink.label}
+                            </Link>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                ) : (
+                  <Link
+                    href={link.href}
+                    className={`relative group font-semibold text-lg transition-colors duration-300 py-2 px-1 ${pathname === link.href
+                        ? (isScrolled ? 'text-blue-600' : 'text-blue-500')
+                        : (isScrolled ? 'text-gray-600 hover:text-blue-600' : 'text-gray-700 hover:text-blue-500')
+                      }`}
+                  >
+                    {link.label}
+                    <span className={`absolute -bottom-1 left-0 w-full h-0.5 transition-transform duration-300 ${pathname === link.href
+                        ? (isScrolled ? 'bg-blue-600 scale-x-100' : 'bg-blue-500 scale-x-100')
+                        : (isScrolled ? 'bg-blue-600 scale-x-0 group-hover:scale-x-100' : 'bg-blue-500 scale-x-0 group-hover:scale-x-100')
+                      }`}></span>
+                  </Link>
+                )}
               </motion.div>
             ))}
           </nav>
@@ -302,41 +363,97 @@ export default function Navbar() {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      <Link
-                        href={link.href}
-                        className={`flex items-center space-x-3 px-5 py-4 rounded-xl mb-2 text-base font-medium ${pathname === link.href
-                            ? 'bg-blue-600 text-white shadow-md'
-                            : 'text-gray-700 hover:bg-blue-50'
-                          }`}
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        <div className={`p-2 rounded-lg ${pathname === link.href ? 'bg-white/20' : 'bg-blue-100 text-blue-600'
-                          }`}>
-                          <div className="w-5 h-5 flex items-center justify-center">
-                            {link.label === 'Home' && (
-                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                              </svg>
+                      {link.hasDropdown ? (
+                        <div>
+                          <button
+                            onClick={() => setIsMobileSolutionsOpen(!isMobileSolutionsOpen)}
+                            className={`flex items-center justify-between w-full space-x-3 px-5 py-4 rounded-xl mb-2 text-base font-medium ${pathname.startsWith(link.href)
+                                ? 'bg-blue-600 text-white shadow-md'
+                                : 'text-gray-700 hover:bg-blue-50'
+                              }`}
+                          >
+                            <div className="flex items-center space-x-3">
+                              <div className={`p-2 rounded-lg ${pathname.startsWith(link.href) ? 'bg-white/20' : 'bg-blue-100 text-blue-600'
+                                }`}>
+                                <div className="w-5 h-5 flex items-center justify-center">
+                                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                                  </svg>
+                                </div>
+                              </div>
+                              <span>{link.label}</span>
+                            </div>
+                            <FaChevronDown className={`text-xs transition-transform duration-300 ${isMobileSolutionsOpen ? 'rotate-180' : ''}`} />
+                          </button>
+                          
+                          {/* Mobile Dropdown */}
+                          <AnimatePresence>
+                            {isMobileSolutionsOpen && (
+                              <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                exit={{ opacity: 0, height: 0 }}
+                                transition={{ duration: 0.3 }}
+                                className="ml-4 mb-2 overflow-hidden"
+                              >
+                                {solutionsLinks.map((subLink) => (
+                                  <Link
+                                    key={subLink.href}
+                                    href={subLink.href}
+                                    className={`flex items-center px-5 py-3 rounded-lg mb-1 text-sm font-medium ${
+                                      pathname === subLink.href
+                                        ? 'bg-blue-50 text-blue-600'
+                                        : 'text-gray-600 hover:bg-gray-50'
+                                    }`}
+                                    onClick={() => {
+                                      setIsMenuOpen(false);
+                                      setIsMobileSolutionsOpen(false);
+                                    }}
+                                  >
+                                    {subLink.label}
+                                  </Link>
+                                ))}
+                              </motion.div>
                             )}
-                            {link.label === 'About' && (
-                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                              </svg>
-                            )}
-                            {link.label === 'Services' && (
-                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                              </svg>
-                            )}
-                            {link.label === 'Contact' && (
-                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                              </svg>
-                            )}
-                          </div>
+                          </AnimatePresence>
                         </div>
-                        <span>{link.label}</span>
-                      </Link>
+                      ) : (
+                        <Link
+                          href={link.href}
+                          className={`flex items-center space-x-3 px-5 py-4 rounded-xl mb-2 text-base font-medium ${pathname === link.href
+                              ? 'bg-blue-600 text-white shadow-md'
+                              : 'text-gray-700 hover:bg-blue-50'
+                            }`}
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          <div className={`p-2 rounded-lg ${pathname === link.href ? 'bg-white/20' : 'bg-blue-100 text-blue-600'
+                            }`}>
+                            <div className="w-5 h-5 flex items-center justify-center">
+                              {link.label === 'Home' && (
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                                </svg>
+                              )}
+                              {link.label === 'About' && (
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                              )}
+                              {link.label === 'Products' && (
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                                </svg>
+                              )}
+                              {link.label === 'Contact' && (
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                              )}
+                            </div>
+                          </div>
+                          <span>{link.label}</span>
+                        </Link>
+                      )}
                     </motion.div>
                   ))}
 
