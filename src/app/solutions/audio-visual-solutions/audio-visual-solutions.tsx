@@ -34,9 +34,7 @@ interface ProjectType {
 
 interface Capability {
   title: string;
-  description: string;
-  icon: React.ReactElement;
-  gradient: string;
+  image: any;
 }
 
 interface Technology {
@@ -499,12 +497,10 @@ export default function AVSolutionPage() {
                           transition: { duration: 0.5, ease: "easeOut" }
                         }}
                       />
-                      <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-                    </div>
-                    <div className="p-6">
-                      <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-800 transition-colors text-center">
-                        {capability.title}
-                      </h3>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      <div className="absolute bottom-0 left-0 p-4 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-x-[-20px] group-hover:translate-x-0">
+                        <h3 className="text-xl font-bold text-white">{capability.title}</h3>
+                      </div>
                     </div>
                   </div>
                 </motion.div>
