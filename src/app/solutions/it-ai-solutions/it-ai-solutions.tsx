@@ -196,19 +196,13 @@ export default function ITAISolutions() {
     }
   ];
 
-  // Data for the dynamic PageHeader
+  // Data for the dynamic PageHeader - Single slide for IT & AI Solutions page
   const headerSlides = [
     {
       title: "IT & AI Solutions",
-      subtitle: "Expert technology solutions to transform your business"
-    },
-    {
-      title: "Web Development",
-      subtitle: "Custom websites that drive results"
-    },
-    {
-      title: "Digital Marketing",
-      subtitle: "Strategies to boost your online presence"
+      subtitle: "Transform your business with cutting-edge technology and artificial intelligence solutions",
+      headingPart1: "Transform Your",
+      headingPart2: "Digital Business"
     }
   ];
 

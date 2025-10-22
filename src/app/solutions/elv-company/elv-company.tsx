@@ -40,14 +40,9 @@ interface Statistic {
 }
 
 interface WhyChooseItem {
-  title: string;
-}
-
-interface SolutionCategory {
+  icon: ReactElement;
   title: string;
   description: string;
- solutions: string[];
-
 }
 
 export default function ELVCompanyPage() {
@@ -171,33 +166,36 @@ export default function ELVCompanyPage() {
     }
   ];
 
-  const whyChooseCategories: SolutionCategory[] = [
+  const whyChooseItems = [
     {
-      title: "Why Choose Us",
-      description: "At Digitallink, we pride ourselves on delivering exceptional elevator solutions that combine innovation, safety, and reliability.",
-      solutions: [
-        "Unparalleled Expertise: Years of experience ensuring precision and dedication.",
-        "Cutting-Edge Technology: Latest elevator technology for smooth transportation.",
-        "Safety First: International and local safety standards prioritized.",
-        "Customized Solutions: Bespoke elevator systems tailored to each project.",
-        "Reliable After-sales Service: Robust maintenance ensuring seamless operations.",
-      ],
+      title: "Unparalleled Expertise",
+      description: "Years of experience ensuring precision and dedication"
     },
+    {
+      title: "Cutting-Edge Technology",
+      description: "Latest elevator technology for smooth transportation"
+    },
+    {
+      title: "Safety First",
+      description: "International and local safety standards prioritized"
+    },
+    {
+      title: "Customized Solutions",
+      description: "Bespoke elevator systems tailored to each project"
+    },
+    {
+      title: "Reliable After-sales Service",
+      description: "Robust maintenance ensuring seamless operations"
+    }
   ];
 
-  // Data for the dynamic PageHeader
+  // Data for the dynamic PageHeader - Single slide for ELV Company page
   const headerSlides = [
     {
-      title: "Discover the Pinnacle of Vertical Transportation",
-      subtitle: "At Digitallink, we blend cutting-edge technology with innovative design to elevate Bahrain's vertical transportation standards"
-    },
-    {
-      title: "Ascent with Our Expertise",
-      subtitle: "Experience the perfect combination of safety, luxury, and efficiency, redefining the way you move"
-    },
-    {
-      title: "Elevating Bahrain's Skyline",
-      subtitle: "Premium vertical transportation solutions for modern buildings"
+      title: "Professional ELV Solutions",
+      subtitle: "Complete Extra Low Voltage solutions for modern building infrastructure and vertical transportation",
+      headingPart1: "Elevate Your",
+      headingPart2: "Building Infrastructure"
     }
   ];
 
@@ -352,87 +350,79 @@ export default function ELVCompanyPage() {
             className="overflow-hidden"
           >
             <div className="space-y-8 md:space-y-12 lg:space-y-16 overflow-hidden">
-              {whyChooseCategories.map((category, index) => (
+              <motion.div
+                className="grid lg:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-center overflow-hidden"
+                variants={fadeInUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+              >
+                {/* Content on Left */}
                 <motion.div
-                  key={index}
-                  className={`grid lg:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-center overflow-hidden ${
-                    index % 2 === 1 ? "lg:grid-flow-col-dense" : ""
-                  }`}
-                  variants={fadeInUp}
+                  className="space-y-4 md:space-y-6 overflow-hidden"
                   initial="hidden"
                   whileInView="visible"
+                  variants={slideInLeft}
                   viewport={{ once: true, amount: 0.3 }}
                 >
-                  {/* Content for Why Choose Us - Left Side */}
-                  <motion.div
-                    className={`space-y-4 md:space-y-6 overflow-hidden ${
-                      index % 2 === 1 ? "lg:col-start-2" : ""
-                    }`}
-                    initial="hidden"
-                    whileInView="visible"
-                    variants={slideInLeft}
-                    viewport={{ once: true, amount: 0.3 }}
-                  >
-                    <div className="overflow-hidden">
-                      <motion.h3
-                        className="text-2xl md:text-3xl font-bold text-gray-900 mb-2 md:mb-4"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3 }}
-                        viewport={{ once: true }}
-                      >
-                        {category.title}
-                      </motion.h3>
-                      <motion.p
-                        className="text-sm md:text-base lg:text-lg text-gray-600"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.4 }}
-                        viewport={{ once: true }}
-                      >
-                        {category.description}
-                      </motion.p>
-                    </div>
-
-                    <motion.div
-                      className="space-y-2 md:space-y-3 overflow-hidden"
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      transition={{ delay: 0.5 }}
+                  <div className="overflow-hidden">
+                    <motion.h3
+                      className="text-2xl md:text-3xl font-bold text-gray-900 mb-2 md:mb-4"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 }}
                       viewport={{ once: true }}
                     >
-                      {category.solutions.map((solution, idx) => (
-                        <motion.div
-                          key={idx}
-                          className="flex items-center overflow-hidden"
-                          initial={{ opacity: 0, x: -20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.6 + idx * 0.1 }}
-                          viewport={{ once: true }}
-                        >
-                          <FaCheck className="w-4 h-4 md:w-5 md:h-5 text-blue-500 mr-2 md:mr-3 flex-shrink-0" />
-                          <span className="text-sm md:text-base text-gray-700">
-                            {solution}
-                          </span>
-                        </motion.div>
-                      ))}
-                    </motion.div>
-                  </motion.div>
+                      Why Choose Digitallink Bahrain
+                    </motion.h3>
+                    <motion.p
+                      className="text-sm md:text-base lg:text-lg text-gray-600"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.4 }}
+                      viewport={{ once: true }}
+                    >
+                      At Digitallink, we pride ourselves on delivering exceptional elevator solutions that combine innovation, safety, and reliability.
+                    </motion.p>
+                  </div>
 
-                  {/* Image for Why Choose Us - Right Side */}
                   <motion.div
-                    className={`overflow-hidden ${
-                      index % 2 === 1 ? "lg:col-start-1" : ""
-                    }`}
-                    initial="hidden"
-                    whileInView="visible"
-                    variants={slideInRight}
-                    viewport={{ once: true, amount: 0.3 }}
+                    className="space-y-2 md:space-y-3 overflow-hidden"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ delay: 0.5 }}
+                    viewport={{ once: true }}
                   >
-                    <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+                    {whyChooseItems.map((item, idx) => (
+                      <motion.div
+                        key={idx}
+                        className="flex items-center overflow-hidden"
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.6 + idx * 0.1 }}
+                        viewport={{ once: true }}
+                      >
+                        <FaCheck className="w-4 h-4 md:w-5 md:h-5 text-blue-500 mr-2 md:mr-3 flex-shrink-0" />
+                        <span className="text-sm md:text-base text-gray-700">
+                          <strong>{item.title}:</strong> {item.description}
+                        </span>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                </motion.div>
+
+                {/* Image on Right */}
+                <motion.div
+                  className="overflow-hidden"
+                  initial="hidden"
+                  whileInView="visible"
+                  variants={slideInRight}
+                  viewport={{ once: true, amount: 0.3 }}
+                >
+                  <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                     <Image 
                       src={rightimage}
-                      alt="Professional Elevator Services"
+                      alt="Why Choose Digitallink"
                       className="w-full h-48 md:h-64 lg:h-80 object-cover"
                       width={800}
                       height={450}
@@ -441,10 +431,8 @@ export default function ELVCompanyPage() {
                     {/* Overlay gradient for better text readability */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                   </div>
-                   
-                  </motion.div>
                 </motion.div>
-              ))}
+              </motion.div>
             </div>
           </motion.div>
         </div>

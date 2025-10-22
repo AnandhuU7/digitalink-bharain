@@ -8,6 +8,8 @@ import { FaCheck } from 'react-icons/fa';
 interface Slide {
   title: string;
   subtitle: string;
+  headingPart1: string;
+  headingPart2: string;
 }
 
 interface Feature {
@@ -32,7 +34,7 @@ export default function PageHeader({
   ctaIcon: CtaIcon
 }: PageHeaderProps) {
   const [currentFeature, setCurrentFeature] = useState<number>(0);
-  const [activeSlide] = useState<number>(0);
+  const [activeSlide, setActiveSlide] = useState<number>(0);
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
   useEffect(() => {
@@ -41,10 +43,11 @@ export default function PageHeader({
 
   useEffect(() => {
     const interval = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % slides.length);
       setCurrentFeature((prev) => (prev + 1) % features.length);
     }, 3000);
     return () => clearInterval(interval);
-  }, [features.length]);
+  }, [slides.length, features.length]);
 
   // Prevent hydration mismatch by using useEffect for browser-only code
   if (!isMounted) {
@@ -57,10 +60,10 @@ export default function PageHeader({
                 <span className="text-blue-300 text-sm font-semibold">{slides[activeSlide].title}</span>
               </div>
               <h1 className="text-4xl lg:text-5xl font-black text-white mb-4 leading-tight">
-                Transform Your
+                {slides[activeSlide].headingPart1}
                 <span className="block mt-2">
                   <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                    Digital Future
+                    {slides[activeSlide].headingPart2}
                   </span>
                 </span>
               </h1>
@@ -176,21 +179,30 @@ export default function PageHeader({
               </motion.div>
             </AnimatePresence>
 
-            <h1 className="text-4xl lg:text-5xl font-black text-white mb-4 leading-tight">
-              Transform Your
-              <span className="block mt-2">
-                <motion.span
-                  className="bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent"
-                  animate={{
-                    backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-                  }}
-                  transition={{ duration: 5, repeat: Infinity }}
-                  style={{ backgroundSize: '200% 200%' }}
-                >
-                  Digital Future
-                </motion.span>
-              </span>
-            </h1>
+            <AnimatePresence mode="wait">
+              <motion.h1
+                key={activeSlide}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
+                className="text-4xl lg:text-5xl font-black text-white mb-4 leading-tight"
+              >
+                {slides[activeSlide].headingPart1}
+                <span className="block mt-2">
+                  <motion.span
+                    className="bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent"
+                    animate={{
+                      backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+                    }}
+                    transition={{ duration: 5, repeat: Infinity }}
+                    style={{ backgroundSize: '200% 200%' }}
+                  >
+                    {slides[activeSlide].headingPart2}
+                  </motion.span>
+                </span>
+              </motion.h1>
+            </AnimatePresence>
 
             <AnimatePresence mode="wait">
               <motion.p

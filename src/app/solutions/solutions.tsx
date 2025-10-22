@@ -209,11 +209,13 @@ export default function Solutions() {
     }
   ];
 
-  // Data for PageHeader component
+  // Data for PageHeader component - Single slide for Solutions page
   const headerSlides = [
     { 
-      title: "Our Solutions", 
-      subtitle: "Comprehensive technology solutions tailored for every industry and business need." 
+      title: "Our Comprehensive Solutions", 
+      subtitle: "Complete technology solutions tailored for every industry and business need",
+      headingPart1: "Discover Our",
+      headingPart2: "Complete Solutions"
     }
   ];
 
