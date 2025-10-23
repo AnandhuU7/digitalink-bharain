@@ -3,6 +3,8 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
+import Image from 'next/image';
+import web from "@/assets/Building.jpg"
 
 
 interface SecuritySolution {
@@ -10,7 +12,7 @@ interface SecuritySolution {
   title: string;
   category: string;
   description: string;
-  image: string;
+  image: any;
 }
 
 const securitySolutions: SecuritySolution[] = [
@@ -19,28 +21,28 @@ const securitySolutions: SecuritySolution[] = [
     title: "Home Security Solutions",
     category: "Residential",
     description: "Comprehensive security systems designed to protect your home and family with 24/7 monitoring",
-    image: "https://images.unsplash.com/photo-1558002038-1055e2e9e744?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+    image: web
   },
   {
     id: 2,
     title: "Business Security Solutions",
     category: "Commercial",
     description: "Advanced surveillance systems tailored for businesses of all sizes with AI-powered analytics",
-    image: "https://images.unsplash.com/photo-1559028006-44a2761dd3d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+    image: web
   },
   {
     id: 3,
     title: "Industrial Security Solutions",
     category: "Industrial",
     description: "Robust surveillance systems designed for harsh industrial environments and large facilities",
-    image: "https://images.unsplash.com/photo-1581094794329-c8112a348e58?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+    image: web
   },
   {
     id: 4,
     title: "Smart City Solutions",
     category: "Municipal",
     description: "Integrated security systems for smart city initiatives and urban surveillance",
-    image: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+    image: web
   }
 ];
 
@@ -132,12 +134,11 @@ export default function SolutionsSection() {
               >
                 {/* Solution Image */}
                 <div className="h-48 relative overflow-hidden">
-                  <motion.img 
+                  <Image 
                     src={solution.image}
                     alt={solution.title}
                     className="w-full h-full object-cover"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.5 }}
+                    fill
                   />
                   
                   {/* Category Badge */}
@@ -155,25 +156,6 @@ export default function SolutionsSection() {
             ))}
           </AnimatePresence>
         </div>
-        
-        {/* CTA Button */}
-        <motion.div 
-          className="text-center mt-16"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4, duration: 0.3, ease: "easeOut" }}
-        >
-          <motion.button
-            className="bg-white text-blue-700 hover:bg-gray-50 px-8 py-4 rounded-lg font-bold text-lg transition-all duration-300 inline-flex items-center shadow-lg group border border-blue-200"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            Explore All Solutions
-            <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </motion.button>
-        </motion.div>
       </div>
     </section>
   );

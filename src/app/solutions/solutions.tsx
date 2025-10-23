@@ -209,22 +209,22 @@ export default function Solutions() {
     { 
       icon: FaLaptopCode, 
       title: 'IT & AI Solutions', 
-      desc: 'Custom marketing ensuring real measurable ROI through advanced technology and AI-driven strategies.' 
+      desc: 'AI-driven' 
     },
     { 
       icon: FaCogs, 
       title: 'System Integrations', 
-      desc: 'Optimizing search results to attract new customers and retain existing ones through seamless integrations.' 
+      desc: 'Seamless connections' 
     },
     { 
       icon: FaBullhorn, 
       title: 'Audio & Visual Solutions', 
-      desc: 'Reaching your target audience directly through personalized multimedia experiences' 
+      desc: 'Immersive media' 
     },
     { 
       icon: FaShieldAlt, 
       title: 'Surveillance Solutions', 
-      desc: 'Custom security solutions ensuring real measurable ROI through advanced monitoring systems.' 
+      desc: 'Advanced security' 
     }
   ];
 

@@ -137,22 +137,22 @@ export default function ContactPage() {
     { 
       icon: FaMapMarkerAlt, 
       title: 'Visit Our Office', 
-      desc: 'Come visit us at our headquarters in Manama, Bahrain.' 
+      desc: 'Manama location' 
     },
     { 
       icon: FaPhone, 
       title: 'Call Us', 
-      desc: 'Speak directly with our team during business hours.' 
+      desc: 'Direct support' 
     },
     { 
       icon: FaEnvelope, 
       title: 'Email Us', 
-      desc: 'Send us your inquiries and we\'ll respond promptly.' 
+      desc: 'Prompt response' 
     },
     { 
       icon: FaClock, 
       title: 'Working Hours', 
-      desc: 'Monday to Friday, 9:00 AM to 6:00 PM.' 
+      desc: 'Mon-Fri 9-6' 
     }
   ];
 
@@ -168,8 +168,8 @@ export default function ContactPage() {
       />
 
       {/* Contact Content */}
-      <div className="py-16 bg-gradient-to-br from-gray-50 to-white min-h-screen">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="py-16 bg-gradient-to-br from-gray-50 to-white min-h-screen overflow-x-hidden">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           {/* Main Content Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Left Column - Contact Form */}

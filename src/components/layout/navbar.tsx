@@ -71,6 +71,7 @@ export default function Navbar() {
     { href: '/solutions', label: 'Solutions', hasDropdown: true },
     { href: '/aboutus', label: 'About' },
     { href: '/contact', label: 'Contact' },
+    { href: '/blogs', label: 'Blogs' },
   ];
 
   const solutionsLinks = [
