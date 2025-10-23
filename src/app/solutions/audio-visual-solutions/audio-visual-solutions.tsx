@@ -1,10 +1,9 @@
 'use client'
-import { motion, useInView, Variants } from 'framer-motion';
-import { useRef, useState } from 'react';
-import { 
-  FaVideo, FaVolumeUp, FaDesktop, FaProjectDiagram, FaArrowRight, 
-  FaPlug, FaUsers, FaChartLine, FaLightbulb, FaMicrophone, FaTv,
-  FaNetworkWired, FaBullhorn, FaCamera, FaPlayCircle
+import { motion, Variants } from 'framer-motion';
+import { useState } from 'react';
+import {
+  FaVideo, FaVolumeUp, FaDesktop, FaProjectDiagram, FaArrowRight,
+  FaPlug, FaUsers, FaChartLine, FaLightbulb, FaBullhorn
 } from 'react-icons/fa';
 import PageHeader from '@/components/PageHeader';
 import SolutionFAQ from '@/components/SolutionFAQ';
@@ -32,10 +31,7 @@ interface ProjectType {
   icon: React.ReactElement;
 }
 
-interface Capability {
-  title: string;
-  image: any;
-}
+
 
 interface Technology {
   title: string;
@@ -47,51 +43,39 @@ export default function AVSolutionPage() {
   const [activeCard, setActiveCard] = useState(0);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
-  const servicesRef = useRef(null);
-  const projectsRef = useRef(null);
-  const capabilitiesRef = useRef(null);
-  const conferenceRef = useRef(null);
-  const techRef = useRef(null);
-
-  const isServicesInView = useInView(servicesRef, { once: true, amount: 0.3 });
-  const isProjectsInView = useInView(projectsRef, { once: true, amount: 0.3 });
-  const isCapabilitiesInView = useInView(capabilitiesRef, { once: true, amount: 0.2 });
-  const isConferenceInView = useInView(conferenceRef, { once: true, amount: 0.3 });
-  const isTechInView = useInView(techRef, { once: true, amount: 0.3 });
 
   const fadeInUp: Variants = {
     hidden: { opacity: 0, y: 40 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: { 
-        duration: 0.7, 
-        ease: [0.25, 0.4, 0.25, 1] 
+      transition: {
+        duration: 0.7,
+        ease: [0.25, 0.4, 0.25, 1]
       }
     }
   };
 
   const fadeInLeft: Variants = {
     hidden: { opacity: 0, x: -60 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       x: 0,
-      transition: { 
-        duration: 0.8, 
-        ease: [0.25, 0.4, 0.25, 1] 
+      transition: {
+        duration: 0.8,
+        ease: [0.25, 0.4, 0.25, 1]
       }
     }
   };
 
   const fadeInRight: Variants = {
     hidden: { opacity: 0, x: 60 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       x: 0,
-      transition: { 
-        duration: 0.8, 
-        ease: [0.25, 0.4, 0.25, 1] 
+      transition: {
+        duration: 0.8,
+        ease: [0.25, 0.4, 0.25, 1]
       }
     }
   };
@@ -108,35 +92,35 @@ export default function AVSolutionPage() {
 
   const scaleIn: Variants = {
     hidden: { opacity: 0, scale: 0.9 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       scale: 1,
-      transition: { 
-        duration: 0.6, 
-        ease: [0.25, 0.4, 0.25, 1] 
+      transition: {
+        duration: 0.6,
+        ease: [0.25, 0.4, 0.25, 1]
       }
     }
   };
 
   // Card shuffle animation variant - MUCH SLOWER
   const cardShuffle: Variants = {
-    hidden: { 
-      opacity: 0, 
+    hidden: {
+      opacity: 0,
       rotateY: -45,
       x: -100,
       scale: 0.8
     },
-    visible: (index: number) => ({ 
+    visible: (index: number) => ({
       opacity: 1,
       rotateY: 0,
       x: 0,
       scale: 1,
-      transition: { 
-        duration: 3.0, // Increased significantly from 1.5 to 3.0
-        delay: index * 0.6, // Increased from 0.25 to 0.6
+      transition: {
+        duration: 3.0,
+        delay: index * 0.6,
         ease: [0.34, 1.56, 0.64, 1],
         type: "spring",
-        stiffness: 30 // Reduced from 60 to 30 for much softer spring
+        stiffness: 30
       }
     })
   };
@@ -147,7 +131,7 @@ export default function AVSolutionPage() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.8 // Increased from 0.3 to 0.8
+        staggerChildren: 0.8
       }
     }
   };
@@ -288,7 +272,7 @@ export default function AVSolutionPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Page Header */}
-      <PageHeader 
+      <PageHeader
         slides={headerSlides}
         benefits={headerBenefits}
         features={headerFeatures}
@@ -297,14 +281,15 @@ export default function AVSolutionPage() {
       />
 
       {/* Services Section - Responsive Card Carousel */}
-      <section id="services" ref={servicesRef} className="pt-16 pb-8 bg-gray-50 relative overflow-hidden">  
+      <section id="services" className="pt-16 pb-8 bg-gray-50 relative overflow-hidden">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            initial="hidden"
-            animate={isServicesInView ? "visible" : "hidden"}
             variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
           >
-            <motion.div 
+            <motion.div
               className="text-center mb-12"
               variants={fadeInUp}
             >
@@ -351,18 +336,19 @@ export default function AVSolutionPage() {
                       key={index}
                       className="absolute w-[350px] bg-white rounded-2xl shadow-xl p-8 border border-gray-100 cursor-pointer"
                       initial={{ opacity: 0, rotateY: 45, translateZ: -200 }}
-                      animate={isServicesInView ? { 
+                      whileInView={{
                         opacity: opacity,
                         rotateY: 0,
                         translateZ: 0,
                         transform: transform
-                      } : {}}
+                      }}
+                      viewport={{ once: true, amount: 0.3 }}
                       transition={{ duration: 0.7, delay: index * 0.2, ease: 'easeInOut' }}
-                      style={{ 
+                      style={{
                         zIndex: zIndex,
                         pointerEvents: position === 0 ? 'auto' : 'none'
                       }}
-                      whileHover={position === 0 ? { 
+                      whileHover={position === 0 ? {
                         scale: 1.02,
                         transition: { duration: 0.3 }
                       } : {}}
@@ -386,9 +372,9 @@ export default function AVSolutionPage() {
                   );
                 })}
               </div>
-              
+
               <div className="flex justify-center items-center mt-12 space-x-6">
-                <button 
+                <button
                   onClick={prevCard}
                   className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-950 via-blue-900 to-blue-800 text-white flex items-center justify-center hover:bg-indigo-700 transition-colors shadow-lg"
                 >
@@ -396,16 +382,15 @@ export default function AVSolutionPage() {
                 </button>
                 <div className="flex space-x-2">
                   {services.map((_, index) => (
-                    <button 
+                    <button
                       key={index}
                       onClick={() => setActiveCard(index)}
-                      className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                        index === activeCard ? 'bg-blue-800 w-8' : 'bg-gray-300'
-                      }`}
+                      className={`w-3 h-3 rounded-full transition-all duration-300 ${index === activeCard ? 'bg-blue-800 w-8' : 'bg-gray-300'
+                        }`}
                     ></button>
                   ))}
                 </div>
-                <button 
+                <button
                   onClick={nextCard}
                   className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-950 via-blue-900 to-blue-800 text-white flex items-center justify-center hover:bg-indigo-700 transition-colors shadow-lg"
                 >
@@ -446,15 +431,16 @@ export default function AVSolutionPage() {
       </section>
 
       {/* System Integration Capabilities - WITH MUCH SLOWER SHUFFLE ANIMATION */}
-      <section ref={capabilitiesRef} className="pt-10 pb-20 bg-white relative overflow-hidden">
+      <section className="pt-10 pb-20 bg-white relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/50 via-purple-50/30 to-blue-50/50"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style={{ perspective: '1500px' }}>
           <motion.div
+            variants={staggerContainerSlow}
             initial="hidden"
-            animate={isCapabilitiesInView ? "visible" : "hidden"}
-            variants={staggerContainerSlow} // Using much slower stagger container
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
           >
-            <motion.div 
+            <motion.div
               className="text-center mb-16"
               variants={fadeInUp}
             >
@@ -475,10 +461,8 @@ export default function AVSolutionPage() {
                   key={index}
                   className="relative group cursor-pointer"
                   custom={index}
-                  initial="hidden"
-                  animate={isCapabilitiesInView ? "visible" : "hidden"}
-                  variants={cardShuffle} // Using much slower card shuffle
-                  whileHover={{ 
+                  variants={cardShuffle}
+                  whileHover={{
                     y: -8,
                     scale: 1.02,
                     rotateY: 5,
@@ -488,11 +472,11 @@ export default function AVSolutionPage() {
                 >
                   <div className="relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 h-full">
                     <div className="aspect-[4/3] overflow-hidden">
-                      <motion.img 
-                        src={capability.image.src} 
+                      <motion.img
+                        src={capability.image.src}
                         alt={capability.title}
                         className="w-full h-full object-cover"
-                        whileHover={{ 
+                        whileHover={{
                           scale: 1.1,
                           transition: { duration: 0.5, ease: "easeOut" }
                         }}
@@ -511,14 +495,14 @@ export default function AVSolutionPage() {
 
         {/* Modal */}
         {isModalOpen && (
-          <motion.div 
+          <motion.div
             className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeModal}
           >
-            <motion.div 
+            <motion.div
               className="relative max-w-6xl w-full max-h-[90vh] flex items-center justify-center"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -533,11 +517,11 @@ export default function AVSolutionPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
-              
+
               <div className="bg-transparent rounded-2xl overflow-hidden">
                 <div className="w-full h-full overflow-hidden flex items-center justify-center">
                   {selectedImage && (
-                    <img 
+                    <img
                       src={selectedImage}
                       alt="Enlarged View"
                       className="w-auto h-auto max-w-full max-h-[80vh] object-contain"
@@ -551,7 +535,7 @@ export default function AVSolutionPage() {
       </section>
 
       {/* Video Conferencing Solutions */}
-      <section ref={conferenceRef} className="py-20 bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 text-white relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 w-96 h-96 bg-indigo-500 rounded-full filter blur-3xl"></div>
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-500 rounded-full filter blur-3xl"></div>
@@ -559,9 +543,10 @@ export default function AVSolutionPage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
-              initial="hidden"
-              animate={isConferenceInView ? "visible" : "hidden"}
               variants={fadeInLeft}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
             >
               <span className="inline-block px-4 py-2 text-sm font-semibold text-indigo-300 uppercase tracking-wider bg-indigo-900/50 rounded-full mb-6">
                 Video Conferencing
@@ -572,7 +557,7 @@ export default function AVSolutionPage() {
               <p className="text-lg text-gray-300 mb-8 leading-relaxed">
                 Digitallink Bahrain delivers professional 4K Logitech USB webcams compatible with your laptop and favorite conferencing apps including Zoom, Microsoft Teams, and Skype for Business.
               </p>
-              
+
               <div className="space-y-4 mb-8">
                 {[
                   'Plug-and-play USB connectivity for instant setup',
@@ -584,8 +569,9 @@ export default function AVSolutionPage() {
                     key={i}
                     className="flex items-start"
                     initial={{ opacity: 0, x: -20 }}
-                    animate={isConferenceInView ? { opacity: 1, x: 0 } : {}}
-                    transition={{ delay: 0.5 + i * 0.1 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ delay: 0.1 * i }}
                   >
                     <div className="flex-shrink-0 w-6 h-6 rounded-full bg-indigo-500 flex items-center justify-center mr-3 mt-0.5">
                       <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -601,9 +587,10 @@ export default function AVSolutionPage() {
 
             <motion.div
               className="relative"
-              initial="hidden"
-              animate={isConferenceInView ? "visible" : "hidden"}
               variants={fadeInRight}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
             >
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                 <div className="aspect-[4/3]">
@@ -616,13 +603,13 @@ export default function AVSolutionPage() {
                   </div>
                 </div>
               </div>
-              
+
               <motion.div
                 className="absolute -top-6 -right-6 bg-white text-indigo-900 px-6 py-3 rounded-full shadow-xl font-bold"
-                animate={{ 
+                animate={{
                   y: [0, -10, 0],
                 }}
-                transition={{ 
+                transition={{
                   duration: 2,
                   repeat: Infinity,
                   ease: "easeInOut"
@@ -636,14 +623,15 @@ export default function AVSolutionPage() {
       </section>
 
       {/* Advanced Technologies */}
-      <section ref={techRef} className="py-12 bg-gradient-to-br from-gray-50 to-indigo-50 relative overflow-hidden">
+      <section className="py-12 bg-gradient-to-br from-gray-50 to-indigo-50 relative overflow-hidden">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            initial="hidden"
-            animate={isTechInView ? "visible" : "hidden"}
             variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
           >
-            <motion.div 
+            <motion.div
               className="text-center mb-10"
               variants={fadeInUp}
             >
@@ -657,11 +645,13 @@ export default function AVSolutionPage() {
                 Digitallink Bahrain provides state-of-the-art audio and visual solutions that help businesses stay ahead in an increasingly competitive digital landscape
               </p>
             </motion.div>
-
             <div className="grid md:grid-cols-2 gap-8 ">
               <motion.div
                 className="relative"
                 variants={fadeInLeft}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
               >
                 <div className="bg-white rounded-2xl shadow-xl p-8 h-full border border-indigo-100">
                   <div className="aspect-video rounded-xl mb-6 overflow-hidden">
@@ -677,6 +667,9 @@ export default function AVSolutionPage() {
               <motion.div
                 className="space-y-6"
                 variants={fadeInRight}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
               >
                 {technologies.map((tech, index) => (
                   <motion.div
@@ -706,14 +699,15 @@ export default function AVSolutionPage() {
       </section>
 
       {/* Project Types Section */}
-      <section ref={projectsRef} className="pt-16 pb-8 bg-gradient-to-br from-indigo-50 to-blue-50 overflow-hidden">
+      <section className="pt-16 pb-8 bg-gradient-to-br from-indigo-50 to-blue-50 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            initial="hidden"
-            animate={isProjectsInView ? "visible" : "hidden"}
             variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
           >
-            <motion.div 
+            <motion.div
               className="text-center mb-12"
               variants={fadeInUp}
             >
@@ -734,7 +728,7 @@ export default function AVSolutionPage() {
                   key={index}
                   className="px-4 md:px-6 py-2 md:py-3 bg-white rounded-full shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-indigo-200 group cursor-pointer"
                   variants={scaleIn}
-                  whileHover={{ 
+                  whileHover={{
                     scale: 1.05,
                     backgroundColor: "rgba(99, 102, 241, 0.05)",
                   }}

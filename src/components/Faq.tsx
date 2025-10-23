@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
+import { FaQuestionCircle, FaPlus, FaMinus, FaCheck } from 'react-icons/fa';
 
 interface FAQItem {
   id: number;
@@ -60,47 +61,41 @@ const FAQComponent: React.FC = () => {
     ? faqItems 
     : faqItems.filter(item => item.category === filter);
 
-  const getCategoryColor = (category: string) => {
-    switch(category) {
-      case 'products': return 'bg-blue-900';
-      case 'technology': return 'bg-blue-900';
-      case 'services': return 'bg-blue-900';
-      default: return 'bg-blue-900';
+  // Animation variants
+  const fadeInUp: Variants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: 0.6, 
+        ease: [0.25, 0.4, 0.25, 1] 
+      }
     }
   };
 
-  const getCategoryIcon = (category: string) => {
-    switch(category) {
-      case 'products': return '📦';
-      case 'technology': return '💻';
-      case 'services': return '🔧';
-      default: return '❓';
+  const staggerContainer: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white py-16 px-4 sm:px-6 lg:px-8">
-      {/* Decorative elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-64 h-64 rounded-full bg-blue-200 opacity-20 blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-72 h-72 rounded-full bg-blue-200 opacity-20 blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-blue-200 opacity-10 blur-3xl"></div>
-      </div>
-
-      <div className="max-w-4xl mx-auto relative z-10">
-        {/* Header */}
+    <div className="py-16 bg-gradient-to-br from-gray-50 to-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        {/* FAQ Section Header */}
         <div className="text-center mb-16">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 mb-4">
-              Frequently Asked Questions
-            </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Find answers to common questions about our products and services
-            </p>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
+            <p className="text-gray-700 max-w-2xl mx-auto">Find answers to common questions about our solutions</p>
           </motion.div>
         </div>
 
@@ -127,63 +122,149 @@ const FAQComponent: React.FC = () => {
         </div>
         
         {/* FAQ Items */}
-        <div className="space-y-6">
-          {filteredItems.map((item, index) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white rounded-2xl shadow-lg overflow-hidden border border-white border-opacity-50"
-            >
-              <button
-                onClick={() => toggleFAQ(index)}
-                className="w-full flex items-start p-6 text-left focus:outline-none"
+        <div className="max-w-3xl mx-auto">
+          {filteredItems.map((faq, index) => (
+            <div key={faq.id} className="mb-6">
+              <motion.div
+                className={`relative rounded-2xl overflow-hidden transition-all duration-300 ${
+                  activeIndex === index 
+                    ? 'bg-gradient-to-r from-blue-50 to-indigo-50 shadow-xl' 
+                    : 'bg-white shadow-md hover:shadow-lg'
+                }`}
+                whileHover={{ 
+                  y: activeIndex === index ? 0 : -3,
+                  transition: { duration: 0.2 }
+                }}
               >
-                <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center mr-5">
-                  <span className="text-2xl">{getCategoryIcon(item.category)}</span>
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center mb-2">
-                    <span className={`inline-block w-3 h-3 rounded-full ${getCategoryColor(item.category)} mr-2`}></span>
-                    <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      {item.category}
-                    </span>
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    {item.question}
-                  </h3>
-                </div>
-                <motion.div
-                  animate={{ rotate: activeIndex === index ? 45 : 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="flex-shrink-0 ml-4 w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center"
+                {/* Decorative elements */}
+                <motion.div 
+                  className={`absolute top-0 left-0 w-1 h-full ${
+                    activeIndex === index 
+                      ? 'bg-gradient-to-b from-blue-900 to-blue-600' 
+                      : 'bg-transparent'
+                  }`}
+                  initial={{ scaleY: 0 }}
+                  animate={{ 
+                    scaleY: activeIndex === index ? 1 : 0,
+                    originY: "top"
+                  }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                />
+                
+                <motion.button
+                  className="flex justify-between items-center w-full p-6 text-left focus:outline-none relative z-10"
+                  onClick={() => toggleFAQ(index)}
                 >
-                  <svg className="w-5 h-5 text-blue-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                  </svg>
-                </motion.div>
-              </button>
-              
-              <AnimatePresence>
-                {activeIndex === index && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="px-6 pb-6 pt-1">
-                      <div className="h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent mb-6"></div>
-                      <p className="text-gray-600 leading-relaxed">
-                        {item.answer}
-                      </p>
+                  <div className="flex items-center">
+                    <motion.div
+                      className={`mr-4 flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
+                        activeIndex === index 
+                          ? 'bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 text-white shadow-lg' 
+                          : 'bg-gray-100 text-gray-500'
+                      }`}
+                      animate={{ 
+                        rotate: activeIndex === index ? 360 : 0,
+                        scale: activeIndex === index ? 1.1 : 1
+                      }}
+                      transition={{ 
+                        duration: 0.5, 
+                        type: "spring",
+                        stiffness: 200
+                      }}
+                      whileHover={{ 
+                        scale: activeIndex === index ? 1.15 : 1.05,
+                        transition: { type: "spring", stiffness: 300 }
+                      }}
+                    >
+                      <FaQuestionCircle className="text-xl" />
+                    </motion.div>
+                    <div>
+                      <div className="flex items-center mb-1">
+                        <span className={`inline-block w-2 h-2 rounded-full ${
+                          faq.category === 'products' ? 'bg-blue-900' : 
+                          faq.category === 'technology' ? 'bg-blue-700' : 
+                          'bg-blue-500'
+                        } mr-2`}></span>
+                        <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          {faq.category}
+                        </span>
+                      </div>
+                      <span className={`text-lg font-medium ${
+                        activeIndex === index ? 'text-blue-900' : 'text-gray-800'
+                      }`}>{faq.question}</span>
                     </div>
+                  </div>
+                  
+                  <motion.div
+                    className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
+                      activeIndex === index 
+                        ? 'bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 text-white shadow-md' 
+                        : 'bg-gray-100 text-gray-500'
+                    }`}
+                    animate={{ 
+                      rotate: activeIndex === index ? 180 : 0,
+                    }}
+                    transition={{ duration: 0.3 }}
+                    whileHover={{ 
+                      scale: 1.1,
+                      transition: { type: "spring", stiffness: 300 }
+                    }}
+                  >
+                    {activeIndex === index ? (
+                      <FaMinus className="text-sm" />
+                    ) : (
+                      <FaPlus className="text-sm" />
+                    )}
                   </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
+                </motion.button>
+                
+                <motion.div
+                  className="overflow-hidden"
+                  initial={false}
+                  animate={{ 
+                    height: activeIndex === index ? 'auto' : 0,
+                    opacity: activeIndex === index ? 1 : 0,
+                  }}
+                  transition={{ 
+                    duration: 0.4,
+                    ease: [0.25, 0.4, 0.25, 1]
+                  }}
+                >
+                  <div className="p-6 pt-0 px-10">
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ 
+                        opacity: activeIndex === index ? 1 : 0, 
+                        y: activeIndex === index ? 0 : 10 
+                      }}
+                      transition={{ 
+                        delay: activeIndex === index ? 0.1 : 0,
+                        duration: 0.3
+                      }}
+                      className="text-gray-700"
+                    >
+                      {faq.answer}
+                    </motion.div>
+                    
+                    {activeIndex === index && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ 
+                          delay: 0.2,
+                          type: "spring",
+                          stiffness: 200
+                        }}
+                        className="mt-4 flex items-center text-green-600 font-medium"
+                      >
+                        <FaCheck className="mr-2" />
+                        <span>Answer provided</span>
+                      </motion.div>
+                    )}
+                  </div>
+                </motion.div>
+              </motion.div>
+            </div>
           ))}
         </div>
       </div>

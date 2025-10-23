@@ -1,14 +1,8 @@
 'use client'
 import { motion, useInView, Variants, AnimatePresence } from 'framer-motion';
-import { useRef, useState } from 'react';
-import { 
-  FaVideo, FaShieldAlt, FaNetworkWired, FaCloud, FaMobileAlt, FaThermometerHalf, 
-  FaBrain, FaCar, FaUsers, FaChartLine, FaLightbulb, FaMicrophone, FaTv,
-  FaEye, FaCamera, FaSearch, FaLock, FaSatelliteDish, FaArrowRight, FaQuoteLeft, FaStar,
-  FaBuilding, FaHospital, FaGraduationCap, FaHotel, FaStore, FaPlane, FaCogs, FaUserShield,
-  FaClock, FaMoneyBillWave, FaCheckCircle, FaMapMarkerAlt, FaAward, FaMedal, FaHandshake,
-  FaChartBar, FaProjectDiagram, FaUsersCog, FaTools, FaChartPie, FaGlobe, FaCity,
-  FaChartArea, FaUserTie, FaPhoneAlt, FaEnvelope, FaMapMarkedAlt, FaTrophy, FaLightbulb as FaBulb
+import {  useState } from 'react';
+import {
+  FaVideo, FaShieldAlt, FaNetworkWired, FaCloud, FaMobileAlt,  FaArrowRight,FaLightbulb as FaBulb
 } from 'react-icons/fa';
 import PageHeader from '@/components/PageHeader';
 import SolutionFAQ from '@/components/SolutionFAQ';
@@ -19,7 +13,7 @@ import company from "@/assets/Building.jpg"
 import analytics from "@/assets/Building.jpg"
 import remote from "@/assets/Building.jpg"
 import ai from "@/assets/Building.jpg"
-import anpr  from "@/assets/Building.jpg"
+import anpr from "@/assets/Building.jpg"
 
 // Types
 interface Feature {
@@ -28,95 +22,46 @@ interface Feature {
   description: string;
 }
 
-interface Capability {
-  title: string;
-  description: string;
-  icon: React.ReactElement;
-  gradient: string;
-}
 
-interface Technology {
-  title: string;
-  description: string;
-  icon: React.ReactElement;
-}
-
-interface Project {
-  title: string;
-  description: string;
-  location: string;
-  image: string;
-}
-
-interface Partner {
-  name: string;
-  description: string;
-  logo: string;
-}
-
-interface ProcessStep {
-  step: number;
-  title: string;
-  description: string;
-  icon: React.ReactElement;
-}
 
 export default function SurveillancePage() {
   const [activeTab, setActiveTab] = useState(0);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
-  const introRef = useRef(null);
-  const featuresRef = useRef(null);
-  const analyticsRef = useRef(null);
-  const remoteRef = useRef(null);
-  const aiRef = useRef(null);
-  const anprRef = useRef(null);
-  const surveillanceInActionRef = useRef(null);
-  const caseStudyRef = useRef(null);
-
-  const isIntroInView = useInView(introRef, { once: true, amount: 0.2 });
-  const isFeaturesInView = useInView(featuresRef, { once: true, amount: 0.2 });
-  const isAnalyticsInView = useInView(analyticsRef, { once: true, amount: 0.2 });
-  const isRemoteInView = useInView(remoteRef, { once: true, amount: 0.2 });
-  const isAIInView = useInView(aiRef, { once: true, amount: 0.2 });
-  const isANPRInView = useInView(anprRef, { once: true, amount: 0.2 });
-  const isSurveillanceInActionInView = useInView(surveillanceInActionRef, { once: true, amount: 0.2 });
-  const isCaseStudyInView = useInView(caseStudyRef, { once: true, amount: 0.2 });
 
   // Slower, smoother animation variants
   const fadeInUp: Variants = {
     hidden: { opacity: 0, y: 60 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: { 
-        duration: 1.8, 
-        ease: [0.22, 0.61, 0.36, 1] 
+      transition: {
+        duration: 1.8,
+        ease: [0.22, 0.61, 0.36, 1]
       }
     }
   };
 
   const fadeInLeft: Variants = {
     hidden: { opacity: 0, x: -80 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       x: 0,
-      transition: { 
-        duration: 2.0, 
-        ease: [0.22, 0.61, 0.36, 1] 
+      transition: {
+        duration: 2.0,
+        ease: [0.22, 0.61, 0.36, 1]
       }
     }
   };
 
   const fadeInRight: Variants = {
     hidden: { opacity: 0, x: 80 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       x: 0,
-      transition: { 
-        duration: 2.0, 
-        ease: [0.22, 0.61, 0.36, 1] 
+      transition: {
+        duration: 2.0,
+        ease: [0.22, 0.61, 0.36, 1]
       }
     }
   };
@@ -133,12 +78,12 @@ export default function SurveillancePage() {
 
   const scaleIn: Variants = {
     hidden: { opacity: 0, scale: 0.8 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       scale: 1,
-      transition: { 
-        duration: 1.5, 
-        ease: [0.22, 0.61, 0.36, 1] 
+      transition: {
+        duration: 1.5,
+        ease: [0.22, 0.61, 0.36, 1]
       }
     }
   };
@@ -146,24 +91,24 @@ export default function SurveillancePage() {
   // Tab content animation variants
   const tabContentVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: { 
-        duration: 1.2, 
-        ease: [0.22, 0.61, 0.36, 1] 
+      transition: {
+        duration: 1.2,
+        ease: [0.22, 0.61, 0.36, 1]
       }
     }
   };
 
   const tabImageVariants: Variants = {
     hidden: { opacity: 0, scale: 0.9 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       scale: 1,
-      transition: { 
-        duration: 1.4, 
-        ease: [0.22, 0.61, 0.36, 1] 
+      transition: {
+        duration: 1.4,
+        ease: [0.22, 0.61, 0.36, 1]
       }
     }
   };
@@ -339,7 +284,7 @@ export default function SurveillancePage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Page Header */}
-      <PageHeader 
+      <PageHeader
         slides={headerSlides}
         benefits={headerBenefits}
         features={headerFeatures}
@@ -348,14 +293,15 @@ export default function SurveillancePage() {
       />
 
       {/* Company Introduction */}
-      <section ref={introRef} className="pt-16 pb-12 bg-gradient-to-br from-blue-50 to-indigo-50 relative overflow-hidden">
+      <section className="pt-16 pb-12 bg-gradient-to-br from-blue-50 to-indigo-50 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Image first on mobile, content second */}
             <motion.div
               className="relative order-1 lg:order-2"
               initial="hidden"
-              animate={isIntroInView ? "visible" : "hidden"}
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
               variants={fadeInRight}
             >
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
@@ -364,32 +310,33 @@ export default function SurveillancePage() {
                 </div>
               </div>
             </motion.div>
-            
+
             <motion.div
               className="order-2 lg:order-1"
               initial="hidden"
-              animate={isIntroInView ? "visible" : "hidden"}
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
               variants={fadeInLeft}
             >
-              <motion.span 
+              <motion.span
                 className="inline-block px-4 py-2 text-sm font-semibold text-indigo-600 uppercase tracking-wider bg-white rounded-full mb-4 shadow-sm"
                 variants={fadeInUp}
               >
                 Industry Leader
               </motion.span>
-              <motion.h2 
+              <motion.h2
                 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6"
                 variants={fadeInUp}
               >
                 Surveillance Solutions Leader in Dubai and the Middle East
               </motion.h2>
-              <motion.p 
+              <motion.p
                 className="text-lg text-gray-700 mb-6 leading-relaxed"
                 variants={fadeInUp}
               >
                 As the leading surveillance solutions provider in Dubai and the Middle East, Digitallink Bahrain is the official distributor of industry-leading brands like UNV and Dahua. Our commitment is to deliver modern, reliable surveillance technology that meets the highest security standards for our clients.
               </motion.p>
-              <motion.div 
+              <motion.div
                 className="space-y-4"
                 variants={staggerContainer}
               >
@@ -420,11 +367,12 @@ export default function SurveillancePage() {
       </section>
 
       {/* IP System Features */}
-      <section ref={featuresRef} className="py-16 bg-white relative overflow-hidden">
+      <section className="py-16 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
-            animate={isFeaturesInView ? "visible" : "hidden"}
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
             variants={{
               hidden: { opacity: 0 },
               visible: {
@@ -436,7 +384,7 @@ export default function SurveillancePage() {
               }
             }}
           >
-            <motion.div 
+            <motion.div
               className="text-center mb-12"
               variants={{
                 hidden: { opacity: 0, y: 20 },
@@ -467,7 +415,7 @@ export default function SurveillancePage() {
                   key={index}
                   className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:border-indigo-200 transition-all duration-500 hover:shadow-xl"
                   variants={{
-                    hidden: { 
+                    hidden: {
                       opacity: 0,
                       y: 30
                     },
@@ -480,9 +428,9 @@ export default function SurveillancePage() {
                       }
                     }
                   }}
-                  whileHover={{ 
+                  whileHover={{
                     y: -8,
-                    transition: { 
+                    transition: {
                       duration: 0.4,
                       ease: [0.22, 0.61, 0.36, 1]
                     }
@@ -503,12 +451,22 @@ export default function SurveillancePage() {
       {/* Tabbed Content Section */}
       <section className="py-16 bg-gradient-to-br from-gray-50 to-indigo-50 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div 
+          <motion.div
             className="text-center mb-12"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.5, ease: [0.22, 0.61, 0.36, 1] }}
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: {
+                  duration: 1.5,
+                  ease: [0.22, 0.61, 0.36, 1]
+                }
+              }
+            }}
           >
             <span className="inline-block px-4 py-2 text-sm font-semibold text-indigo-600 uppercase tracking-wider bg-white rounded-full mb-4 shadow-sm">
               Our Solutions
@@ -521,23 +479,32 @@ export default function SurveillancePage() {
             </p>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             className="bg-white rounded-2xl shadow-xl overflow-hidden"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.8, ease: [0.22, 0.61, 0.36, 1] }}
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
+            variants={{
+              hidden: { opacity: 0, y: 40 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: {
+                  duration: 1.8,
+                  ease: [0.22, 0.61, 0.36, 1]
+                }
+              }
+            }}
           >
             {/* Tabs */}
             <div className="flex flex-wrap border-b border-gray-200">
               {tabContent.map((tab, index) => (
                 <motion.button
                   key={index}
-                  className={`px-6 py-4 font-medium text-sm md:text-base transition-colors duration-300 ${
-                    activeTab === index
+                  className={`px-6 py-4 font-medium text-sm md:text-base transition-colors duration-300 ${activeTab === index
                       ? 'text-indigo-600 border-b-2 border-indigo-600'
                       : 'text-gray-500 hover:text-gray-700'
-                  }`}
+                    }`}
                   onClick={() => setActiveTab(index)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -578,14 +545,14 @@ export default function SurveillancePage() {
                       )}
                     </div>
                   </motion.div>
-                  
+
                   <div className="order-2 md:order-1">
                     <h3 className="text-2xl font-bold text-gray-900 mb-4">{tabContent[activeTab].title}</h3>
                     <p className="text-gray-600 mb-6">{tabContent[activeTab].description}</p>
                     <ul className="space-y-3">
                       {tabContent[activeTab].features.map((feature, i) => (
-                        <motion.li 
-                          key={i} 
+                        <motion.li
+                          key={i}
                           className="flex items-start"
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
@@ -609,14 +576,15 @@ export default function SurveillancePage() {
       </section>
 
       {/* Surveillance in Action Section */}
-      <section ref={surveillanceInActionRef} className="py-16 bg-white relative overflow-hidden">
+      <section className="py-16 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
-            animate={isSurveillanceInActionInView ? "visible" : "hidden"}
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
             variants={staggerContainer}
           >
-            <motion.div 
+            <motion.div
               className="text-center mb-12"
               variants={fadeInUp}
             >
@@ -637,7 +605,7 @@ export default function SurveillancePage() {
                   key={item}
                   className="relative rounded-xl overflow-hidden shadow-lg group cursor-pointer"
                   variants={scaleIn}
-                  whileHover={{ 
+                  whileHover={{
                     y: -10,
                     transition: { duration: 0.5 }
                   }}
@@ -659,15 +627,16 @@ export default function SurveillancePage() {
         </div>
       </section>
 
-      {/* Case Study Section with Enhanced Animations Only */}
-      <section ref={caseStudyRef} className="py-16 bg-gradient-to-br from-gray-50 to-indigo-50 relative overflow-hidden">
+      {/* Case Study Section with whileInView */}
+      <section className="py-16 bg-gradient-to-br from-gray-50 to-indigo-50 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
-            animate={isCaseStudyInView ? "visible" : "hidden"}
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
             variants={staggerContainer}
           >
-            <motion.div 
+            <motion.div
               className="text-center mb-12"
               variants={fadeInUp}
             >
@@ -688,38 +657,38 @@ export default function SurveillancePage() {
                   variants={fadeInLeft}
                   className="p-8"
                 >
-                  <motion.h3 
+                  <motion.h3
                     className="text-2xl font-bold text-gray-900 mb-6"
                     variants={caseStudyTitleVariants}
                   >
                     {caseStudy.title}
                   </motion.h3>
-                  
-                  <motion.div 
+
+                  <motion.div
                     className="mb-6"
                     variants={caseStudySectionVariants}
                   >
                     <h4 className="text-lg font-bold text-indigo-600 mb-2">Challenge</h4>
                     <p className="text-gray-700">{caseStudy.challenge}</p>
                   </motion.div>
-                  
-                  <motion.div 
+
+                  <motion.div
                     className="mb-6"
                     variants={caseStudySectionVariants}
                   >
                     <h4 className="text-lg font-bold text-indigo-600 mb-2">Solution</h4>
                     <p className="text-gray-700">{caseStudy.solution}</p>
                   </motion.div>
-                  
+
                   <motion.div variants={caseStudySectionVariants}>
                     <h4 className="text-lg font-bold text-indigo-600 mb-2">Results</h4>
-                    <motion.ul 
+                    <motion.ul
                       className="space-y-2"
                       variants={resultStagger}
                     >
                       {caseStudy.results.map((result, index) => (
-                        <motion.li 
-                          key={index} 
+                        <motion.li
+                          key={index}
                           className="flex items-start"
                           variants={resultItemVariants}
                         >
@@ -734,7 +703,6 @@ export default function SurveillancePage() {
                     </motion.ul>
                   </motion.div>
                 </motion.div>
-                
                 <motion.div
                   variants={fadeInRight}
                   className="relative"

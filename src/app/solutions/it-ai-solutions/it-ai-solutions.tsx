@@ -1,7 +1,6 @@
 'use client';
 
-import { motion, useInView, Variants } from 'framer-motion';
-import { useRef } from 'react';
+import { motion, Variants } from 'framer-motion';
 import { FaLaptopCode, FaMobileAlt, FaChartLine, FaPaintBrush, FaShoppingCart, FaSearch, FaArrowRight, FaUsers, FaCogs, FaBullhorn, FaShieldAlt, FaQuoteLeft, FaCheck, FaLightbulb, FaRocket, FaHandshake, FaChevronDown, FaBrain, FaDatabase, FaRobot, FaCogs as FaGear, FaChartBar, FaLock, FaNetworkWired, FaCloud, FaServer, FaCode, FaProjectDiagram, FaGlobe, FaSearchDollar, FaTools, FaVideo, FaCamera } from 'react-icons/fa';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -40,18 +39,6 @@ export default function ITAISolutions() {
   // State for tracking hovered solution
   const [hoveredSolution, setHoveredSolution] = useState<number | null>(null);
 
-  // Refs for scroll animations
-  const aboutRef = useRef(null);
-  const servicesRef = useRef(null);
-  const processRef = useRef(null);
-  const solutionsRef = useRef(null);
-
-  // InView hooks
-  const isAboutInView = useInView(aboutRef, { once: true, amount: 0.3 });
-  const isServicesInView = useInView(servicesRef, { once: true, amount: 0.1 });
-  const isProcessInView = useInView(processRef, { once: true, amount: 0.1 });
-  const isSolutionsInView = useInView(solutionsRef, { once: true, amount: 0.1 });
-
   // Animation variants
   const fadeInUp: Variants = {
     hidden: { opacity: 0, y: 30 },
@@ -70,19 +57,25 @@ export default function ITAISolutions() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1
+        staggerChildren: 0.2,
+        delayChildren: 0.1
       }
     }
   };
 
-  const scaleIn: Variants = {
-    hidden: { opacity: 0, scale: 0.9 },
+  const cardVariant: Variants = {
+    hidden: { 
+      opacity: 0, 
+      scale: 0.85,
+      y: 40
+    },
     visible: { 
       opacity: 1, 
       scale: 1,
+      y: 0,
       transition: { 
-        duration: 0.5, 
-        ease: [0.25, 0.4, 0.25, 1] 
+        duration: 0.8,
+        ease: [0.25, 0.4, 0.25, 1]
       }
     }
   };
@@ -234,13 +227,14 @@ export default function ITAISolutions() {
       />
 
       {/* About Section */}
-      <div ref={aboutRef} className="py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
+      <div className="py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <motion.div
               variants={slideInLeft}
               initial="hidden"
-              animate={isAboutInView ? "visible" : "hidden"}
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
               className="relative"
             >
               <div className="rounded-3xl overflow-hidden shadow-2xl">
@@ -268,13 +262,15 @@ export default function ITAISolutions() {
             <motion.div
               variants={slideInRight}
               initial="hidden"
-              animate={isAboutInView ? "visible" : "hidden"}
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
             >
               <motion.h2 
                 className="text-3xl md:text-4xl font-bold text-blue-900 mb-6"
                 variants={fadeInUp}
                 initial="hidden"
-                animate={isAboutInView ? "visible" : "hidden"}
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
               >
                 Enhance Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Online Presence</span>
               </motion.h2>
@@ -283,8 +279,8 @@ export default function ITAISolutions() {
                 className="text-gray-700 mb-6 text-lg"
                 variants={fadeInUp}
                 initial="hidden"
-                animate={isAboutInView ? "visible" : "hidden"}
-                transition={{ delay: 0.1 }}
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
               >
                 Our SEO & Web Development Experts help you create a strong digital footprint with custom websites and effective SEO strategies. We specialize in developing tailored solutions across multiple platforms including WordPress.
               </motion.p>
@@ -293,8 +289,8 @@ export default function ITAISolutions() {
                 className="text-gray-700 mb-8 text-lg"
                 variants={fadeInUp}
                 initial="hidden"
-                animate={isAboutInView ? "visible" : "hidden"}
-                transition={{ delay: 0.2 }}
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
               >
                 Through comprehensive keyword research and optimization techniques, we drive organic traffic to your site and improve your search engine rankings.
               </motion.p>
@@ -303,8 +299,8 @@ export default function ITAISolutions() {
                 className="bg-white rounded-2xl p-6 shadow-lg border border-blue-100 mb-8"
                 variants={fadeInUp}
                 initial="hidden"
-                animate={isAboutInView ? "visible" : "hidden"}
-                transition={{ delay: 0.3 }}
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
               >
                 <h3 className="font-bold text-blue-900 mb-4 text-lg">Our Expertise Includes:</h3>
                 <div className="grid grid-cols-2 gap-3">
@@ -328,8 +324,8 @@ export default function ITAISolutions() {
               <motion.div
                 variants={fadeInUp}
                 initial="hidden"
-                animate={isAboutInView ? "visible" : "hidden"}
-                transition={{ delay: 0.4 }}
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
               >
                 <Link
                   href="/contact"
@@ -345,13 +341,14 @@ export default function ITAISolutions() {
       </div>
 
       {/* Services Section */}
-      <div ref={servicesRef} className="py-20 bg-white">
+      <div className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
             className="text-center mb-16"
             variants={fadeInUp}
             initial="hidden"
-            animate={isServicesInView ? "visible" : "hidden"}
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
           >
             <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-4">Our Core Services</h2>
             <p className="text-gray-700 max-w-2xl mx-auto text-lg">Comprehensive IT & AI solutions designed to transform your business</p>
@@ -361,16 +358,14 @@ export default function ITAISolutions() {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
             variants={staggerContainer}
             initial="hidden"
-            animate={isServicesInView ? "visible" : "hidden"}
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
           >
             {services.map((service, index) => (
               <motion.div
                 key={index}
-                className="relative group"
-                variants={scaleIn}
-                initial="hidden"
-                animate={isServicesInView ? "visible" : "hidden"}
-                transition={{ delay: index * 0.1 }}
+                className="relative group h-full"
+                variants={cardVariant}
                 onHoverStart={() => setHoveredService(index)}
                 onHoverEnd={() => setHoveredService(null)}
               >
@@ -385,25 +380,19 @@ export default function ITAISolutions() {
                 />
                 
                 {/* Service Card */}
-                <div className="relative bg-white rounded-2xl p-1 shadow-lg overflow-hidden">
-                  <div className="h-full bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100 relative z-10">
-                    {/* Icon Container with Hover Effect */}
-                    <motion.div 
+                <div className="relative bg-white rounded-2xl p-1 shadow-lg overflow-hidden h-full">
+                  <div className="h-full bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100 relative z-10 flex flex-col">
+                    {/* Icon Container without hover effect */}
+                    <div 
                       className="w-16 h-16 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-lg mb-6 mx-auto"
-                      whileHover={{ 
-                        rotate: 15,
-                        scale: 1.1,
-                        boxShadow: "0 10px 25px -5px rgba(59, 130, 246, 0.5)"
-                      }}
-                      transition={{ duration: 0.3 }}
                     >
                       {service.icon}
-                    </motion.div>
+                    </div>
                     
                     <h3 className="text-xl font-bold text-blue-900 mb-4 text-center">{service.title}</h3>
                     <p className="text-gray-700 mb-6 text-center">{service.description}</p>
                     
-                    <div className="bg-white rounded-xl p-4 shadow-sm">
+                    <div className="bg-white rounded-xl p-4 shadow-sm mt-auto">
                       <h4 className="font-bold text-blue-900 mb-3 text-sm">Key Features:</h4>
                       <ul className="space-y-2">
                         {service.features.map((feature, idx) => (
@@ -417,15 +406,6 @@ export default function ITAISolutions() {
                       </ul>
                     </div>
                     
-                    <div className="text-center mt-6">
-                      <Link 
-                        href="/contact" 
-                        className="text-blue-600 font-medium inline-flex items-center group"
-                      >
-                        Learn more 
-                        <FaArrowRight className="ml-2 text-sm group-hover:translate-x-1 transition-transform duration-300" />
-                      </Link>
-                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -435,7 +415,7 @@ export default function ITAISolutions() {
       </div>
 
       {/* Solutions Section with Uniform Cards */}
-      <div ref={solutionsRef} className="py-20 bg-gradient-to-br from-blue-50 to-indigo-50 relative overflow-hidden">
+      <div className="py-20 bg-gradient-to-br from-blue-50 to-indigo-50 relative overflow-hidden">
         {/* Background decoration */}
         <div className="absolute top-0 left-0 w-64 h-64 rounded-full bg-gradient-to-r from-blue-200/30 to-indigo-200/30 -translate-x-1/2 -translate-y-1/2"></div>
         <div className="absolute bottom-0 right-0 w-80 h-80 rounded-full bg-gradient-to-r from-cyan-200/30 to-blue-200/30 translate-x-1/2 translate-y-1/2"></div>
@@ -445,7 +425,8 @@ export default function ITAISolutions() {
             className="text-center mb-16"
             variants={fadeInUp}
             initial="hidden"
-            animate={isSolutionsInView ? "visible" : "hidden"}
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
           >
             <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-2">Our More Solutions</h2>
           </motion.div>
@@ -454,16 +435,14 @@ export default function ITAISolutions() {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
             variants={staggerContainer}
             initial="hidden"
-            animate={isSolutionsInView ? "visible" : "hidden"}
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
           >
             {solutions.map((solution, index) => (
               <motion.div
                 key={index}
-                className="relative"
-                variants={scaleIn}
-                initial="hidden"
-                animate={isSolutionsInView ? "visible" : "hidden"}
-                transition={{ delay: index * 0.1 }}
+                className="relative h-full"
+                variants={cardVariant}
                 onHoverStart={() => setHoveredSolution(index)}
                 onHoverEnd={() => setHoveredSolution(null)}
               >

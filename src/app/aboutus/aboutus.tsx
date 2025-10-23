@@ -1,13 +1,13 @@
 'use client'
 import React, { useState } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import OurTeam, { TeamMember } from '@/components/OurTeam';
-import OurJourney from "@/components/OurJourney"
+import OurJourney from "@/components/OurJourney";
+import PageHeader from '@/components/PageHeader';
+import { FaCheck, FaUsers, FaShieldAlt, FaCogs, FaTools } from 'react-icons/fa';
 
 // Import images for HeaderSection
-import web from '@/assets/Solution.jpg';
-import mobile from '@/assets/Building.jpg';
 import aboutus from '@/assets/hikvision.webp';
 
 // AboutPage component
@@ -58,6 +58,27 @@ export default function AboutPage() {
     },
   ];
 
+  // Predefined data for security solutions
+  const securityFeatures = [
+    'High-definition (HD) cameras that capture every detail',
+    'Night vision and smart motion detection for round-the-clock security',
+    'Sturdy indoor and outdoor cameras suitable for any setting',
+    'PTZ, thermal, and advanced surveillance options'
+  ];
+
+  const securityOfferings = [
+    'Security Cameras (IP, Dome, Bullet, PTZ)',
+    'DVR & NVR Systems',
+    'Thermal & AI-Enhanced Cameras',
+    'Comprehensive Security Installation & Support'
+  ];
+
+  const whyChooseUs = [
+    'The Best Security Solutions Prices in Bahrain (Wholesale & Retail)',
+    'Expert Advice & Tailored Solutions',
+    'A Wide Selection of Authentic Security Products'
+  ];
+
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
 
   const handleImageError = (key: string) => {
@@ -75,112 +96,43 @@ export default function AboutPage() {
     </div>
   );
 
-  // HeaderSection animation variants
-  const heroVariants = {
-    hidden: {
-      opacity: 0,
-      y: 50
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 1.2,
-        ease: [0.25, 0.4, 0.25, 1] as const
-      }
+  // Data for PageHeader component - Single slide for About page
+  const headerSlides = [
+    {
+      title: "About Digitallink Bahrain",
+      subtitle: "Your trusted partner for comprehensive technology and security solutions in Bahrain",
+      headingPart1: "About",
+      headingPart2: "Digitallink Bahrain"
     }
-  };
+  ];
 
-  const titleVariants = {
-    hidden: {
-      opacity: 0,
-      y: 30,
-      scale: 0.9
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        duration: 1,
-        ease: [0.25, 0.4, 0.25, 1] as const,
-        delay: 0.2
-      }
-    }
-  };
+  const headerBenefits = [
+    "Expert Security Solutions",
+    "Cutting-Edge Technology",
+    "Professional Installation",
+    "24/7 Support",
+    "Trusted by 5,000+ Clients"
+  ];
 
-  const subtitleVariants = {
-    hidden: {
-      opacity: 0,
-      y: 20
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: "easeOut" as const,
-        delay: 0.6
-      }
-    }
-  };
-
-  // HeaderSection scroll effects
-  const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 300], [0, 150]);
+  const headerFeatures = [
+    { icon: FaShieldAlt, title: "Security Systems", desc: "Advanced protection" },
+    { icon: FaCogs, title: "System Integration", desc: "Seamless solutions" },
+    { icon: FaTools, title: "Installation", desc: "Professional setup" },
+    { icon: FaUsers, title: "Support", desc: "24/7 assistance" }
+  ];
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header Section - inserted directly */}
-      <div className="relative h-[35vh] sm:h-[45vh] md:h-[50vh] lg:h-[55vh] xl:h-[60vh] bg-gradient-to-r from-blue-900 via-indigo-900 to-blue-900 overflow-hidden hero-banner">
-        <motion.div className="absolute inset-0" style={{ y }}>
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/70"></div>
-          <div className="w-full h-full bg-gradient-to-br from-blue-600/40 to-indigo-800/40 opacity-60"></div>
-          {/* Desktop banner image */}
-          <Image
-            src={web}
-            alt="Solutions background"
-            fill
-            className="object-cover opacity-30 hidden sm:block"
-            sizes="100vw"
-          />
-          {/* Mobile banner image */}
-          <Image
-            src={mobile}
-            alt="Solutions background mobile"
-            fill
-            className="object-cover opacity-30 block sm:hidden"
-            sizes="100vw"
-          />
-        </motion.div>
+      {/* PageHeader Component */}
+      <PageHeader 
+        slides={headerSlides}
+        benefits={headerBenefits}
+        features={headerFeatures}
+        ctaText="Learn More About Us"
+        ctaIcon={FaCheck}
+      />
 
-        <div className="relative h-full flex items-center justify-center py-12">
-          <motion.div
-            variants={heroVariants}
-            initial="hidden"
-            animate="visible"
-            className="text-center space-y-4 px-4 sm:px-6 lg:px-8"
-          >
-            <motion.h1
-              variants={titleVariants}
-              className="text-4xl sm:text-5xl md:text-7xl font-black text-white tracking-tight pt-8 sm:pt-0"
-            >
-              About{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">
-                Us
-              </span>
-            </motion.h1>
-            <motion.p
-              variants={subtitleVariants}
-              className="text-xl sm:text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto"
-            >
-              Comprehensive technology solutions tailored for every industry and business need.
-            </motion.p>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* DigitalLink Bahrain Section - Updated to match your color scheme */}
+      {/* DigitalLink Bahrain Section - Updated with data-driven animations */}
       <section id="our-story" className="py-14 relative overflow-hidden bg-white">
         {/* Background accent - updated to blue/indigo colors */}
         <div
@@ -194,48 +146,107 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-5 relative z-10">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div className="order-2 md:order-1">
-              <h2 className="text-3xl font-bold mb-8 text-blue-900">
+              <motion.h2 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 0.7, ease: [0.25, 0.4, 0.25, 1] }}
+                className="text-3xl font-bold mb-8 text-blue-900"
+              >
                 DigitalLink Bahrain
-              </h2>
+              </motion.h2>
 
               <div className="space-y-6">
-                <p className="leading-relaxed text-lg text-gray-700">
+                <motion.p 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.5 }}
+                  transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
+                  className="leading-relaxed text-lg text-gray-700"
+                >
                   Are you on the hunt for top-notch security solutions in Bahrain?
                   Look no further! As a premier technology provider in Bahrain,
                   we specialize in delivering exceptional security and surveillance
                   solutions, including DVRs, NVRs, IP cameras, and cutting-edge
                   security systems.
-                </p>
+                </motion.p>
 
-                <p className="leading-relaxed text-lg text-gray-700">
-                  Why Choose Advanced Security Solutions?<br />
-                  Modern security technology stands out as essential for business protection, providing:<br />
-                  ✔ High-definition (HD) cameras that capture every detail<br />
-                  ✔ Night vision and smart motion detection for round-the-clock security<br />
-                  ✔ Sturdy indoor and outdoor cameras suitable for any setting<br />
-                  ✔ PTZ, thermal, and advanced surveillance options
-                </p>
+                <div className="leading-relaxed text-lg text-gray-700">
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, amount: 0.5 }}
+                    transition={{ duration: 0.5, ease: [0.25, 0.4, 0.25, 1] }}
+                  >
+                    Why Choose Advanced Security Solutions?<br />
+                    Modern security technology stands out as essential for business protection, providing:<br />
+                  </motion.div>
+                  {securityFeatures.map((feature, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true, amount: 0.5 }}
+                      transition={{ duration: 0.5, delay: (index + 1) * 0.1, ease: [0.25, 0.4, 0.25, 1] }}
+                    >
+                      ✔ {feature}<br />
+                    </motion.div>
+                  ))}
+                </div>
 
-                <p className="leading-relaxed text-lg text-gray-700">
-                  Our Security Offerings in Bahrain:<br />
-                  - Security Cameras (IP, Dome, Bullet, PTZ)<br />
-                  - DVR & NVR Systems<br />
-                  - Thermal & AI-Enhanced Cameras<br />
-                  - Comprehensive Security Installation & Support
-                </p>
+                <div className="leading-relaxed text-lg text-gray-700">
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, amount: 0.5 }}
+                    transition={{ duration: 0.5, ease: [0.25, 0.4, 0.25, 1] }}
+                  >
+                    Our Security Offerings in Bahrain:<br />
+                  </motion.div>
+                  {securityOfferings.map((offering, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true, amount: 0.5 }}
+                      transition={{ duration: 0.5, delay: (index + 1) * 0.1, ease: [0.25, 0.4, 0.25, 1] }}
+                    >
+                      - {offering}<br />
+                    </motion.div>
+                  ))}
+                </div>
 
-                <div
-                  className="mt-10 border-l-4 border-blue-500 pl-6 py-2 italic text-gray-700 bg-blue-50 rounded-r-lg"
-                >
-                  Why Choose Us?<br />
-                  ✅ The Best Security Solutions Prices in Bahrain (Wholesale & Retail)<br />
-                  ✅ Expert Advice & Tailored Solutions<br />
-                  ✅ A Wide Selection of Authentic Security Products
+                <div className="mt-10 border-l-4 border-blue-500 pl-6 py-2 italic text-gray-700 bg-blue-50 rounded-r-lg">
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, amount: 0.5 }}
+                    transition={{ duration: 0.5, ease: [0.25, 0.4, 0.25, 1] }}
+                  >
+                    Why Choose Us?<br />
+                  </motion.div>
+                  {whyChooseUs.map((reason, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true, amount: 0.5 }}
+                      transition={{ duration: 0.5, delay: (index + 1) * 0.1, ease: [0.25, 0.4, 0.25, 1] }}
+                    >
+                      ✅ {reason}<br />
+                    </motion.div>
+                  ))}
                 </div>
               </div>
             </div>
             <div className="order-1 md:order-2">
-              <div className="relative">
+              <motion.div 
+                initial={{ opacity: 0, x: 50, scale: 0.95 }}
+                whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
+                className="relative"
+              >
                 {/* Main image with enhanced styling */}
                 <div
                   className="rounded-2xl overflow-hidden shadow-2xl transform transition-all duration-500 hover:shadow-3xl hover:-translate-y-2 relative z-10 border-4 border-gray-200"
@@ -250,24 +261,36 @@ export default function AboutPage() {
                 </div>
 
                 {/* Decorative elements - updated colors */}
-                <div
-                  className="absolute top-6 -right-6 w-32 h-32 border-4 border-blue-400 rounded-xl opacity-20 z-0"
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 0.2, scale: 1 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  className="absolute top-6 -right-6 w-32 h-32 border-4 border-blue-400 rounded-xl z-0"
                 >
-                </div>
-                <div
-                  className="absolute -bottom-6 -left-6 w-32 h-32 border-4 border-indigo-500 rounded-xl opacity-20 z-0"
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 0.2, scale: 1 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  className="absolute -bottom-6 -left-6 w-32 h-32 border-4 border-indigo-500 rounded-xl z-0"
                 >
-                </div>
+                </motion.div>
 
                 {/* Stats highlight - updated colors */}
-                <div
+                <motion.div
+                  initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, amount: 0.5 }}
+                  transition={{ duration: 0.7, delay: 0.5, ease: [0.25, 0.4, 0.25, 1] }}
                   className="absolute -bottom-10 right-10 bg-white py-4 px-6 rounded-lg shadow-xl z-20 border border-blue-100"
                 >
                   <p className="text-sm text-gray-600">Trusted by</p>
                   <p className="text-3xl font-bold text-blue-900">5,000+</p>
                   <p className="text-sm text-gray-600">clients worldwide</p>
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             </div>
           </div>
         </div>
@@ -291,45 +314,6 @@ export default function AboutPage() {
           {/* Team Section */}
           <OurTeam teamMembers={teamMembers} />
           <OurJourney/>
-          
-          {/* Why It Works Section */}
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="bg-white rounded-xl shadow-lg p-8"
-          >
-            <h2 className="text-3xl font-bold text-center mb-10">Why it works</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {features.map((feature, index) => (
-                <motion.div 
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.6 + (index * 0.15) }}
-                  className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow border border-gray-100"
-                >
-                  <div className="flex justify-center mb-4">
-                    <div className="w-16 h-16 flex items-center justify-center bg-blue-100 rounded-full">
-                      {imageErrors[`icon-${index}`] ? (
-                        <IconFallback />
-                      ) : (
-                        <img
-                          src={feature.icon}
-                          alt={`${feature.title} icon`}
-                          width={32}
-                          height={32}
-                          onError={() => handleImageError(`icon-${index}`)}
-                        />
-                      )}
-                    </div>
-                  </div>
-                  <h3 className="text-xl font-semibold text-center mb-2 text-gray-800">{feature.title}</h3>
-                  <p className="text-gray-600 text-center">{feature.description}</p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
         </div>
       </div>
     </div>

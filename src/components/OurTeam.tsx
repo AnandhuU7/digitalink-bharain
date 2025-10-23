@@ -1,6 +1,6 @@
 'use client'
-import React, { useState, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 
 export interface TeamMember {
   name: string;
@@ -22,8 +22,6 @@ interface TeamSectionProps {
 export default function OurTeam({ teamMembers }: TeamSectionProps) {
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
   const [currentIndex, setCurrentIndex] = useState(2);
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const handleImageError = (key: string) => {
     setImageErrors(prev => ({
@@ -182,11 +180,12 @@ export default function OurTeam({ teamMembers }: TeamSectionProps) {
   };
 
   return (
-    <div ref={ref} className="mb-20">
+    <div className="mb-20">
       <motion.h2 
         initial={{ opacity: 0.3 }}
-        animate={isInView ? { opacity: 1 } : { opacity: 0.3 }}
+        whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+        viewport={{ once: true, margin: "-100px" }}
         className="text-3xl font-bold text-center mb-10"
       >
         Our Team
@@ -196,19 +195,21 @@ export default function OurTeam({ teamMembers }: TeamSectionProps) {
       <div className="block md:hidden">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease: [0.22, 0.61, 0.36, 1] }}
+          viewport={{ once: true, amount: 0.3 }}
           className="flex flex-col items-center gap-10 max-w-2xl mx-auto px-6"
         >
           {/* Top team member - Main person */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.8, y: 40 }}
-            animate={isInView ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.8, y: 40 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ 
               duration: 1.4, 
               delay: 0.3, 
               ease: [0.22, 0.61, 0.36, 1],
             }}
+            viewport={{ once: true, amount: 0.3 }}
             className="flex flex-col items-center"
           >
             <motion.div 
@@ -232,8 +233,9 @@ export default function OurTeam({ teamMembers }: TeamSectionProps) {
             <motion.h3 
               className="font-semibold text-xl text-center text-gray-900 px-2"
               initial={{ opacity: 0, y: 15 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.7 }}
+              viewport={{ once: true, amount: 0.3 }}
             >
               {teamMembers[0].name}
             </motion.h3>
@@ -245,12 +247,13 @@ export default function OurTeam({ teamMembers }: TeamSectionProps) {
               <motion.div 
                 key={index + 1}
                 initial={{ opacity: 0, scale: 0.6, y: 60 }}
-                animate={isInView ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.6, y: 60 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ 
                   duration: 1.1, 
                   delay: 0.8 + (index * 0.2), 
                   ease: [0.22, 0.61, 0.36, 1],
                 }}
+                viewport={{ once: true, amount: 0.3 }}
                 className="flex flex-col items-center"
               >
                 <motion.div 
@@ -274,8 +277,9 @@ export default function OurTeam({ teamMembers }: TeamSectionProps) {
                 <motion.h3 
                   className="font-semibold text-lg text-center text-gray-900 max-w-36 px-2"
                   initial={{ opacity: 0, y: 15 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 1.1 + (index * 0.15) }}
+                  viewport={{ once: true, amount: 0.3 }}
                 >
                   {member.name}
                 </motion.h3>
@@ -289,12 +293,13 @@ export default function OurTeam({ teamMembers }: TeamSectionProps) {
               <motion.div 
                 key={index + 3}
                 initial={{ opacity: 0, scale: 0.6, y: 60 }}
-                animate={isInView ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.6, y: 60 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ 
                   duration: 1.1, 
                   delay: 1.0 + (index * 0.2), 
                   ease: [0.22, 0.61, 0.36, 1],
                 }}
+                viewport={{ once: true, amount: 0.3 }}
                 className="flex flex-col items-center"
               >
                 <motion.div 
@@ -318,8 +323,9 @@ export default function OurTeam({ teamMembers }: TeamSectionProps) {
                 <motion.h3 
                   className="font-semibold text-lg text-center text-gray-900 max-w-36 px-2"
                   initial={{ opacity: 0, y: 15 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 1.3 + (index * 0.15) }}
+                  viewport={{ once: true, amount: 0.3 }}
                 >
                   {member.name}
                 </motion.h3>
@@ -333,19 +339,21 @@ export default function OurTeam({ teamMembers }: TeamSectionProps) {
       <div className="hidden md:block xl:hidden">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease: [0.22, 0.61, 0.36, 1] }}
+          viewport={{ once: true, amount: 0.3 }}
           className="flex flex-col items-center gap-8 md:gap-12 max-w-2xl mx-auto px-4"
         >
           {/* Top team member - Main person */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.8, y: 40 }}
-            animate={isInView ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.8, y: 40 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ 
               duration: 1.4, 
               delay: 0.3, 
               ease: [0.22, 0.61, 0.36, 1],
             }}
+            viewport={{ once: true, amount: 0.3 }}
             className="flex flex-col items-center"
           >
             <motion.div 
@@ -369,8 +377,9 @@ export default function OurTeam({ teamMembers }: TeamSectionProps) {
             <motion.h3 
               className="font-semibold text-lg md:text-xl text-center text-gray-900"
               initial={{ opacity: 0, y: 15 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.7 }}
+              viewport={{ once: true, amount: 0.3 }}
             >
               {teamMembers[0].name}
             </motion.h3>
@@ -382,12 +391,13 @@ export default function OurTeam({ teamMembers }: TeamSectionProps) {
               <motion.div 
                 key={index + 1}
                 initial={{ opacity: 0, scale: 0.6, y: 60 }}
-                animate={isInView ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.6, y: 60 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ 
                   duration: 1.1, 
                   delay: 0.8 + (index * 0.2), 
                   ease: [0.22, 0.61, 0.36, 1],
                 }}
+                viewport={{ once: true, amount: 0.3 }}
                 className="flex flex-col items-center"
               >
                 <motion.div 
@@ -411,8 +421,9 @@ export default function OurTeam({ teamMembers }: TeamSectionProps) {
                 <motion.h3 
                   className="font-semibold text-sm md:text-base text-center text-gray-900 max-w-24 md:max-w-32 truncate"
                   initial={{ opacity: 0, y: 15 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 1.1 + (index * 0.15) }}
+                  viewport={{ once: true, amount: 0.3 }}
                 >
                   {member.name}
                 </motion.h3>
@@ -426,15 +437,17 @@ export default function OurTeam({ teamMembers }: TeamSectionProps) {
       <div className="hidden xl:block">
         <motion.div 
           initial={{ opacity: 0.3 }}
-          animate={isInView ? { opacity: 1 } : { opacity: 0.3 }}
+          whileInView={{ opacity: 1 }}
           transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+          viewport={{ once: true, amount: 0.3 }}
           className="flex justify-center items-center relative h-80"
         >
           {/* Background decoration */}
           <motion.div 
             initial={{ scale: 0.8, opacity: 0 }}
-            animate={isInView ? { scale: 1, opacity: 0.2 } : { scale: 0.8, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 0.2 }}
             transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
+            viewport={{ once: true, amount: 0.3 }}
             className="absolute inset-0 flex justify-center items-center"
           >
             <div className="w-64 h-64 bg-blue-100 rounded-full blur-xl"></div>
@@ -461,12 +474,13 @@ export default function OurTeam({ teamMembers }: TeamSectionProps) {
                 <motion.div
                   key={teamMember.index}
                   initial={getInitialPosition()}
-                  animate={isInView ? { x: 0, y: 0, opacity: 1, scale: 1 } : getInitialPosition()}
+                  whileInView={{ x: 0, y: 0, opacity: 1, scale: 1 }}
                   transition={{ 
                     duration: 1, 
                     delay: 0.1 + (idx * 0.08),
                     ease: [0.25, 0.1, 0.25, 1]
                   }}
+                  viewport={{ once: true, amount: 0.3 }}
                 >
                   <TeamMemberCard 
                     teamMember={teamMember} 
@@ -483,8 +497,9 @@ export default function OurTeam({ teamMembers }: TeamSectionProps) {
         {/* Small Navigation Buttons at Bottom - Only for Desktop */}
         <motion.div 
           initial={{ opacity: 0.4, y: 10 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0.4, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+          viewport={{ once: true, amount: 0.3 }}
           className="flex justify-center items-center mt-12 space-x-6"
         >
           <SmallNavButton direction="left" onClick={handlePrevClick} />

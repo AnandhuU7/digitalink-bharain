@@ -1,11 +1,8 @@
 'use client';
 
-import { motion, useInView, Variants } from 'framer-motion';
-import { useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { motion, Variants } from 'framer-motion';
 import { FaLaptopCode, FaMobileAlt, FaChartLine, FaPaintBrush, FaShoppingCart, FaSearch, FaArrowRight, FaUsers, FaCogs, FaBullhorn, FaShieldAlt, FaQuoteLeft, FaQuestionCircle, FaCheck, FaLightbulb, FaRocket, FaHandshake, FaChevronDown, FaPlus, FaMinus } from 'react-icons/fa';
 import Link from 'next/link';
-
 import { ReactElement, useState } from 'react';
 
 import PageHeader from '@/components/PageHeader';
@@ -36,25 +33,7 @@ interface FAQItem {
 }
 
 export default function Solutions() {
-  const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 300], [0, 150]);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
-  // Refs for scroll animations
-  const subtitleRef = useRef(null);
-  const solutionsRef = useRef(null);
-  const processRef = useRef(null);
-  const testimonialsRef = useRef(null);
-  const faqRef = useRef(null);
-  const commitmentRef = useRef(null);
-
-  // InView hooks
-  const isSubtitleInView = useInView(subtitleRef, { once: true, amount: 0.3 });
-  const isSolutionsInView = useInView(solutionsRef, { once: true, amount: 0.1 });
-  const isProcessInView = useInView(processRef, { once: true, amount: 0.1 });
-  const isTestimonialsInView = useInView(testimonialsRef, { once: true, amount: 0.1 });
-  const isFaqInView = useInView(faqRef, { once: true, amount: 0.1 });
-  const isCommitmentInView = useInView(commitmentRef, { once: true, amount: 0.3 });
 
   const toggleFAQ = (index: number) => {
     setActiveIndex(activeIndex === index ? null : index);
@@ -264,12 +243,13 @@ export default function Solutions() {
       <div className="py-16 bg-gradient-to-br from-gray-50 to-white min-h-screen">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           {/* Subtitle Section */}
-          <div ref={subtitleRef} className="text-center mb-20">
+          <div className="text-center mb-20">
             <motion.h1 
               className="text-4xl md:text-5xl font-bold mb-6"
               variants={fadeInUp}
               initial="hidden"
-              animate={isSubtitleInView ? "visible" : "hidden"}
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
             >
               We Lead With <span className="bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 bg-clip-text text-transparent">Customer-First</span> Strategies
             </motion.h1>
@@ -277,7 +257,8 @@ export default function Solutions() {
               className="text-gray-700 max-w-3xl mx-auto text-xl"
               variants={fadeInUp}
               initial="hidden"
-              animate={isSubtitleInView ? "visible" : "hidden"}
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
               transition={{ delay: 0.2 }}
             >
               Driving growth through personalized experiences for truly end-to-end business building
@@ -286,11 +267,11 @@ export default function Solutions() {
 
           {/* Solutions Grid */}
           <motion.div 
-            ref={solutionsRef}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-24"
             variants={staggerContainer}
             initial="hidden"
-            animate={isSolutionsInView ? "visible" : "hidden"}
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
           >
             {solutions.map((solution, index) => (
               <motion.div
@@ -320,7 +301,8 @@ export default function Solutions() {
                         key={idx} 
                         className="flex items-center"
                         initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, amount: 0.3 }}
                         transition={{ delay: 0.1 * idx }}
                       >
                         <div className="w-2 h-2 rounded-full mr-3 bg-blue-900"></div>
@@ -343,12 +325,13 @@ export default function Solutions() {
           </motion.div>
 
           {/* Process Flow Section */}
-          <div ref={processRef} className="mb-24">
+          <div className="mb-24">
             <motion.div 
               className="text-center mb-16"
               variants={fadeInUp}
               initial="hidden"
-              animate={isProcessInView ? "visible" : "hidden"}
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
             >
               <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Solution Process</h2>
               <p className="text-gray-700 max-w-2xl mx-auto">A streamlined approach to delivering exceptional results for your business</p>
@@ -359,7 +342,8 @@ export default function Solutions() {
               <motion.div 
                 className="hidden md:block absolute top-16 left-0 right-0 h-1 bg-gradient-to-r from-blue-900 to-blue-600 z-0"
                 initial={{ scaleX: 0 }}
-                animate={isProcessInView ? { scaleX: 1 } : { scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 1, delay: 0.5 }}
               ></motion.div>
               
@@ -367,7 +351,8 @@ export default function Solutions() {
                 className="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10"
                 variants={staggerContainer}
                 initial="hidden"
-                animate={isProcessInView ? "visible" : "hidden"}
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.1 }}
               >
                 {processSteps.map((step, index) => (
                   <motion.div
@@ -389,7 +374,8 @@ export default function Solutions() {
                         <motion.div 
                           className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold"
                           initial={{ scale: 0 }}
-                          animate={isProcessInView ? { scale: 1 } : { scale: 0 }}
+                          whileInView={{ scale: 1 }}
+                          viewport={{ once: true, amount: 0.3 }}
                           transition={{ delay: 0.7 + index * 0.1, type: "spring" }}
                         >
                           {index + 1}
@@ -403,68 +389,16 @@ export default function Solutions() {
               </motion.div>
             </div>
           </div>
-
-          {/* Testimonials Section */}
-          <div ref={testimonialsRef} className="mb-24">
-            <motion.div 
-              className="text-center mb-16"
-              variants={fadeInUp}
-              initial="hidden"
-              animate={isTestimonialsInView ? "visible" : "hidden"}
-            >
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">Client Success Stories</h2>
-              <p className="text-gray-700 max-w-2xl mx-auto">Hear from businesses that have transformed with our solutions</p>
-            </motion.div>
-            
-            <motion.div 
-              className="grid grid-cols-1 md:grid-cols-3 gap-8"
-              variants={staggerContainer}
-              initial="hidden"
-              animate={isTestimonialsInView ? "visible" : "hidden"}
-            >
-              {testimonials.map((testimonial, index) => (
-                <motion.div
-                  key={index}
-                  className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 relative"
-                  variants={scaleIn}
-                  whileHover={{ 
-                    y: -10,
-                    transition: { duration: 0.3 }
-                  }}
-                >
-                  <motion.div 
-                    className="absolute top-0 left-8 transform -translate-y-1/2 text-blue-900 bg-white p-2 rounded-full"
-                    whileHover={{ rotate: [0, 10, -10, 0] }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <FaQuoteLeft className="text-2xl" />
-                  </motion.div>
-                  <p className="text-gray-700 mb-6 italic">"{testimonial.content}"</p>
-                  <div className="flex items-center">
-                    <motion.div 
-                      className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 flex items-center justify-center text-white font-bold mr-4"
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ type: "spring", stiffness: 300 }}
-                    >
-                      {testimonial.name.charAt(0)}
-                    </motion.div>
-                    <div>
-                      <h4 className="font-bold text-blue-900">{testimonial.name}</h4>
-                      <p className="text-gray-600">{testimonial.role}, {testimonial.company}</p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
+        
 
           {/* FAQ Section */}
-          <div ref={faqRef} className="mb-24">
+          <div className="mb-24">
             <motion.div 
               className="text-center mb-16"
               variants={fadeInUp}
               initial="hidden"
-              animate={isFaqInView ? "visible" : "hidden"}
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
             >
               <h2 className="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
               <p className="text-gray-700 max-w-2xl mx-auto">Find answers to common questions about our solutions</p>
@@ -474,7 +408,8 @@ export default function Solutions() {
               className="max-w-3xl mx-auto"
               variants={staggerContainer}
               initial="hidden"
-              animate={isFaqInView ? "visible" : "hidden"}
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
             >
               {faqs.map((faq, index) => (
                 <motion.div
@@ -501,10 +436,11 @@ export default function Solutions() {
                           : 'bg-transparent'
                       }`}
                       initial={{ scaleY: 0 }}
-                      animate={{ 
+                      whileInView={{ 
                         scaleY: activeIndex === index ? 1 : 0,
                         originY: "top"
                       }}
+                      viewport={{ once: true, amount: 0.3 }}
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                     />
                     
@@ -578,10 +514,11 @@ export default function Solutions() {
                       <div className="p-6 pt-0 px-10">
                         <motion.div
                           initial={{ opacity: 0, y: 10 }}
-                          animate={{ 
+                          whileInView={{ 
                             opacity: activeIndex === index ? 1 : 0, 
                             y: activeIndex === index ? 0 : 10 
                           }}
+                          viewport={{ once: true, amount: 0.3 }}
                           transition={{ 
                             delay: activeIndex === index ? 0.1 : 0,
                             duration: 0.3
@@ -594,7 +531,8 @@ export default function Solutions() {
                         {activeIndex === index && (
                           <motion.div
                             initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true, amount: 0.3 }}
                             transition={{ 
                               delay: 0.2,
                               type: "spring",
@@ -616,18 +554,19 @@ export default function Solutions() {
 
           {/* Commitment Section */}
           <motion.div 
-            ref={commitmentRef}
             className="bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 rounded-3xl p-8 md:p-12 text-white shadow-2xl overflow-hidden"
             variants={scaleIn}
             initial="hidden"
-            animate={isCommitmentInView ? "visible" : "hidden"}
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
           >
             <div className="flex flex-col md:flex-row items-center">
               <motion.div 
                 className="md:w-2/3 mb-8 md:mb-0 pr-0 md:pr-8"
                 variants={slideInLeft}
                 initial="hidden"
-                animate={isCommitmentInView ? "visible" : "hidden"}
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
               >
                 <h3 className="text-3xl font-bold mb-4">We Are Committed To Your Strategy</h3>
                 <p className="text-blue-100 mb-6 text-lg">
@@ -637,7 +576,8 @@ export default function Solutions() {
                   <motion.div 
                     className="flex -space-x-2"
                     initial={{ opacity: 0 }}
-                    animate={isCommitmentInView ? { opacity: 1 } : { opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true, amount: 0.3 }}
                     transition={{ delay: 0.5 }}
                   >
                     <motion.div 
@@ -669,7 +609,8 @@ export default function Solutions() {
                 className="md:w-1/3 md:text-right"
                 variants={slideInRight}
                 initial="hidden"
-                animate={isCommitmentInView ? "visible" : "hidden"}
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
               >
                 <Link
                   href="/about"

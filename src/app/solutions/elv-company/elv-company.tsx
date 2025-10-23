@@ -1,7 +1,7 @@
 'use client';
 
-import { motion, useInView, Variants } from 'framer-motion';
-import { useRef, useEffect, useState } from 'react';
+import { motion, Variants } from 'framer-motion';
+import {  useState } from 'react';
 import { FaBuilding, FaTools, FaCog, FaComments, FaArrowRight, FaUsers, FaShieldAlt, FaCheck, FaLightbulb, FaHandshake, FaBrain, FaBullhorn, FaCogs, FaLock, FaNetworkWired, FaVideo, FaCamera, FaLaptopCode, FaChartLine, FaAward, FaStar, FaQuoteLeft, FaPhone, FaEnvelope, FaChevronDown } from 'react-icons/fa';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -27,39 +27,10 @@ interface Solution {
   description: string;
 }
 
-interface TimelineItem {
-  title: string;
-  description: string;
-  icon: ReactElement;
-}
 
-interface Statistic {
-  value: number;
-  label: string;
-  icon: ReactElement;
-}
-
-interface WhyChooseItem {
-  icon: ReactElement;
-  title: string;
-  description: string;
-}
 
 export default function ELVCompanyPage() {
   const [hoveredSolution, setHoveredSolution] = useState<number | null>(null);
-  const [counters, setCounters] = useState({ projects: 0, clients: 0, experience: 0, satisfaction: 0 });
-
-  // Refs for scroll animations
-  const solutionsRef = useRef(null);
-  const professionalCommRef = useRef(null);
-  const servicesRef = useRef(null);
-  const whyChooseRef = useRef(null);
-
-  // InView hooks
-  const isSolutionsInView = useInView(solutionsRef, { once: true, amount: 0.3 });
-  const isProfessionalCommInView = useInView(professionalCommRef, { once: true, amount: 0.3 });
-  const isServicesInView = useInView(servicesRef, { once: true, amount: 0.3 });
-  const isWhyChooseInView = useInView(whyChooseRef, { once: true, amount: 0.3 });
 
   // Animation variants
   const fadeInUp: Variants = {
@@ -227,13 +198,13 @@ export default function ELVCompanyPage() {
 
       {/* Professional Communication Section - Image Left, Content Right */}
       <section 
-        ref={professionalCommRef} 
         className="py-8 md:py-12 lg:py-16 bg-white overflow-hidden"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden">
           <motion.div
             initial="hidden"
-            animate={isProfessionalCommInView ? "visible" : "hidden"}
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
             variants={staggerContainer}
             className="overflow-hidden"
           >
@@ -241,7 +212,8 @@ export default function ELVCompanyPage() {
               className="text-center mb-8 md:mb-12 overflow-hidden"
               variants={fadeInUp}
               initial="hidden"
-              animate={isProfessionalCommInView ? "visible" : "hidden"}
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
             >
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2 md:mb-4">
                 Our Services
@@ -292,7 +264,7 @@ export default function ELVCompanyPage() {
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 }}
-                      viewport={{ once: true }}
+                      viewport={{ once: true, amount: 0.3 }}
                     >
                       Ascend with Our Expertise
                     </motion.h3>
@@ -301,7 +273,7 @@ export default function ELVCompanyPage() {
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.4 }}
-                      viewport={{ once: true }}
+                      viewport={{ once: true, amount: 0.3 }}
                     >
                       Professional 4K video conferencing solutions from desk setups to large meeting rooms.
                     </motion.p>
@@ -312,7 +284,7 @@ export default function ELVCompanyPage() {
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     transition={{ delay: 0.5 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: true, amount: 0.3 }}
                   >
                     {services.map((service, idx) => (
                       <motion.div
@@ -321,7 +293,7 @@ export default function ELVCompanyPage() {
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.6 + idx * 0.1 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: true, amount: 0.3 }}
                       >
                         <FaCheck className="w-4 h-4 md:w-5 md:h-5 text-blue-500 mr-2 md:mr-3 flex-shrink-0" />
                         <span className="text-sm md:text-base text-gray-700">
@@ -339,13 +311,13 @@ export default function ELVCompanyPage() {
 
       {/* Why Choose Us Section - Content Left, Image Right */}
       <section
-        ref={whyChooseRef}
         className="py-8 md:py-12 lg:py-16 bg-gray-50 overflow-hidden"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden">
           <motion.div
             initial="hidden"
-            animate={isWhyChooseInView ? "visible" : "hidden"}
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
             variants={staggerContainer}
             className="overflow-hidden"
           >
@@ -359,7 +331,7 @@ export default function ELVCompanyPage() {
               >
                 {/* Content on Left */}
                 <motion.div
-                  className="space-y-4 md:space-y-6 overflow-hidden"
+                  className="space-y-4 md:space-y-6 overflow-hidden order-2 lg:order-1"
                   initial="hidden"
                   whileInView="visible"
                   variants={slideInLeft}
@@ -371,7 +343,7 @@ export default function ELVCompanyPage() {
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 }}
-                      viewport={{ once: true }}
+                      viewport={{ once: true, amount: 0.3 }}
                     >
                       Why Choose Digitallink Bahrain
                     </motion.h3>
@@ -380,7 +352,7 @@ export default function ELVCompanyPage() {
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.4 }}
-                      viewport={{ once: true }}
+                      viewport={{ once: true, amount: 0.3 }}
                     >
                       At Digitallink, we pride ourselves on delivering exceptional elevator solutions that combine innovation, safety, and reliability.
                     </motion.p>
@@ -391,7 +363,7 @@ export default function ELVCompanyPage() {
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     transition={{ delay: 0.5 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: true, amount: 0.3 }}
                   >
                     {whyChooseItems.map((item, idx) => (
                       <motion.div
@@ -400,7 +372,7 @@ export default function ELVCompanyPage() {
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.6 + idx * 0.1 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: true, amount: 0.3 }}
                       >
                         <FaCheck className="w-4 h-4 md:w-5 md:h-5 text-blue-500 mr-2 md:mr-3 flex-shrink-0" />
                         <span className="text-sm md:text-base text-gray-700">
@@ -413,7 +385,7 @@ export default function ELVCompanyPage() {
 
                 {/* Image on Right */}
                 <motion.div
-                  className="overflow-hidden"
+                  className="overflow-hidden order-1 lg:order-2"
                   initial="hidden"
                   whileInView="visible"
                   variants={slideInRight}
@@ -439,7 +411,7 @@ export default function ELVCompanyPage() {
       </section>
 
       {/* Solutions Section */}
-      <div ref={solutionsRef} className="py-20 bg-gradient-to-br from-blue-50 to-indigo-50 relative overflow-hidden">
+      <div className="py-20 bg-gradient-to-br from-blue-50 to-indigo-50 relative overflow-hidden">
         {/* Background decoration */}
         <div className="absolute top-0 left-0 w-64 h-64 rounded-full bg-gradient-to-r from-blue-200/30 to-indigo-200/30 -translate-x-1/2 -translate-y-1/2"></div>
         <div className="absolute bottom-0 right-0 w-80 h-80 rounded-full bg-gradient-to-r from-indigo-200/30 to-blue-200/30 translate-x-1/2 translate-y-1/2"></div>
@@ -449,7 +421,8 @@ export default function ELVCompanyPage() {
             className="text-center mb-16"
             variants={fadeInUp}
             initial="hidden"
-            animate={isSolutionsInView ? "visible" : "hidden"}
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
           >
             <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-2">Our More Solutions</h2>
           </motion.div>
@@ -458,7 +431,8 @@ export default function ELVCompanyPage() {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
             variants={staggerContainer}
             initial="hidden"
-            animate={isSolutionsInView ? "visible" : "hidden"}
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
           >
             {solutions.map((solution, index) => (
               <motion.div
@@ -466,7 +440,8 @@ export default function ELVCompanyPage() {
                 className="relative"
                 variants={scaleIn}
                 initial="hidden"
-                animate={isSolutionsInView ? "visible" : "hidden"}
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
                 transition={{ delay: index * 0.1 }}
                 onHoverStart={() => setHoveredSolution(index)}
                 onHoverEnd={() => setHoveredSolution(null)}

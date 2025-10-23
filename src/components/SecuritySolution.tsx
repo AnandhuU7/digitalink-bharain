@@ -3,12 +3,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
-import { 
-  FaHome, 
-  FaBuilding, 
-  FaIndustry, 
-  FaCity
-} from 'react-icons/fa';
+
 
 interface SecuritySolution {
   id: number;
