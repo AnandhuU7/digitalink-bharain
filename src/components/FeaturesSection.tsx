@@ -9,7 +9,8 @@ const processSteps = [
     id: 1,
     title: "IT & AI Solutions",
     icon: <FaCode className="text-3xl" />,
-    description: "Innovative IT and AI solutions including app development, SEO, and digital marketing.",
+    leftdescription: "Innovative IT and AI solutions including app development, SEO, and digital marketing.",
+    rightdescription: "Cutting-edge technology services for web, mobile, and AI-driven business growth strategies.",
     color: "from-blue-950 via-blue-900 to-blue-800",
     bgColor: "from-blue-950/20 to-blue-800/10"
   },
@@ -17,7 +18,8 @@ const processSteps = [
     id: 2,
     title: "ELV Solutions",
     icon: <FaDraftingCompass className="text-3xl" />,
-    description: "Advanced ELV technology solutions with custom setups for various environments.",
+    leftdescription: "Advanced ELV technology solutions with custom setups for various environments.",
+    rightdescription: "Tailored low-voltage systems designed for modern infrastructure and security needs.",
     color: "from-blue-950 via-blue-900 to-blue-800",
     bgColor: "from-blue-950/20 to-blue-800/10"
   },
@@ -25,7 +27,8 @@ const processSteps = [
     id: 3,
     title: "Audio & Visual",
     icon: <FaLightbulb className="text-3xl" />,
-    description: "Custom audio-visual solutions using advanced technology for events and venues.",
+    leftdescription: "Custom audio-visual solutions using advanced technology for events and venues.",
+    rightdescription: "Premium sound and visual systems engineered for exceptional experiences and performances.",
     color: "from-blue-950 via-blue-900 to-blue-800",
     bgColor: "from-blue-950/20 to-blue-800/10"
   },
@@ -33,7 +36,8 @@ const processSteps = [
     id: 4,
     title: "Surveillance",
     icon: <FaRocket className="text-3xl" />,
-    description: "Advanced surveillance solutions with custom setups for various settings.",
+    leftdescription: "Advanced surveillance solutions with custom setups for various settings.",
+    rightdescription: "Comprehensive security monitoring systems designed for diverse operational requirements.",
     color: "from-blue-950 via-blue-900 to-blue-800",
     bgColor: "from-blue-950/20 to-blue-800/10"
   }
@@ -94,7 +98,7 @@ export default function FeatureSection() {
                     </div>
                     <div>
                       <h3 className="font-bold text-lg mb-1">{step.title}</h3>
-                      <p className="text-gray-600">{step.description}</p>
+                      <p className="text-gray-600">{step.leftdescription}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -175,7 +179,7 @@ export default function FeatureSection() {
                   {processSteps[activeStep].icon}
                 </motion.div>
                 <h3 className="text-2xl font-bold mb-3">{processSteps[activeStep].title}</h3>
-                <p className="text-gray-600 mb-4">{processSteps[activeStep].description}</p>
+                <p className="text-gray-600 mb-4">{processSteps[activeStep].rightdescription}</p>
                 
                 {/* Step Number Badge */}
                 <div className="inline-block px-4 py-1 bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 text-white rounded-full text-sm font-semibold mb-4 shadow-lg shadow-blue-900/50">

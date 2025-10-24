@@ -3,7 +3,8 @@ import { motion, Variants } from 'framer-motion';
 import { useState } from 'react';
 import {
   FaVideo, FaVolumeUp, FaDesktop, FaProjectDiagram, FaArrowRight,
-  FaPlug, FaUsers, FaChartLine, FaLightbulb, FaBullhorn
+  FaPlug, FaUsers, FaChartLine, FaLightbulb, FaBullhorn,
+  FaBrain, FaShieldAlt, FaCogs
 } from 'react-icons/fa';
 import PageHeader from '@/components/PageHeader';
 import SolutionFAQ from '@/components/SolutionFAQ';
@@ -31,18 +32,23 @@ interface ProjectType {
   icon: React.ReactElement;
 }
 
-
-
 interface Technology {
   title: string;
   description: string;
   icon: React.ReactElement;
 }
 
+interface Solution {
+  icon: React.ReactElement;
+  title: string;
+  description: string;
+}
+
 export default function AVSolutionPage() {
   const [activeCard, setActiveCard] = useState(0);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [hoveredSolution, setHoveredSolution] = useState<number | null>(null);
 
   const fadeInUp: Variants = {
     hidden: { opacity: 0, y: 40 },
@@ -180,6 +186,29 @@ export default function AVSolutionPage() {
         'Cloud management',
         'Custom interfaces'
       ]
+    }
+  ];
+
+  const solutions: Solution[] = [
+    {
+      icon: <FaBrain className="text-4xl" />,
+      title: "IT & AI Solutions",
+      description: "Advanced technology solutions to streamline your business operations"
+    },
+    {
+      icon: <FaBullhorn className="text-4xl" />,
+      title: "Audio & Visual Solution",
+      description: "Integrated communication systems for enhanced connectivity"
+    },
+    {
+      icon: <FaShieldAlt className="text-4xl" />,
+      title: "Surveillance Solutions",
+      description: "Comprehensive security systems to protect your assets"
+    },
+    {
+      icon: <FaCogs className="text-4xl" />,
+      title: "ELV Company",
+      description: "Complete ELV solutions for modern building infrastructure and vertical transportation"
     }
   ];
 
@@ -429,6 +458,9 @@ export default function AVSolutionPage() {
           </motion.div>
         </div>
       </section>
+
+      {/* Our More Solutions Section */}
+      
 
       {/* System Integration Capabilities - WITH MUCH SLOWER SHUFFLE ANIMATION */}
       <section className="pt-10 pb-20 bg-white relative overflow-hidden">
@@ -748,6 +780,86 @@ export default function AVSolutionPage() {
           </motion.div>
         </div>
       </section>
+      <div className="py-20 bg-white relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <motion.div 
+            className="text-center mb-16"
+            variants={fadeInUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-2">Our More Solutions</h2>
+          </motion.div>
+          
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+          >
+            {solutions.map((solution, index) => (
+              <motion.div
+                key={index}
+                className="relative"
+                variants={scaleIn}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ delay: index * 0.1 }}
+                onHoverStart={() => setHoveredSolution(index)}
+                onHoverEnd={() => setHoveredSolution(null)}
+              >
+                <motion.div 
+                  className="bg-white rounded-2xl p-8 shadow-xl border border-blue-100 relative overflow-hidden h-full flex flex-col"
+                  animate={{ 
+                    y: hoveredSolution === index ? -20 : 0,
+                    rotateY: hoveredSolution === index ? 5 : 0
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {/* Floating effect elements */}
+                  <motion.div 
+                    className="absolute -top-10 -right-10 w-20 h-20 rounded-full bg-gradient-to-r from-blue-200/30 to-indigo-200/30"
+                    animate={{ 
+                      scale: hoveredSolution === index ? 1.2 : 1,
+                      rotate: hoveredSolution === index ? 15 : 0
+                    }}
+                    transition={{ duration: 0.5 }}
+                  ></motion.div>
+                  
+                  <motion.div 
+                    className="absolute -bottom-6 -left-6 w-16 h-16 rounded-full bg-gradient-to-r from-indigo-200/30 to-blue-200/30"
+                    animate={{ 
+                      scale: hoveredSolution === index ? 1.3 : 1,
+                      rotate: hoveredSolution === index ? -20 : 0
+                    }}
+                    transition={{ duration: 0.5 }}
+                  ></motion.div>
+                  
+                  <div className="relative z-10 flex flex-col h-full">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-lg mb-6 mx-auto">
+                      {solution.icon}
+                    </div>
+                    <h3 className="text-xl font-bold text-blue-900 mb-4 text-center">{solution.title}</h3>
+                    <p className="text-gray-700 mb-6 text-center flex-grow">{solution.description}</p>
+                    
+                    <div className="text-center mt-auto">
+                      <button 
+                        className="text-blue-900 font-bold inline-flex items-center group"
+                      >
+                        LEARN MORE
+                        <FaArrowRight className="ml-2 text-sm group-hover:translate-x-1 transition-transform duration-300" />
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </div>
 
       <SolutionFAQ />
       <StickyContactBar />

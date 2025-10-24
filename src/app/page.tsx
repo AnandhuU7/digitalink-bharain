@@ -4,9 +4,8 @@
 import HeroSection from '@/components/HeroSection';
 
 import FeaturesSection from '@/components/FeaturesSection';
-import TestimonialSection from '@/components/SecuritySolution';
-import PricingSection from '@/components/OurBrand';
-import OurJourney from '@/components/OurJourney';
+import SecuritySolution from '@/components/SecuritySolution';
+import OurBrand from '@/components/OurBrand';
 import LogoScroll from '@/components/LogoScroll';
 import Faq from '@/components/Faq'
 
@@ -17,8 +16,8 @@ export default function HomePage() {
       <HeroSection />
       {/* <FeaturesSection /> */}
       <LogoScroll/>
-      <TestimonialSection/>
-      <PricingSection/>
+      <SecuritySolution/>
+      <OurBrand/>
       <FeaturesSection/>
       <Faq/>
 

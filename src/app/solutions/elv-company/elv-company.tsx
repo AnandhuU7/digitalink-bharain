@@ -311,7 +311,7 @@ export default function ELVCompanyPage() {
 
       {/* Why Choose Us Section - Content Left, Image Right */}
       <section
-        className="py-8 md:py-12 lg:py-16 bg-gray-50 overflow-hidden"
+        className="py-8 md:py-12 lg:py-16 bg-white overflow-hidden"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden">
           <motion.div
@@ -409,12 +409,10 @@ export default function ELVCompanyPage() {
           </motion.div>
         </div>
       </section>
-
-      {/* Solutions Section */}
-      <div className="py-20 bg-gradient-to-br from-blue-50 to-indigo-50 relative overflow-hidden">
+      <div className="py-20 bg-white relative overflow-hidden">
         {/* Background decoration */}
-        <div className="absolute top-0 left-0 w-64 h-64 rounded-full bg-gradient-to-r from-blue-200/30 to-indigo-200/30 -translate-x-1/2 -translate-y-1/2"></div>
-        <div className="absolute bottom-0 right-0 w-80 h-80 rounded-full bg-gradient-to-r from-indigo-200/30 to-blue-200/30 translate-x-1/2 translate-y-1/2"></div>
+        {/* <div className="absolute top-0 left-0 w-64 h-64 rounded-full bg-gradient-to-r from-blue-200/30 to-indigo-200/30 -translate-x-1/2 -translate-y-1/2"></div>
+        <div className="absolute bottom-0 right-0 w-80 h-80 rounded-full bg-gradient-to-r from-indigo-200/30 to-blue-200/30 translate-x-1/2 translate-y-1/2"></div> */}
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div 
