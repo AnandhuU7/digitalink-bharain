@@ -1,6 +1,8 @@
 'use client'
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
+import human from '@/assets/human.jpg'
 
 export interface TeamMember {
   name: string;
@@ -15,11 +17,35 @@ interface VisibleTeamMember extends TeamMember {
   position: Position;
 }
 
-interface TeamSectionProps {
-  teamMembers: TeamMember[];
-}
+export default function OurTeam() {
+  const teamMembers: TeamMember[] = [
+    {
+      name: 'Team Member One',
+      imageUrl: human.src,
+      alt: 'Team Member One',
+    },
+    {
+      name: 'John Carvan',
+      imageUrl: human.src,
+      alt: 'John Carvan',
+    },
+    {
+      name: 'Miss Smith Ellen',
+      imageUrl: human.src,
+      alt: 'Miss Smith Ellen',
+    },
+    {
+      name: 'Team Member Name',
+      imageUrl: human.src,
+      alt: 'Team Member',
+    },
+    {
+      name: 'Team Member Five',
+      imageUrl: human.src,
+      alt: 'Team Member Five',
+    },
+  ];
 
-export default function OurTeam({ teamMembers }: TeamSectionProps) {
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
   const [currentIndex, setCurrentIndex] = useState(2);
 
@@ -164,10 +190,11 @@ export default function OurTeam({ teamMembers }: TeamSectionProps) {
               text={teamMember.name} 
             />
           ) : (
-            <img
+            <Image
               src={teamMember.imageUrl}
               alt={teamMember.alt}
               className="w-full h-full object-cover"
+              fill
               onError={() => handleImageError(`teamMember-${index}`)}
             />
           )}
@@ -222,10 +249,11 @@ export default function OurTeam({ teamMembers }: TeamSectionProps) {
                   text={teamMembers[0].name} 
                 />
               ) : (
-                <img
+                <Image
                   src={teamMembers[0].imageUrl}
                   alt={teamMembers[0].alt}
                   className="w-full h-full object-cover"
+                  fill
                   onError={() => handleImageError(`teamMember-0`)}
                 />
               )}
@@ -266,10 +294,11 @@ export default function OurTeam({ teamMembers }: TeamSectionProps) {
                       text={member.name} 
                     />
                   ) : (
-                    <img
+                    <Image
                       src={member.imageUrl}
                       alt={member.alt}
                       className="w-full h-full object-cover"
+                      fill
                       onError={() => handleImageError(`teamMember-${index + 1}`)}
                     />
                   )}
@@ -312,10 +341,11 @@ export default function OurTeam({ teamMembers }: TeamSectionProps) {
                       text={member.name} 
                     />
                   ) : (
-                    <img
+                    <Image
                       src={member.imageUrl}
                       alt={member.alt}
                       className="w-full h-full object-cover"
+                      fill
                       onError={() => handleImageError(`teamMember-${index + 3}`)}
                     />
                   )}
@@ -366,10 +396,11 @@ export default function OurTeam({ teamMembers }: TeamSectionProps) {
                   text={teamMembers[0].name} 
                 />
               ) : (
-                <img
+                <Image
                   src={teamMembers[0].imageUrl}
                   alt={teamMembers[0].alt}
                   className="w-full h-full object-cover"
+                  fill
                   onError={() => handleImageError(`teamMember-0`)}
                 />
               )}
@@ -410,10 +441,11 @@ export default function OurTeam({ teamMembers }: TeamSectionProps) {
                       text={member.name} 
                     />
                   ) : (
-                    <img
+                    <Image
                       src={member.imageUrl}
                       alt={member.alt}
                       className="w-full h-full object-cover"
+                      fill
                       onError={() => handleImageError(`teamMember-${index + 1}`)}
                     />
                   )}

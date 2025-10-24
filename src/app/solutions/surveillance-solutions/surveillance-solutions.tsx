@@ -1,6 +1,7 @@
 'use client'
 import { motion, useInView, Variants, AnimatePresence } from 'framer-motion';
 import {  useState } from 'react';
+import Image from 'next/image';
 import {
   FaVideo, FaShieldAlt, FaNetworkWired, FaCloud, FaMobileAlt,  FaArrowRight,FaLightbulb as FaBulb,
   FaBrain, FaBullhorn, FaCogs
@@ -273,7 +274,7 @@ export default function SurveillancePage() {
       "Centralized monitoring of all facilities",
       "Enhanced investigation capabilities with searchable video analytics"
     ],
-    image: company.src
+    image: company
   };
 
   const headerSlides = [
@@ -336,8 +337,13 @@ export default function SurveillancePage() {
               variants={fadeInRight}
             >
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                <div className="aspect-[4/3]">
-                  <img src={company.src} alt="Surveillance solutions leader" className="w-full h-full object-cover" />
+                <div className="aspect-[4/3] relative">
+                  <Image 
+                    src={company} 
+                    alt="Surveillance solutions leader" 
+                    className="w-full h-full object-cover" 
+                    fill
+                  />
                 </div>
               </div>
             </motion.div>
@@ -561,18 +567,38 @@ export default function SurveillancePage() {
                     variants={tabImageVariants}
                     className="flex justify-center order-1 md:order-2"
                   >
-                    <div className="relative rounded-xl overflow-hidden shadow-lg w-full max-w-md">
+                    <div className="relative rounded-xl overflow-hidden shadow-lg w-full max-w-md aspect-[4/3]">
                       {activeTab === 0 && (
-                        <img src={company.src} alt="IP Surveillance Systems" className="w-full h-auto object-cover" />
+                        <Image 
+                          src={company} 
+                          alt="IP Surveillance Systems" 
+                          className="w-full h-full object-cover" 
+                          fill
+                        />
                       )}
                       {activeTab === 1 && (
-                        <img src={analytics.src} alt="Advanced Analytics" className="w-full h-auto object-cover" />
+                        <Image 
+                          src={analytics} 
+                          alt="Advanced Analytics" 
+                          className="w-full h-full object-cover" 
+                          fill
+                        />
                       )}
                       {activeTab === 2 && (
-                        <img src={remote.src} alt="Remote Access Solutions" className="w-full h-auto object-cover" />
+                        <Image 
+                          src={remote} 
+                          alt="Remote Access Solutions" 
+                          className="w-full h-full object-cover" 
+                          fill
+                        />
                       )}
                       {activeTab === 3 && (
-                        <img src={ai.src} alt="AI-Powered Security" className="w-full h-auto object-cover" />
+                        <Image 
+                          src={ai} 
+                          alt="AI-Powered Security" 
+                          className="w-full h-full object-cover" 
+                          fill
+                        />
                       )}
                     </div>
                   </motion.div>
@@ -642,8 +668,13 @@ export default function SurveillancePage() {
                   }}
                   onClick={() => openModal(company.src)}
                 >
-                  <div className="aspect-[4/3]">
-                    <img src={company.src} alt={`Surveillance in action ${item}`} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                  <div className="aspect-[4/3] relative">
+                    <Image 
+                      src={company} 
+                      alt={`Surveillance in action ${item}`} 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                      fill
+                    />
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
                     <div className="text-white">
@@ -689,8 +720,13 @@ export default function SurveillancePage() {
                   variants={fadeInLeft}
                   className="relative"
                 >
-                  <div className="h-full">
-                    <img src={caseStudy.image} alt={caseStudy.title} className="w-full h-full object-cover" />
+                  <div className="h-full aspect-[4/3] relative">
+                    <Image 
+                      src={caseStudy.image} 
+                      alt={caseStudy.title} 
+                      className="w-full h-full object-cover" 
+                      fill
+                    />
                   </div>
                 </motion.div>
 

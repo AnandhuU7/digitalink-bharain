@@ -7,11 +7,12 @@ import { getBlogBySlug, getRelatedBlogs, getAllBlogSlugs } from '@/lib/blogData'
 import { notFound } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import ScrollToTop from '@/components/ScrollToTop';
 
 interface BlogPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export default function BlogSlugPage({ params }: BlogPageProps) {
@@ -19,6 +20,15 @@ export default function BlogSlugPage({ params }: BlogPageProps) {
   const [entry, setEntry] = useState<any>(null);
   const [relatedBlogs, setRelatedBlogs] = useState<any[]>([]);
   const [formattedDate, setFormattedDate] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Scroll to top immediately when component mounts
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }, []);
 
   useEffect(() => {
     async function loadData() {
@@ -86,6 +96,7 @@ export default function BlogSlugPage({ params }: BlogPageProps) {
 
   return (
     <>
+      <ScrollToTop />
       <section className="relative py-24 overflow-hidden">
         {/* Gradient background with improved colors */}
         <div className="absolute inset-0 bg-gradient-to-br from-blue-950 via-blue-900 to-blue-800 z-0"></div>

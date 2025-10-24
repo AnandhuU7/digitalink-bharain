@@ -1,6 +1,7 @@
 'use client'
 import { motion, Variants } from 'framer-motion';
 import { useState } from 'react';
+import Image from 'next/image';
 import {
   FaVideo, FaVolumeUp, FaDesktop, FaProjectDiagram, FaArrowRight,
   FaPlug, FaUsers, FaChartLine, FaLightbulb, FaBullhorn,
@@ -504,15 +505,20 @@ export default function AVSolutionPage() {
                 >
                   <div className="relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 h-full">
                     <div className="aspect-[4/3] overflow-hidden">
-                      <motion.img
-                        src={capability.image.src}
-                        alt={capability.title}
-                        className="w-full h-full object-cover"
+                      <motion.div
+                        className="w-full h-full"
                         whileHover={{
                           scale: 1.1,
                           transition: { duration: 0.5, ease: "easeOut" }
                         }}
-                      />
+                      >
+                        <Image
+                          src={capability.image}
+                          alt={capability.title}
+                          className="w-full h-full object-cover"
+                          fill
+                        />
+                      </motion.div>
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                       <div className="absolute bottom-0 left-0 p-4 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-x-[-20px] group-hover:translate-x-0">
                         <h3 className="text-xl font-bold text-white">{capability.title}</h3>
@@ -553,9 +559,11 @@ export default function AVSolutionPage() {
               <div className="bg-transparent rounded-2xl overflow-hidden">
                 <div className="w-full h-full overflow-hidden flex items-center justify-center">
                   {selectedImage && (
-                    <img
+                    <Image
                       src={selectedImage}
                       alt="Enlarged View"
+                      width={800}
+                      height={600}
                       className="w-auto h-auto max-w-full max-h-[80vh] object-contain"
                     />
                   )}
@@ -626,7 +634,7 @@ export default function AVSolutionPage() {
             >
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                 <div className="aspect-[4/3]">
-                  <img src={web.src} alt="4K Video Conferencing Setup" className="w-full h-full object-cover" />
+                  <Image src={web} alt="4K Video Conferencing Setup" className="w-full h-full object-cover" />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/80 to-transparent flex items-end p-8">
                   <div>
@@ -687,7 +695,7 @@ export default function AVSolutionPage() {
               >
                 <div className="bg-white rounded-2xl shadow-xl p-8 h-full border border-indigo-100">
                   <div className="aspect-video rounded-xl mb-6 overflow-hidden">
-                    <img src={web.src} alt="Advanced Technologies" className="w-full h-full object-cover" />
+                    <Image src={web} alt="Advanced Technologies" className="w-full h-full object-cover" />
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-4">Complete System Architecture</h3>
                   <p className="text-gray-600 ">

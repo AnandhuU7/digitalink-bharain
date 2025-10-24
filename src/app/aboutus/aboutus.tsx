@@ -6,40 +6,13 @@ import OurTeam, { TeamMember } from '@/components/OurTeam';
 import OurJourney from "@/components/OurJourney";
 import PageHeader from '@/components/PageHeader';
 import { FaCheck, FaUsers, FaShieldAlt, FaCogs, FaTools } from 'react-icons/fa';
+import human from '@/assets/human.jpg'
 
 // Import images for HeaderSection
 import aboutus from '@/assets/hikvision.webp';
 
 // AboutPage component
 export default function AboutPage() {
-  const teamMembers: TeamMember[] = [
-    {
-      name: 'Team Member One',
-      imageUrl: 'https://images.pexels.com/photos/3771074/pexels-photo-3771074.jpeg?cs=srgb&dl=pexels-olly-3771074.jpg&fm=jpg',
-      alt: 'Team Member One',
-    },
-    {
-      name: 'John Carvan',
-      imageUrl: 'https://images.pexels.com/photos/3771074/pexels-photo-3771074.jpeg?cs=srgb&dl=pexels-olly-3771074.jpg&fm=jpg',
-      alt: 'John Carvan',
-    },
-    {
-      name: 'Miss Smith Ellen',
-      imageUrl: 'https://images.pexels.com/photos/3771074/pexels-photo-3771074.jpeg?cs=srgb&dl=pexels-olly-3771074.jpg&fm=jpg',
-      alt: 'Miss Smith Ellen',
-    },
-    {
-      name: 'Team Member Name',
-      imageUrl: 'https://images.pexels.com/photos/3771074/pexels-photo-3771074.jpeg?cs=srgb&dl=pexels-olly-3771074.jpg&fm=jpg',
-      alt: 'Team Member',
-    },
-    {
-      name: 'Team Member Five',
-      imageUrl: 'https://images.pexels.com/photos/3771074/pexels-photo-3771074.jpeg?cs=srgb&dl=pexels-olly-3771074.jpg&fm=jpg',
-      alt: 'Team Member Five',
-    },
-  ];
-
   const features = [
     {
       title: 'Personalized learning',
@@ -312,7 +285,7 @@ export default function AboutPage() {
           </motion.div>
 
           {/* Team Section */}
-          <OurTeam teamMembers={teamMembers} />
+          <OurTeam />
           <OurJourney/>
         </div>
       </div>

@@ -8,11 +8,18 @@ export default function ScrollToTop() {
 
   useEffect(() => {
     // Scroll to top when pathname changes
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'smooth'
-    });
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
+    };
+
+    // Small delay to ensure the page has loaded
+    const timeoutId = setTimeout(scrollToTop, 100);
+    
+    return () => clearTimeout(timeoutId);
   }, [pathname]);
 
   return null;

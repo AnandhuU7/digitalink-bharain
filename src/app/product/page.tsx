@@ -16,9 +16,9 @@ interface BlogPost {
 }
 
 interface BlogPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 // Mock function - replace with your actual data fetching
@@ -62,8 +62,9 @@ async function getRelatedBlogs(currentSlug: string): Promise<BlogPost[]> {
 }
 
 export default async function BlogPage({ params }: BlogPageProps) {
-  const entry = await getBlogPost(params.slug);
-  const relatedBlogs = await getRelatedBlogs(params.slug);
+  const resolvedParams = await params;
+  const entry = await getBlogPost(resolvedParams.slug);
+  const relatedBlogs = await getRelatedBlogs(resolvedParams.slug);
   
   const formattedDate = entry.data.publishDate
     ? new Intl.DateTimeFormat('en-US', {
